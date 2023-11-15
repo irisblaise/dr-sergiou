@@ -1,53 +1,91 @@
-import React, { useState} from 'react';
-import {  Link } from "react-router-dom";
-import './navbar.scss';
+import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import './navbar.scss'
+import { isMobile } from 'react-device-detect'
 
 const Navbar = () => {
-    const [isSticky, setIsSticky] = useState(false)
+    const [click, setClick] = React.useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const changeBackground = () => {
-        if(window.scrollY >= 80) {
-            setIsSticky(true);
-        } else {
-            setIsSticky(false);
-        }
+    const handleClick = () => {
+        setClick(!click)
+        if (isMobile) setIsMenuOpen(false)
+    }
+    const Close = () => {
+        setClick(false)
     }
 
-    window.addEventListener('scroll', changeBackground)
+    useEffect(() => {
+        const body = document.querySelector('body')
+        if (body) {
+            body.style.overflow = isMenuOpen ? 'hidden' : 'unset'
+        }
+    }, [isMenuOpen])
 
     return (
-        <nav className="navbar">
-            <div className="navbarWrapper">
-                <div className="navbar--logo-holder">
-                    {/*<img src={Logo} alt="logo" className="navbar--logo" />*/}
-                    <h1>Dr. Sergiou</h1>
-                    <p className={isSticky ? "" : "nav-text"}> The never ending exploration fo the brain.</p>
+        <div>
+            <div
+                className={click ? 'main-container' : ''}
+                onClick={() => Close()}
+            />
+            <nav className={`navbar`} onClick={(e) => e.stopPropagation()}>
+                <div className="nav-container">
+                    <NavLink to="/" className="nav-logo">
+                        <h1>Dr. Sergiou</h1>
+                    </NavLink>
+                    <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Home</h3>
+                            </NavLink>
+                        </li>
+                        {/*<li className="nav-item">*/}
+                        {/*    <NavLink*/}
+                        {/*        to="/projects"*/}
+                        {/*        className="nav-links"*/}
+                        {/*        onClick={() => handleClick()}*/}
+                        {/*    >*/}
+                        {/*        <h3>Projects</h3>*/}
+                        {/*    </NavLink>*/}
+                        {/*</li>*/}
+                        <li className="nav-item">
+                            <NavLink
+                                to="/media"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Media</h3>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/publications"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Publications</h3>
+                            </NavLink>
+                        </li>
+                    </ul>
+
+                    <div
+                        className={
+                            click ? 'menu hamburger open' : 'menu hamburger'
+                        }
+                        onClick={() => {
+                            handleClick()
+                            setIsMenuOpen(!isMenuOpen)
+                        }}
+                    >
+                        <div className="icon"></div>
+                    </div>
                 </div>
-                <ul className="navbar--link">
-                    <li className="navbar--link-item">
-                        <Link to="/"><p>Home</p></Link>
-                    </li>
-                    <li className="navbar--link-item">
-                        <Link to="/about"><p>About</p></Link>
-                    </li>
-                    <li className="navbar--link-item">
-                        <Link to="/projects"><p>Projects</p></Link>
-                    </li>
-                    <li className="navbar--link-item">
-                        <Link to="/media"><p>Media</p></Link>
-                    </li>
-                    <li className="navbar--link-item">
-                        <Link to="/publications"><p>Publications</p></Link>
-                    </li>
-                    <li className="navbar--link-item">
-                        <Link to="/contact"><p>Contact</p></Link>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    );
+            </nav>
+        </div>
+    )
 }
-export default Navbar;
-
-
-
+export default Navbar

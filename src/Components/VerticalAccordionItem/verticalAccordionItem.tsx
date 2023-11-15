@@ -1,56 +1,102 @@
-import React, {forwardRef, useRef, useState} from "react";
-import './verticalAccordionItem.scss';
-// @ts-ignore
-import gsap from 'gsap';
-import PdfDisplay from "../PdfDisplay/pdfDisplay";
-import {ScrollTrigger} from "gsap/ScrollTrigger";
+import React, { forwardRef, useRef } from 'react'
+import './verticalAccordionItem.scss'
+import backgroundpaper from './backgroundpaper.avif'
 
-gsap.registerPlugin(ScrollTrigger);
+export type VerticalAccordionItemProps = {
+    index: number
+    active: boolean
+    title: string
+    date: string
+    description: string
+    journal?: string
+    image: string
+    triggerTitle: string
+    authors: string
+    authorship?: string
+    handleToggle: (item: any, index: number) => void
+    backgroundColor?: string
+    link: string
+}
 
-type VerticalAccordionItemProps = {
-    title: string,
-    year: string,
-    description: string,
-    authors?: string,
-    // link?: string,
-    onToggle: () => void;
-};
-
-let tl = gsap.timeline({});
-
-const VerticalAccordionItem = forwardRef(({title, year, description, authors}: VerticalAccordionItemProps, ref) => {
-    const [isItemOpen, setIsItemOpen] = useState(false)
-
-    const item = useRef(null);
+const VerticalAccordionItem = forwardRef<
+    HTMLDivElement,
+    VerticalAccordionItemProps
+>(function VerticalAccordionItem(
+    {
+        active,
+        triggerTitle,
+        index,
+        title,
+        date,
+        description,
+        authors,
+        journal,
+        backgroundColor,
+        handleToggle,
+        authorship,
+        image,
+        link,
+    }: VerticalAccordionItemProps,
+    ref
+) {
     const publicationContainer = useRef(null)
     const titleRef = useRef(null)
-    const descriptionRef = useRef(null)
     const publicationTextRef = useRef(null)
 
-    function accordionToggle() {
-        setIsItemOpen(!isItemOpen)
-        tl.to(item.current, {duration: 1, width: '700px', background: '#e77f67a8' })
-        tl.to(publicationContainer.current, {duration: 1, width: "700px", autoAlpha: 1}, "<")
-        isItemOpen ? tl.reverse() : tl.play()
-    }
-
     return (
-        <div ref={item} key={title} className="item">
-            <div ref={titleRef} onClick={accordionToggle} className="titleWrapper">
-                <h1 className="title">
-                    {title}
-                </h1>
-                <h3 className="year">{year}</h3>
-            </div>
-            <div ref={publicationContainer} className="publication__container">
-                <div ref={publicationTextRef} className="publication__text">
-                <h1 ref={titleRef}>{title}</h1>
-                <p className='authors'>{authors}</p>
-                <h3 className="description" ref={descriptionRef}>{description}</h3>
+        <div
+            ref={ref}
+            key={title}
+            className={`item ${active ? 'active' : ''}`}
+            style={{
+                backgroundImage: `url(${backgroundpaper})`,
+            }}
+        >
+            <div className="itemWrapper">
+                <div
+                    ref={titleRef}
+                    className="titleWrapper"
+                    onClick={() => handleToggle(ref, index)}
+                >
+                    <div className="journalWrapper">
+                        <h4>{journal}</h4>
+                        <h3 className="year">{date}</h3>
+                    </div>
+
+                    <div className="description">
+                        <h2 className="title">{triggerTitle}</h2>
+                    </div>
                 </div>
-                <PdfDisplay />
+                <div
+                    ref={publicationContainer}
+                    className="publication__container"
+                >
+                    <div ref={publicationTextRef} className="publication__text">
+                        <h3>
+                            {journal}, {date}
+                        </h3>
+                        <h2 ref={titleRef}>{title}</h2>
+                        <div>
+                            <p className="authors">
+                                {authors} ({authorship})
+                            </p>
+                        </div>
+                        <a
+                            className="link"
+                            href={link}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            READ ME
+                        </a>
+                    </div>
+                    <div className="imageWrapper">
+                        <img src={image} alt="" />
+                    </div>
+                </div>
             </div>
         </div>
-    );
+    )
 })
-export default VerticalAccordionItem;
+
+export default VerticalAccordionItem

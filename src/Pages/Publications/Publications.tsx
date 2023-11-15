@@ -1,18 +1,28 @@
-import React from 'react';
-import './Publications.css';
-import VerticalAccordion from "../../Components/verticalAccordion/verticalAccordion";
+import React from 'react'
+import './Publications.scss'
+import VisualBrain3 from '../../assets/videos/VisualBrain3.mp4'
+import VerticalAccordionTwo from '../../Components/verticalAccordion/verticalAccordion'
+import VideoTextOverlay from '../../Components/videoTextOverlay/videoTextOverlay'
 
 function Publications() {
     return (
-    <div className="Public">
-        <div className="container">
-            <header className="publication-header">
-                <h1>Publicated research</h1>
-            </header>
-            <VerticalAccordion />
-        </div>
-    </div>
-  );
+        <>
+            <div className="publications panel-wrapper">
+                <div className="panel blue">
+                    <VideoTextOverlay
+                        video={VisualBrain3}
+                        text="SCIENTIFIC"
+                        textLine1="PUBLICATIONS"
+                    />
+                </div>
+                <div className="panel">
+                    <div className="accordion-wrapper">
+                        <VerticalAccordionTwo />
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
-export default Publications;
+export default Publications

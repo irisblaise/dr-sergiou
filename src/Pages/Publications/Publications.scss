@@ -1,0 +1,17 @@
+.publications {
+    .panel-wrapper {
+        position: relative;
+    }
+
+    .panel {
+        position: sticky;
+        inset: 0 0 auto;
+        block-size: 100vh;
+        display: grid;
+        place-items: center;
+    }
+
+    .video-wrapper {
+        background: yellow;
+    }
+}

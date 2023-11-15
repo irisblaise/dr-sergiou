@@ -1,0 +1,11 @@
+#container {
+    display: flex;
+    flex-wrap: nowrap;
+    background: rgba(192, 215, 216);
+    height: calc(100vh - 80px);
+}
+@media all and (max-width: 480px) {
+    #container {
+        flex-direction: column;
+    }
+}

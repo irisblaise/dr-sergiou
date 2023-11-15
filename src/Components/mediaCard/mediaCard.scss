@@ -1,0 +1,108 @@
+// Color Variables
+$indigo: #5c6bc0;
+$blue: #29b6f6;
+$black: #717171;
+
+.card__image {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+    min-height: 240px;
+    overflow: hidden;
+    position: relative;
+
+    > img {
+        display: block;
+        margin-bottom: 0;
+        height: 330px;
+        transition: all 0.25s ease-in-out;
+    }
+
+    &:hover > img {
+        transform: scale(1.2);
+    }
+}
+
+.card__title {
+    color: white;
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.75em;
+    text-decoration: none;
+
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        color: rgba(white, 0.7);
+        text-decoration: none;
+    }
+}
+
+.card__overlay {
+    content: '';
+    bottom: 0;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.card__overlay--indigo {
+    background-image: linear-gradient(
+        to bottom,
+        rgba($indigo, 0.1),
+        rgba($indigo, 0.8)
+    );
+    z-index: 2;
+}
+
+.card__overlay--blue {
+    background-image: linear-gradient(
+        to bottom,
+        rgba($blue, 0.1),
+        rgba($blue, 0.8)
+    );
+    z-index: 2;
+}
+
+.card__overlay-content {
+    position: absolute;
+    bottom: 0;
+    padding: 1.5em;
+    z-index: 3;
+}
+
+.card__meta {
+    margin: 0 -1em 0.75em 0;
+
+    &.card__meta--last {
+        margin-bottom: 0;
+    }
+
+    li {
+        color: #f8f8f8;
+        display: inline;
+        list-style-type: none;
+        margin-bottom: 0;
+        padding-right: 1em;
+
+        font-size: 0.85em;
+        font-variant: small-caps;
+        letter-spacing: 1px;
+
+        &:not(:last-child):after {
+            content: '\25cf';
+            font-style: normal;
+            position: relative;
+            color: rgba(white, 0.25);
+            right: -0.6em;
+        }
+    }
+}

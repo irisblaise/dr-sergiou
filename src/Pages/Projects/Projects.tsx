@@ -1,13 +1,11 @@
-import React from 'react';
-import './Projects.css';
+import React from 'react'
 
 function Projects() {
-  return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <header className="App-header"></header>
+        </div>
+    )
 }
 
-export default Projects;
+export default Projects

@@ -1,41 +1,37 @@
-import React from 'react';
-import './media.scss';
-// @ts-ignore
-import podcast from './podcast.png'
-// @ts-ignore
-import studioErasmus from './studioErasmus.png'
-// @ts-ignore
-import radio from './radio1.png'
+import React from 'react'
+import './media.scss'
+import VideoTextOverlay from '../../Components/videoTextOverlay/videoTextOverlay'
+import VisualBrain3 from '../../assets/videos/VisualBrain3.mp4'
+import MediaCard from '../../Components/mediaCard/mediaCards'
+import { mediaData } from './mediaData'
 
 function Media() {
-  return (
-      <>
-        <div className="header">
-          <header className="media-header">
-          </header>
-        <div className="media-list-container">
-            <ul className="media-list">
-                <li className='media-list-item'>
-                    <h3>Radio</h3>
-                    <img src={radio} alt="radio"/>
-                    <p>Dr. Kelder & Co – Radio 1 Show – Modulating Aggression.</p>
-                </li>
-
-                <li>
-                    <h3> Podcast</h3>
-                    <img src={podcast} alt="podcast"/>
-                   <p> Podcast- DPECS -Meeting the Future Society – PhD research</p>
-                </li>
-                <li>
-                    <h3>Live Talkshow at Studio Erasmus</h3>
-                    <img src={studioErasmus} alt="studio erasmus"/>
-                    <p>Studio Erasmus 29-11-2023 - Live Talkshow Neuromodulation to Reduce Aggression</p>
-                </li>
-            </ul>
+    return (
+        <div className="media panel-wrapper">
+            <div className="panel media-header">
+                <VideoTextOverlay video={VisualBrain3} text="IN THE MEDIA" />
+            </div>
+            <div className="panel media">
+                <div className="media-wrapper">
+                    {mediaData.map((media, index) => {
+                        return (
+                            <div className="grid" key={index}>
+                                <MediaCard
+                                    image={media.image}
+                                    key={index}
+                                    link={media.link}
+                                    peopleInvolved={media.peopleInvolved}
+                                    mediaType={media.mediaType}
+                                    subject={media.subject}
+                                    date={media.date}
+                                />
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
         </div>
-        </div>
-      </>
-  );
+    )
 }
 
-export default Media;
+export default Media
