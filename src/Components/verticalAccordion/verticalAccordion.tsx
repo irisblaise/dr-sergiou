@@ -27,8 +27,7 @@ const VerticalAccordionItemTwo = () => {
                     start: '-80px',
                     pin: true,
                     scrub: 0.6,
-                    // snap: (isItemOpen) => Math.round(isItemOpen * 100),
-                    markers: true,
+                    markers: false,
                     end: () => '+=' + component?.current?.offsetWidth,
                 },
             })
@@ -56,7 +55,7 @@ const VerticalAccordionItemTwo = () => {
                         // @ts-ignore
                         key={index}
                         index={index}
-                        link={publication.link}
+                        pdfLink={publication.pdfLink}
                         image={publication.image}
                         active={isItemOpen === index}
                         triggerTitle={publication.triggerTitle}

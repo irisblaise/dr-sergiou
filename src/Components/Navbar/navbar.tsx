@@ -70,6 +70,15 @@ const Navbar = () => {
                                 <h3>Publications</h3>
                             </NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/contact"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Contact</h3>
+                            </NavLink>
+                        </li>
                     </ul>
 
                     <div

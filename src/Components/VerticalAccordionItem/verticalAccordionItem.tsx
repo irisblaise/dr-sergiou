@@ -1,6 +1,7 @@
 import React, { forwardRef, useRef } from 'react'
 import './verticalAccordionItem.scss'
-import backgroundpaper from './backgroundpaper.avif'
+import backgroundPaper from './backgroundpaper.avif'
+import PDF1 from '../../assets/pdfs/Publication 1. Psychopathy as a predisposition to lie hedonistically.pdf'
 
 export type VerticalAccordionItemProps = {
     index: number
@@ -15,7 +16,7 @@ export type VerticalAccordionItemProps = {
     authorship?: string
     handleToggle: (item: any, index: number) => void
     backgroundColor?: string
-    link: string
+    pdfLink: string
 }
 
 const VerticalAccordionItem = forwardRef<
@@ -35,7 +36,7 @@ const VerticalAccordionItem = forwardRef<
         handleToggle,
         authorship,
         image,
-        link,
+        pdfLink,
     }: VerticalAccordionItemProps,
     ref
 ) {
@@ -49,7 +50,7 @@ const VerticalAccordionItem = forwardRef<
             key={title}
             className={`item ${active ? 'active' : ''}`}
             style={{
-                backgroundImage: `url(${backgroundpaper})`,
+                backgroundImage: `url(${backgroundPaper})`,
             }}
         >
             <div className="itemWrapper">
@@ -82,8 +83,8 @@ const VerticalAccordionItem = forwardRef<
                             </p>
                         </div>
                         <a
-                            className="link"
-                            href={link}
+                            className="readMe"
+                            href={pdfLink}
                             target="_blank"
                             rel="noreferrer"
                         >

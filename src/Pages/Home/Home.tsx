@@ -8,9 +8,7 @@ import brainVisual3 from '../../assets/images/brains/Brain-visual-about-phd.jpg'
 import brainVisual5 from '../../assets/images/brains/NeuroscienceNFT.png'
 import brainVisual6 from '../../assets/images/brains/NeuroscienceNFt_BH1.jpeg'
 import brainVisual7 from '../../assets/images/brains/Brain9.png'
-
 import carmen3 from '../../assets/images/carmen3.png'
-import { homeData } from './homeData'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -233,7 +231,7 @@ function Home() {
                                 className="intro__content"
                             >
                                 <h1 className="intro__title">
-                                    The never ending exploration fo the brain.
+                                    The never ending exploration of the brain.
                                 </h1>
                             </div>
                             <div className="intro__img">

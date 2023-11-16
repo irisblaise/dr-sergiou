@@ -8,6 +8,16 @@ import Brain7 from '../../../assets/images/brains/Brain7.png'
 import Brain8 from '../../../assets/images/brains/Brain8.png'
 import Brain9 from '../../../assets/images/brains/Brain9.png'
 import Brain10 from '../../../assets/images/brains/Brain10.png'
+import Publication1 from '../../../assets/pdfs/Publication 1. Psychopathy as a predisposition to lie hedonistically.pdf'
+import Publication2 from '../../../assets/pdfs/Publication 2. Sergiou et al. (2023).The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.pdf'
+import Publication3 from '../../../assets/pdfs/Publication 3.Sergiou et al. (2021)tDCS reducing aggression. Screenshot website.PNG'
+import Publication4 from '../../../assets/pdfs/Publication 4.Sergiou et al. (2020).Study Protocol Paper.pdf'
+import Publication5 from '../../../assets/pdfs/Publication 5,Sergiou et al. (2020). Literature Review.pdf'
+import Publication6 from '../../../assets/pdfs/Publication 6.Ekthiari et al. (2019).Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine.pdf'
+import Publication7 from '../../../assets/pdfs/Publication 7. Slotboom et al. (2017). Visual Attention in violent offenders.pdf'
+import Publication8 from '../../../assets/pdfs/Publication 8. Hoppenbrouwersea2016_Top-DownAttentionandSelectionHistoryinPsychopathypdf.pdf'
+import Publication9 from '../../../assets/pdfs/Publication 9. Lui et al (2017). Interventions for Improving Affective Abilities in Adolescents.pdf'
+import Publication10 from '../../../assets/pdfs/Publication 10. van Dongen et al. Middelengebruik en Geweld.pdf'
 
 export const publicationData = [
     {
@@ -23,7 +33,7 @@ export const publicationData = [
             'Publication 1. Psychopathy as a predisposition to lie hedonistically,',
         image: Brain1,
         link: 'https://login.ezproxy.leidenuniv.nl/login?qurl=https://doi.org%2f10.1080%2f1068316X.2023.2213802',
-        downloadLink: '',
+        pdfLink: Publication1,
     },
     {
         title: 'The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
@@ -40,7 +50,7 @@ export const publicationData = [
             'Publication 2.The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
         image: Brain2,
         link: 'https://doi.org/10.1016/j.ijchp.2023.100374',
-        downloadLink: '',
+        pdfLink: Publication2,
     },
     {
         title: 'tDCS targeting the Ventromedial Prefrontal Cortex reduces reactive aggression and modulates electrophysiological responses in a forensic population.',
@@ -56,12 +66,12 @@ export const publicationData = [
         pdfTitle: 'Publication 3. tDCS reducing Aggression',
         image: Brain3,
         link: 'https://doi.org/10.1016/j.bpsc.2021.05.007',
-        downloadLink: '',
+        pdfLink: Publication3,
     },
     {
         title: 'Transcranial direct current stimulation (tDCS) as an intervention to improve\nempathic abilities and reduce violent behavior in forensic offenders: study\nprotocol for a randomized controlled trial',
         triggerTitle:
-            'Study Protcol using HD-tDCS to reduce Aggression in Forensic Patients',
+            'Study Protocol using HD-tDCS to reduce Aggression in Forensic Patients',
         journal: 'Trials',
         date: 2020,
         authors:
@@ -72,7 +82,7 @@ export const publicationData = [
         pdfTitle: 'Publication 4. Sergiou et al. (2020). Study Protocol paper',
         image: Brain4,
         link: 'https://doi.org/10.1186/s13063-020-4074-0.',
-        downloadLink: '',
+        pdfLink: Publication4,
     },
     {
         title: 'The effectiveness of Transcranial Direct Current Stimulation as an intervention to improve empathic abilities and reduce violent behavior: A literature review.',
@@ -88,7 +98,7 @@ export const publicationData = [
         pdfTitle: 'Publication 5. Sergiou et al. (2020). Literature Review',
         image: Brain5,
         link: 'https://doi.org/10.1016/j.avb.2020.101463',
-        downloadLink: '',
+        pdfLink: Publication5,
     },
     {
         title: 'Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine: A consensus paper on the present state of the science and the road ahead.',
@@ -104,7 +114,7 @@ export const publicationData = [
             'Publication 6.Ekthiari et al. (2019).Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine',
         image: Brain6,
         link: 'https://doi.org/10.1016/j.neubiorev.2019.06.007',
-        downloadLink: '',
+        pdfLink: Publication6,
     },
     {
         title: 'Visual attention in violent offenders: susceptibility to distraction',
@@ -120,7 +130,7 @@ export const publicationData = [
             'Publication 7. Slotboom et al. (2017). Visual Attention in violent offenders',
         image: Brain7,
         link: 'https://doi.org/10.1016/j.psychres.2017.02.031',
-        downloadLink: '',
+        pdfLink: Publication7,
     },
     {
         title: 'Top down attention and selection history in psychopathy: evidence from a community sample',
@@ -136,7 +146,7 @@ export const publicationData = [
             'Publication 8. Hoppenbrouwersea2016_Top-DownAttentionandSelectionHistoryinPsychopathypdf.pdf',
         image: Brain8,
         link: 'https://doi.org/10.1037/abn0000133',
-        downloadLink: '',
+        pdfLink: Publication8,
     },
     {
         title: 'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
@@ -152,11 +162,11 @@ export const publicationData = [
             'Publication 9. Lui et al (2017). Interventions for Improving Affective Abilities in Adolescents',
         image: Brain9,
         link: 'https://doi-org.ezproxy.leidenuniv.nl/10.1007/s40894-016-0047-7',
-        downloadLink: '',
+        pdfLink: Publication9,
     },
     {
         title: 'Middelengebruik en geweld.\nontwikkeling en validatie van een testbatterij.',
-        triggerTitle: 'Middelengebruik en geweld.',
+        triggerTitle: 'Middelengebruik en geweld',
         journal: 'WODC. Ministerie van Justitie en Veiligheid.',
         date: 2019,
         authors: 'Dongen, J. van, Sergiou, C., Franken, I. ',
@@ -166,6 +176,6 @@ export const publicationData = [
         pdfTitle: 'Publication 10. van Dongen et al. Middelengebruik en Geweld',
         image: Brain10,
         link: '2711_Volledige_Tekst_tcm28-368226.pdf (wodc.nl)',
-        downloadLink: '',
+        pdfLink: Publication10,
     },
 ]

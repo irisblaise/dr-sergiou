@@ -6,17 +6,18 @@
 .item {
     width: 100%;
     height: calc(100vh - 80px);
-    border-top: 0.5px solid darkgray;
+    border-top: 0.5px solid #e1c4be;
 
     &.active {
         .titleWrapper {
             border-right: none;
-            background-color: #9e9e9e;
-            opacity: 0.7;
+            background-color: #e1c4be;
+            opacity: 0.9;
         }
         .publication__container {
             width: 700px;
             opacity: 1;
+            pointer-events: none;
         }
 
         .publication__text {
@@ -44,16 +45,17 @@
     justify-content: start;
     width: auto;
     height: auto;
-    border-left: 0.5px solid #757575f2;
-    border-right: 0.5px solid #757575f2;
+    border-left: 0.5px solid #f8f8f8;
+    border-right: 0.5px solid #f8f8f8;
     cursor: pointer;
     gap: 5px;
     padding: 10px;
     transition: all 0.3s ease;
-    background-color: #9e9e9e !important;
+    background-color: #f8e9e6;
 
     &:hover {
-        opacity: 0.8;
+        background: #e1c4be;
+        opacity: 0.9;
         box-shadow: -2px 20px 20px rgba(0, 0, 0, 0.4);
         transform: scale(1.03, 1.01);
     }
@@ -84,12 +86,12 @@
         justify-content: space-between;
         align-items: center;
         text-align: center;
-        border-bottom: 6px double #ffd700;
+        border-bottom: 6px double black;
         padding: 10px 0;
-        border-top: 6px double #ffd700;
+        border-top: 6px double black;
         height: 20%;
-        background: #f64f6490;
-        color: #ffd700;
+        background: #f8f8f8;
+        color: black;
     }
 }
 
@@ -106,9 +108,12 @@
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.5s ease;
-    border-top: 6px solid #9e9e9e90;
-    border-bottom: 6px solid #9e9e9e80;
-    background-color: #f8e9e6 !important;
+    border-top: 4px solid #e1c4be;
+    border-bottom: 4px solid #e1c4be;
+    border-right: 4px solid #e1c4be;
+    background-color: #f8f8f8;
+    margin-left: -4px;
+    pointer-events: none;
 
     .publication__text {
         display: flex;
@@ -122,6 +127,7 @@
         opacity: 0;
         transition: all 0.5s ease;
     }
+
     .description {
         width: 100%;
     }
@@ -145,20 +151,6 @@
             right: -0.6em;
         }
     }
-
-    .pdf {
-        display: none;
-        opacity: 0;
-        transition: all 0.5s ease;
-    }
-}
-
-.pdfWrapper {
-    width: 100%;
-    padding: 20px;
-    //border-top: 0.5px solid black;
-    display: flex;
-    gap: 10px;
 }
 
 .summary {
@@ -168,11 +160,19 @@
 
 .imageWrapper {
     height: 60%;
+    opacity: 0.9;
 
     img {
         width: 100%;
         height: 100%;
     }
+}
+
+.readMe {
+    background: #e1c4be;
+    padding: 5px;
+    font-weight: 600;
+    pointer-events: visible;
 }
 
 @media all and (max-width: 480px) {
@@ -265,5 +265,8 @@
         height: 0;
         border-top: unset;
         border-bottom: unset;
+        border-bottom: unset;
+        border-right: unset;
+        margin-left: unset;
     }
 }
