@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import './Home.scss'
 import BrainAnimation from '../../Components/brainAnimation/brainAnimation'
-import brainVisual from '../../assets/images/brains/Brain-visuals.jpg'
-import brainVisual2 from '../../assets/images/brains/Brain-visual-plaatje.jpg'
-import brainVisual4 from '../../assets/images/brains/Brain-visual-home-banner.jpg'
-import brainVisual3 from '../../assets/images/brains/Brain-visual-about-phd.jpg'
-import brainVisual5 from '../../assets/images/brains/NeuroscienceNFT.png'
-import brainVisual6 from '../../assets/images/brains/NeuroscienceNFt_BH1.jpeg'
-import brainVisual7 from '../../assets/images/brains/Brain9.png'
-import carmen3 from '../../assets/images/carmen3.png'
+import brainVisual from '../../assets/images/brains/Brain-visuals.webp'
+import brainVisual2 from '../../assets/images/brains/Brain-visual-plaatje.webp'
+import brainVisual4 from '../../assets/images/brains/Brain-visual-home-banner.webp'
+import brainVisual3 from '../../assets/images/brains/Brain-visual-about-phd.webp'
+import brainVisual5 from '../../assets/images/brains/NeuroscienceNFT.webp'
+import brainVisual6 from '../../assets/images/brains/NeuroscienceNFt_BH1.webp'
+import brainVisual7 from '../../assets/images/brains/Brain9.webp'
+import carmen3 from '../../assets/images/carmen3.webp'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -231,7 +231,7 @@ function Home() {
                                 className="intro__content"
                             >
                                 <h1 className="intro__title">
-                                    The never ending exploration of the brain.
+                                    The Never Ending Exploration of the Brain.
                                 </h1>
                             </div>
                             <div className="intro__img">
@@ -584,8 +584,8 @@ function Home() {
                                             have to experience. They make a lot
                                             of their lamps themselves and have
                                             great 3D visuals that complements
-                                            the music in a legendary wayThey
-                                            openend a creative hub called
+                                            the music in a legendary way. They
+                                            opened a creative hub called
                                             Krafthaus to support local talent
                                             and help with struggles in young
                                             adolescent minds. Keep an eye out on
@@ -595,6 +595,7 @@ function Home() {
                                             tool to feel empowered and charged
                                             to continue the revenue of being a
                                             devoted researcher.
+                                            <br />- www.kraftundlicht.nl -
                                         </p>
                                     </div>
                                 </div>

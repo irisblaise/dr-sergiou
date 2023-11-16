@@ -1,8 +1,8 @@
-import Brain7 from '../../assets/images/brains/Brain7.png'
-import Brain2 from '../../assets/images/brains/Brain2.png'
-import Brain9 from '../../assets/images/brains/Brain9.png'
-import Brain4 from '../../assets/images/brains/Brain4.png'
-import Brain8 from '../../assets/images/brains/Brain8.png'
+import Brain7 from '../../assets/images/brains/Brain7.webp'
+import Brain2 from '../../assets/images/brains/Brain2.webp'
+import Brain9 from '../../assets/images/brains/Brain9.webp'
+import Brain4 from '../../assets/images/brains/Brain4.webp'
+import Brain8 from '../../assets/images/brains/Brain8.webp'
 
 export const mediaData = [
     {
