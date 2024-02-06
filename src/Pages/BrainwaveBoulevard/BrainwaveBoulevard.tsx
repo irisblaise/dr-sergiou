@@ -1,7 +1,6 @@
 import React from 'react'
 import VideoTextOverlay from '../../Components/videoTextOverlay/videoTextOverlay'
 import VisualBrain3 from '../../assets/videos/VisualBrain3.mp4'
-import Logo from '../../logo.svg'
 import './brainwaveBoulevard.scss'
 import VR from '../../assets/images/icons/VR.png'
 import CODING from '../../assets/images/icons/CODING.png'
