@@ -1,0 +1,50 @@
+.panel.projects {
+    background: #f8e9e6;
+
+    .project-wrapper {
+        width: 80%;
+    }
+
+    .card__image > img {
+        width: 100%;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .project-container {
+        display: flex;
+        gap: 30px;
+
+        .panel.projects {
+            block-size: calc(100vh - 80px);
+        }
+
+        .card__overlay-content {
+            height: 100%;
+        }
+
+        .project {
+            width: 50%;
+        }
+
+        .grid {
+            width: 50%;
+        }
+    }
+
+    @media all and (max-width: 480px) {
+        .project-container {
+            flex-direction: column;
+
+            .project {
+                width: 100%;
+            }
+
+            .grid {
+                width: 100%;
+            }
+        }
+    }
+}

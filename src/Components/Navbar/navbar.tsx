@@ -43,15 +43,15 @@ const Navbar = () => {
                                 <h3>Home</h3>
                             </NavLink>
                         </li>
-                        {/*<li className="nav-item">*/}
-                        {/*    <NavLink*/}
-                        {/*        to="/projects"*/}
-                        {/*        className="nav-links"*/}
-                        {/*        onClick={() => handleClick()}*/}
-                        {/*    >*/}
-                        {/*        <h3>Projects</h3>*/}
-                        {/*    </NavLink>*/}
-                        {/*</li>*/}
+                        <li className="nav-item">
+                            <NavLink
+                                to="/projects"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Projects</h3>
+                            </NavLink>
+                        </li>
                         <li className="nav-item">
                             <NavLink
                                 to="/media"
@@ -68,6 +68,15 @@ const Navbar = () => {
                                 onClick={() => handleClick()}
                             >
                                 <h3>Publications</h3>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink
+                                to="/brainwave-boulevard"
+                                className="nav-links"
+                                onClick={() => handleClick()}
+                            >
+                                <h3>Brainwave Boulevard</h3>
                             </NavLink>
                         </li>
                         <li className="nav-item">

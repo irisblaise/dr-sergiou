@@ -3,7 +3,15 @@ export const homeData = [
         section: 'Section1',
         Title: 'Hello There,',
         description:
-            "I'm a mega brain enthusiast with a PhD in Forensic Neuroscience. Currently working as a post-doctoral researcher in using Virtual Reality (VR) into unraveling criminal decision making. Soon I will start my postdoc into unraveling the neural correlates of high risk antisocial youth using neuroimaging. Very excited to work in the field of using innovative technologies to investigate the brain in forensic care. My passion into the never ending exploration of the brain is a journey guided by five profound passions:No.1. (Forensic) Neuroscience No.2. Criminal Decision-making No.3. Innovative Technologies No.4. The Future of Decentralized Science No.5. Psychedelics in Mental Health Care No.6.. Musical Synergy                                                                                                                                                                                                                                                                                                                                                                                       Youre invited to delve into my world of passions, past endeavors, research publications, and the exciting prospects on the horizon. It's a glimpse into the life of a true neuro-enthusiast, dedicated to unraveling the underpinnings of the brain and merging it with cutting-edge technology. Join me in this captivating journey, and together, let's embrace the world of a neuro-nerd. Your adventure starts here! 🧠🚀\"",
+            "I'm a mega brain enthusiast with a PhD in Forensic Neuroscience. Currently working as a post-doctoral researcher in using Virtual Reality (VR) into unraveling criminal decision making. Soon I will start my postdoc into unraveling the neural correlates of high risk antisocial youth using neuroimaging. Very excited to work in the field of using innovative technologies to investigate the brain in forensic care. My never ending exploration of the brain is a journey guided by :\n" +
+            '\n' +
+            'No.1. (Forensic) Neuroscience\n' +
+            'No.2. Criminal Decision-making\n' +
+            'No.3. Innovative Technologies\n' +
+            'No.4. The Future of Decentralized Science\n' +
+            'No.5. Psychedelics in Mental Health Care\n' +
+            'No.6.. Musical Synergy                                                                                                                                                                                                                                                                                                                                                                                      ' +
+            "Youre invited to delve into my world of neuronerding, past endeavors, research publications, and the exciting prospects on the horizon. It's a glimpse into the life of a true neuro-enthusiast, dedicated to unraveling the underpinnings of the brain and merging it with cutting-edge technology. Join me in this captivating journey, and together, let's embrace the world of a neuro-nerd. Your adventure starts here! 🧠🚀",
     },
     {
         section: 'Section2',

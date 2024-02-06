@@ -261,7 +261,8 @@ function Home() {
                                             Very excited to work in the field of
                                             using innovative technologies to
                                             investigate the brain in forensic
-                                            care.
+                                            care. My never ending exploration of
+                                            the brain is a journey guided by
                                             <br />
                                             <br />
                                             My passion into the never ending
@@ -282,6 +283,22 @@ function Home() {
                                             Care
                                             <br />
                                             No.6. Musical Synergy
+                                            <br />
+                                            <br />
+                                            You're invited to delve into my
+                                            world of neuronerding, past
+                                            endeavors, research publications,
+                                            and the exciting prospects on the
+                                            horizon. It's a glimpse into the
+                                            life of a true neuro-enthusiast,
+                                            dedicated to unraveling the
+                                            underpinnings of the brain and
+                                            merging it with cutting-edge
+                                            technology. Join me in this
+                                            captivating journey, and together,
+                                            let's embrace the world of a
+                                            neuro-nerd. Your adventure starts
+                                            here! 🧠🚀
                                         </p>
                                     </div>
                                 </div>
@@ -595,7 +612,11 @@ function Home() {
                                             tool to feel empowered and charged
                                             to continue the revenue of being a
                                             devoted researcher.
-                                            <br />- www.kraftundlicht.nl -
+                                            <br />
+                                            <br />
+                                            <a href="https://www.kraftundlicht.nl/">
+                                                kraftundlicht.nl
+                                            </a>
                                         </p>
                                     </div>
                                 </div>
@@ -617,7 +638,7 @@ function Home() {
                             </div>
                         </section>
 
-                        <footer className="footer" id="slide-7">
+                        <div className="footer" id="slide-7">
                             <img
                                 className="contact__photo"
                                 src={carmen3}
@@ -639,7 +660,7 @@ function Home() {
                                     <span className="footer__link-top-line"></span>
                                 </a>
                             </div>
-                        </footer>
+                        </div>
                     </div>
                 </div>
             </div>

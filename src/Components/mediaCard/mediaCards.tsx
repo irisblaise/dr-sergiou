@@ -5,7 +5,7 @@ export type mediaCardProps = {
     media?: string
     mediaType: string
     subject: string
-    peopleInvolved: string
+    peopleInvolved?: string
     image?: string
     link?: string
     date: string

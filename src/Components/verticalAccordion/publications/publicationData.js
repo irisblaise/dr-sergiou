@@ -48,7 +48,7 @@ export const publicationData = [
             'The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
         pdfTitle:
             'Publication 2.The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
-        image: Brain2,
+        image: Brain10,
         link: 'https://doi.org/10.1016/j.ijchp.2023.100374',
         pdfLink: Publication2,
     },
@@ -64,7 +64,7 @@ export const publicationData = [
         description:
             'tDCS targeting the Ventromedial Prefrontal Cortex reduces reactive aggression and modulates electrophysiological responses in a forensic population.',
         pdfTitle: 'Publication 3. tDCS reducing Aggression',
-        image: Brain3,
+        image: Brain7,
         link: 'https://doi.org/10.1016/j.bpsc.2021.05.007',
         pdfLink: Publication3,
     },
@@ -96,7 +96,7 @@ export const publicationData = [
         description:
             'The effectiveness of Transcranial Direct Current Stimulation as an intervention to improve empathic abilities and reduce violent behavior: A literature review.',
         pdfTitle: 'Publication 5. Sergiou et al. (2020). Literature Review',
-        image: Brain5,
+        image: Brain9,
         link: 'https://doi.org/10.1016/j.avb.2020.101463',
         pdfLink: Publication5,
     },
@@ -128,7 +128,7 @@ export const publicationData = [
             'Visual attention in violent offenders: susceptibility to distraction',
         pdfTitle:
             'Publication 7. Slotboom et al. (2017). Visual Attention in violent offenders',
-        image: Brain7,
+        image: Brain3,
         link: 'https://doi.org/10.1016/j.psychres.2017.02.031',
         pdfLink: Publication7,
     },
@@ -160,7 +160,7 @@ export const publicationData = [
             'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
         pdfTitle:
             'Publication 9. Lui et al (2017). Interventions for Improving Affective Abilities in Adolescents',
-        image: Brain9,
+        image: Brain5,
         link: 'https://doi-org.ezproxy.leidenuniv.nl/10.1007/s40894-016-0047-7',
         pdfLink: Publication9,
     },
@@ -174,7 +174,7 @@ export const publicationData = [
         description:
             'Middelengebruik en geweld.\nontwikkeling en validatie van een testbatterij.',
         pdfTitle: 'Publication 10. van Dongen et al. Middelengebruik en Geweld',
-        image: Brain10,
+        image: Brain2,
         link: '2711_Volledige_Tekst_tcm28-368226.pdf (wodc.nl)',
         pdfLink: Publication10,
     },

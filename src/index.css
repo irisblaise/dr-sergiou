@@ -7,6 +7,15 @@
     font-weight: bold;
 }
 
+@font-face {
+    font-family: 'Heebo';
+    src:
+            local('Heebo'),
+            url('./fonts/Heebo/static/Heebo-Regular.ttf')
+            format('truetype');
+    font-weight: bold;
+}
+
 html {
     overflow-y: scroll;
     height: 100%;
@@ -85,22 +94,13 @@ body {
     margin: 0;
     padding: 0;
     font-family:
-        -apple-system,
-        Noto Sans,
-        'Segoe UI',
-        'Roboto',
-        'Oxygen',
-        'Ubuntu',
-        'Cantarell',
-        'Fira Sans',
-        'Droid Sans',
-        'Helvetica Neue',
+        'Heebo',
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: Heebo, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
 }
