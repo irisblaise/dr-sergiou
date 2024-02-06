@@ -72,11 +72,11 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to="/brainwave-boulevard"
+                                to="/skills"
                                 className="nav-links"
                                 onClick={() => handleClick()}
                             >
-                                <h3>Brainwave Boulevard</h3>
+                                <h3>Skills</h3>
                             </NavLink>
                         </li>
                         <li className="nav-item">

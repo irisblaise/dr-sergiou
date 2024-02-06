@@ -21,10 +21,7 @@ function App() {
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/media" element={<Media />} />
                     <Route path="/publications" element={<Publications />} />
-                    <Route
-                        path="/brainwave-boulevard"
-                        element={<BrainwaveBoulevard />}
-                    />
+                    <Route path="/skills" element={<BrainwaveBoulevard />} />
                     <Route path="/contact" element={<Contact />} />
                 </Route>
             </Routes>

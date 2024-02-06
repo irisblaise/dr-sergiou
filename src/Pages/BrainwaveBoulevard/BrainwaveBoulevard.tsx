@@ -12,7 +12,10 @@ function BrainwaveBoulevard() {
     return (
         <div className="panel-wrapper">
             <div className="panel project-header">
-                <VideoTextOverlay video={VisualBrain3} text="SKILLS" />
+                <VideoTextOverlay
+                    video={VisualBrain3}
+                    text="BRAINWAVE BOULEVARD"
+                />
             </div>
 
             <div className="panel brainwave-boulevard">
