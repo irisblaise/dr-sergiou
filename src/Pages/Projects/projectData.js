@@ -17,13 +17,13 @@ export const projectDataPresent = [
     {
         mediaType: 'Virtual Burglary Project',
         subject:
-            'Postdoctora researcher - VR study into investigating criminal decision-making in burglars',
+            'Postdoctoral researcher - VR study into investigating criminal decision-making in burglars',
         link: 'https://csl.mpg.de/en/projects/virtual-burglary-project',
         date: '2022-Current',
         image: Virtual_Burglary_Project,
     },
     {
-        mediaType: 'Horizon Neuroscience (Harvard)',
+        mediaType: 'Horizon Neuroscience (Boston)',
         subject: 'Researchteam- Solutions for Brain Health',
         link: 'https://horizon-neuro.com/',
         date: '2023-Current',
