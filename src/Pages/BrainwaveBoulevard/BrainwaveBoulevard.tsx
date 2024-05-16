@@ -17,40 +17,39 @@ function BrainwaveBoulevard() {
                     text="BRAINWAVE BOULEVARD"
                 />
             </div>
-
             <div className="panel brainwave-boulevard">
                 <div className="skills">
                     <div className="skill">
                         <h3>NEURO</h3>
-                        <img src={NEUROSCIENCE}></img>
+                        <img src={NEUROSCIENCE} alt={'neuro'}></img>
                         <div className="skill-description">
                             EEG | fMRI | Networks | Neuromodolation
                         </div>
                     </div>
                     <div className="skill">
                         <h3>CODING</h3>
-                        <img src={CODING}></img>
+                        <img src={CODING} alt={'coding'}></img>
                         <div className="skill-description">
                             MatLab | EEGlab | Python (beginner)
                         </div>
                     </div>
                     <div className="skill">
                         <h3>VR</h3>
-                        <img src={VR}></img>
+                        <img src={VR} alt={'vr'}></img>
                         <div className="skill-description">
                             Virtual Burglary | VR-RTA
                         </div>
                     </div>
                     <div className="skill">
                         <h3>FORENSIC</h3>
-                        <img src={FORENSIC}></img>
+                        <img src={FORENSIC} alt={'forensic'}></img>
                         <div className="skill-description">
                             11 Prisons | 3 TBS | 5 Addiction Clinics
                         </div>
                     </div>
                     <div className="skill">
                         <h3>BEHAVIOR</h3>
-                        <img src={BEHAVIOR}></img>
+                        <img src={BEHAVIOR} alt={'behavior'}></img>
                         <div className="skill-description">
                             Antisocial | Aggression | Addiction | Criminal
                             Decision-making | Emotion-Regulation | Empathy |

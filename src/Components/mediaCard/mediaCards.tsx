@@ -3,8 +3,9 @@ import './mediaCard.scss'
 
 export type mediaCardProps = {
     media?: string
-    mediaType: string
-    subject: string
+    mediaType?: string
+    subject?: string
+    title?: string
     peopleInvolved?: string
     image?: string
     link?: string
@@ -19,6 +20,7 @@ const MediaCard = ({
     peopleInvolved,
     image,
     date,
+    title,
 }: mediaCardProps) => {
     return (
         <a className="card" href={link} target="_blank" rel="noreferrer">
@@ -36,7 +38,9 @@ const MediaCard = ({
                             </li>
                         </ul>
 
-                        <div className="card__title">{subject}</div>
+                        {subject && (
+                            <div className="card__title">{subject}</div>
+                        )}
 
                         <ul className="card__meta card__meta--last">
                             <li>
@@ -46,6 +50,7 @@ const MediaCard = ({
                     </div>
                 </div>
             </div>
+            {title && <div className="card__title">{title}</div>}
         </a>
     )
 }

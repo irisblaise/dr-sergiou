@@ -1,6 +1,5 @@
 .panel.brainwave-boulevard {
-    background: #f8e9e6;
-    padding: 50px;
+    background: #e0dcdc;
 
     img {
         height: 120px;
@@ -12,9 +11,14 @@
     }
 
     .skills {
-        display: flex;
-        width: 100%;
-        justify-content: start;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: 100vh;
+
+        //display: flex;
+        //width: 100%;
+        //justify-content: start;
     }
 
     .skill {
@@ -22,9 +26,33 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: start;
+        justify-content: center;
         align-items: center;
         gap: 30px;
+
+        &:first-child {
+            background: #c5d7c9;
+        }
+
+        &:nth-child(2) {
+            background: #cdd5e0;
+        }
+
+        &:nth-child(3) {
+            background: #f8e9e6;
+        }
+
+        &:nth-child(4) {
+            background: #f3d3b0;
+        }
+
+        &:nth-child(5) {
+            background: #d8c0c0;
+        }
+
+        &:nth-child(6) {
+            background: #d7cec5;
+        }
     }
 
     .skill-description {
