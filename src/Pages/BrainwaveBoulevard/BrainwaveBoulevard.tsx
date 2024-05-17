@@ -3,9 +3,9 @@ import VideoTextOverlay from '../../Components/videoTextOverlay/videoTextOverlay
 import VisualBrain3 from '../../assets/videos/VisualBrain3.mp4'
 import './brainwaveBoulevard.scss'
 import VR from '../../assets/images/icons/VR.png'
-import CODING from '../../assets/images/icons/CODING.png'
-import BEHAVIOR from '../../assets/images/icons/BEHAVIOR.png'
-import FORENSIC from '../../assets/images/icons/FORENSIC.png'
+import CODING from '../../assets/images/icons/code.svg'
+import BEHAVIOR from '../../assets/images/icons/brainheart.svg'
+import FORENSIC from '../../assets/images/icons/forensic.svg'
 import NEUROSCIENCE from '../../assets/images/icons/NEUROSCIENCE.png'
 
 function BrainwaveBoulevard() {
