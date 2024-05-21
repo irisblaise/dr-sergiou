@@ -4,6 +4,11 @@ import psycopath from '../../assets/images/Projects2/psycopath.png'
 import Virtual_Burglary from '../../assets/images/Projects2/Virtual_Burglary.avif'
 import Neuromodulation from '../../assets/images/Projects2/brainneuromodilation.png'
 import KetamineDepression from '../../assets/images/Projects2/ketamineDepression.webp'
+import Brain7 from '../../assets/images/brains/Brain7.webp'
+import Brain2 from '../../assets/images/brains/Brain2.webp'
+import Brain9 from '../../assets/images/brains/Brain9.webp'
+import Brain4 from '../../assets/images/brains/Brain4.webp'
+import Brain8 from '../../assets/images/brains/Brain8.webp'
 
 export const projectDataPresent = [
     {
@@ -22,7 +27,7 @@ export const projectDataPresent = [
             'Postdoctoral researcher - VR study into investigating criminal decision-making in burglars',
         link: 'https://csl.mpg.de/en/projects/virtual-burglary-project',
         date: '2022 - Current',
-        image: Virtual_Burglary,
+        image: Brain7,
         color: '#759f7e',
         backgroundColor: '#cdd5e0',
     },
@@ -41,7 +46,7 @@ export const projectDataPresent = [
             'Head of translations - Website to inform victims of psychopatic individuals',
         link: 'https://aftermath-surviving-psychopathy.org/',
         date: '2019 - Current',
-        image: psycopath,
+        image: Brain9,
         color: '#db9f93',
         backgroundColor: '#f3d3b0',
     },
@@ -50,7 +55,7 @@ export const projectDataPresent = [
         description:
             'Co-author - Rapport on using ketamine in treatment-resistent depression ',
         link: 'https://open-foundation.org/',
-        image: KetamineDepression,
+        image: Brain2,
         date: '2022 - 2023',
         color: '#da964e',
         backgroundColor: '#d8c0c0',
