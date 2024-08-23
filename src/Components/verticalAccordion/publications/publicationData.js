@@ -18,20 +18,74 @@ import Publication7 from '../../../assets/pdfs/Publication 7. Slotboom et al. (2
 import Publication8 from '../../../assets/pdfs/Publication 8. Hoppenbrouwersea2016_Top-DownAttentionandSelectionHistoryinPsychopathypdf.pdf'
 import Publication9 from '../../../assets/pdfs/Publication 9. Lui et al (2017). Interventions for Improving Affective Abilities in Adolescents.pdf'
 import Publication10 from '../../../assets/pdfs/Publication 10. van Dongen et al. Middelengebruik en Geweld.pdf'
+import Publication11 from '../../../assets/pdfs/Publication11.pdf'
+import Publication12 from '../../../assets/pdfs/Publication12.pdf'
+import Publication13 from '../../../assets/pdfs/Publication13.pdf'
+import Publication14 from '../../../assets/pdfs/Publication14.pdf'
 
 export const publicationData = [
     {
-        title: 'Psychopathy as a predisposition to lie hedonistically,',
+        title: 'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
+        triggerTitle: 'Neuropsychological assessment of aggressive offenders',
+        journal: 'Frontiers in Psychology',
+        icon: 'award',
+        date: 2024,
+        authors:
+            'Hutten, J. C., Van Horn, J. E., Hoppenbrouwers, S. S., Ziermans, T. B., Geurts, H. M., Sergiou C.S.',
+        authorship: 'Co-author',
+        description:
+            'Europsychological assessment of aggressive offenders: a Delphi consensus study',
+        pdfTitle:
+            'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
+        image: Brain8,
+        link: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1328839/full',
+        pdfLink: Publication14,
+    },
+    {
+        title: 'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
+        triggerTitle:
+            'Virtual Reality-(VR-RTA): A Novel Method for Studying Offender Decision-Making',
+        journal: 'CrimRxiv',
+        date: 2024,
+        authors:
+            'Sergiou, C.-S., Gerstner, D., Nee, C., Elffers, H., & van Gelder, J.-L.',
+        authorship: 'First author',
+        description:
+            'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
+        pdfTitle:
+            'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
+        image: Brain2,
+        link: 'https://www.crimrxiv.com/pub/btgwyz1b/release/2',
+        pdfLink: Publication13,
+    },
+    {
+        title: 'Neighborhood crime reduction interventions and perceived livability: A virtual reality study on fear of crime',
+        triggerTitle: 'Virtual Reality Study on fear of crime',
+        journal: 'Cities',
+        date: 2024,
+        authors:
+            'McClanahan, W. P., Sergiou, C. S., Siezenga, A. M., Gerstner, D., Elffers, H., van der Schalk, J., & van Gelder, J. L.',
+        authorship: 'Co-author',
+        description:
+            'Neighborhood crime reduction interventions and perceived livability: A virtual reality study on fear of crime ',
+        pdfTitle:
+            'Publication 12. Neighborhood crime reduction interventions and perceived livability: A virtual reality study on fear of crime',
+        image: Brain1,
+        link: 'https://www.sciencedirect.com/science/article/pii/S0264275124000374?via%3Dihub',
+        pdfLink: Publication12,
+    },
+    {
+        title: 'Psychopathy as a predisposition to lie hedonistically',
         triggerTitle: 'Psychopathy as a predisposition to lie hedonistically',
         journal: 'Psychology, Crime & Law',
         date: 2023,
         authors:
-            'Rassin, E., Sergiou, C., van der Linde, D., & van Dongen, J.D.M. ',
+            'Rassin, E., Sergiou, C., van der Linde, D., & van Dongen, J.D.M.',
         authorship: 'Co-author',
-        description: 'Psychopathy as a predisposition to lie hedonistically,',
+        description: 'Psychopathy as a predisposition to lie hedonistically',
         pdfTitle:
             'Publication 1. Psychopathy as a predisposition to lie hedonistically,',
-        image: Brain1,
+        image: Brain9,
         link: 'https://login.ezproxy.leidenuniv.nl/login?qurl=https://doi.org%2f10.1080%2f1068316X.2023.2213802',
         pdfLink: Publication1,
     },
@@ -51,6 +105,22 @@ export const publicationData = [
         image: Brain10,
         link: 'https://doi.org/10.1016/j.ijchp.2023.100374',
         pdfLink: Publication2,
+    },
+    {
+        title: 'Understanding the Aggressive Brain: High-Definition transcranial Direct Current Stimulation (HD-tDCS) in reducing aggression and as a treatment intervention in forensic patients.',
+        triggerTitle: 'Understanding the Aggressive Brain',
+        journal: 'PhD Dissertation',
+        icon: 'phd',
+        date: 2022,
+        authors: 'Sergiou, C.S.',
+        authorship: 'First author',
+        description:
+            'Understanding the Aggressive Brain: High-Definition transcranial Direct Current Stimulation (HD-tDCS) in reducing aggression and as a treatment intervention in forensic patients.',
+        pdfTitle:
+            'Publication 1. Psychopathy as a predisposition to lie hedonistically,',
+        image: Brain1,
+        link: 'https://pure.eur.nl/ws/portalfiles/portal/53177863/understandingtheagressivebraincarmensergiouprint18x25book06_2_6256af909b055.pdf',
+        pdfLink: Publication11,
     },
     {
         title: 'tDCS targeting the Ventromedial Prefrontal Cortex reduces reactive aggression and modulates electrophysiological responses in a forensic population.',
@@ -88,7 +158,7 @@ export const publicationData = [
         title: 'The effectiveness of Transcranial Direct Current Stimulation as an intervention to improve empathic abilities and reduce violent behavior: A literature review.',
         triggerTitle:
             'Literature Review using tDCS to increase Empatrhic Abilities & reduce Aggression',
-        journal: 'Aggression and Violent Behavior,',
+        journal: 'Aggression and Violent Behavior',
         date: 2020,
         authors:
             'Sergiou, C. S., Santarnecchi, E., Franken, I. H. A., & van Dongen, J. D. M',
@@ -103,7 +173,7 @@ export const publicationData = [
     {
         title: 'Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine: A consensus paper on the present state of the science and the road ahead.',
         triggerTitle: 'Consensus paper tES & TMS for Addiction',
-        journal: 'Neuroscience & Biobehavioral Reviews.',
+        journal: 'Neuroscience & Biobehavioral Reviews',
         date: 2019,
         authors:
             'Ekthiari H., Zangen, A., Del Felice, A., Shahbabaie, A., Gourdriaan, A., Sergiou C.S., et al.',
@@ -119,7 +189,7 @@ export const publicationData = [
     {
         title: 'Visual attention in violent offenders: susceptibility to distraction',
         triggerTitle: 'Visual attention in violent offender',
-        journal: 'Psychiatry Research,',
+        journal: 'Psychiatry Research',
         date: 2016,
         authors:
             'Slotboom, J., Hoppenbrouwers, S.S., In ‘t Hout, W., Sergiou, C.S., Van der Stigchel, S. & Theeuwes, J.',
@@ -152,7 +222,7 @@ export const publicationData = [
         title: 'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
         triggerTitle:
             'Review paper Interventions for Improving Affective Abilities in Adolescents',
-        journal: 'Adolescent Research Review Clinical Samples of Adolescents.',
+        journal: 'Adolescent Research Review Clinical Samples of Adolescents',
         date: 2016,
         authors: 'Lui, J., Sergiou, C.S., Barry, C.',
         authorship: 'Co-author',
@@ -167,7 +237,7 @@ export const publicationData = [
     {
         title: 'Middelengebruik en geweld.\nontwikkeling en validatie van een testbatterij.',
         triggerTitle: 'Middelengebruik en geweld',
-        journal: 'WODC. Ministerie van Justitie en Veiligheid.',
+        journal: 'WODC. Ministerie van Justitie en Veiligheid',
         date: 2019,
         authors: 'Dongen, J. van, Sergiou, C., Franken, I. ',
         authorship: 'NEDERLANDS- CO AUTEUR',

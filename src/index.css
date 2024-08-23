@@ -55,9 +55,13 @@ button {
 h1,
 h2 {
     margin: 0;
-    line-height: 1;
+    line-height: 1.05;
     font-family: LibreBaskerville, serif;
     font-weight: 400;
+}
+
+h2 {
+    line-height: 1.3;
 }
 
 h1,

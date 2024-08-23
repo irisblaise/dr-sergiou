@@ -14,7 +14,7 @@ export const projectDataPresent = [
     {
         title: 'Growing Up in Society Together (GUTS)',
         description:
-            'Postdoctoral researcher -Longitudinal study into the neuropsychological development of high-risk antisocial youth ',
+            'Postdoctoral researcher at Amsterdam UMC・Longitudinal study into the neuropsychological development of high-risk antisocial youth ',
         link: 'https://www.gutsproject.com/work-package/antisocial-behaviour/',
         date: '2024 - Current',
         image: neuroYouth,
@@ -24,7 +24,7 @@ export const projectDataPresent = [
     {
         title: 'Virtual Burglary Project',
         description:
-            'Postdoctoral researcher - VR study into investigating criminal decision-making in burglars',
+            'Postdoctoral researcher・VR study into investigating criminal decision-making in burglars',
         link: 'https://csl.mpg.de/en/projects/virtual-burglary-project',
         date: '2022 - Current',
         image: Brain7,
@@ -33,7 +33,7 @@ export const projectDataPresent = [
     },
     {
         title: 'Horizon Neuroscience (Boston)',
-        description: 'Researchteam- Solutions for Brain Health',
+        description: 'Researchteam・Solutions for Brain Health',
         link: 'https://horizon-neuro.com/',
         date: '2023 - Current',
         image: HorizonNeuroscience,
@@ -43,7 +43,7 @@ export const projectDataPresent = [
     {
         title: 'Aftermath Psychopathy Foundation',
         description:
-            'Head of translations - Website to inform victims of psychopatic individuals',
+            'Head of translations・Website to inform victims of psychopatic individuals',
         link: 'https://aftermath-surviving-psychopathy.org/',
         date: '2019 - Current',
         image: Brain9,
@@ -53,7 +53,7 @@ export const projectDataPresent = [
     {
         title: 'Open Foundation',
         description:
-            'Co-author - Rapport on using ketamine in treatment-resistent depression ',
+            'Co-author・Rapport on using ketamine in treatment-resistent depression ',
         link: 'https://open-foundation.org/',
         image: Brain2,
         date: '2022 - 2023',
@@ -63,7 +63,7 @@ export const projectDataPresent = [
     {
         description:
             'Neuromodulation to Reduce Aggression and Increase Empathic Abilities',
-        title: 'PhD project- Unraveling the Aggressive Brain',
+        title: 'PhD project - Unraveling the Aggressive Brain',
         link: 'https://pure.eur.nl/en/publications/understanding-the-aggressive-brain-high-definition-transcranial-d',
         date: '2017 - 2022',
         image: Neuromodulation,

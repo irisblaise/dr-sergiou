@@ -3,6 +3,21 @@
     height: 100vh;
     align-items: center;
     justify-content: center;
+    background-color: rgba(162, 189, 191, 0.51);
+
+    a {
+        text-decoration: underline;
+        text-decoration-color: #f8e9e6;
+    }
+}
+
+.emails {
+    display: flex;
+    gap: 3px;
+}
+
+.postDoc {
+    text-align: center;
 }
 
 .contact-wrapper {
@@ -23,7 +38,7 @@
 
     .details {
         width: 50%;
-        gap: 20px;
+        gap: 12px;
         display: flex;
         flex-direction: column;
         justify-content: start;
@@ -53,6 +68,7 @@ $social-button-colors: (
     'mail': #0072c6,
     'linkedin': #0077b5,
     'twitter': #55acee,
+    'orcid': #a6ce39,
 );
 
 .social-button {

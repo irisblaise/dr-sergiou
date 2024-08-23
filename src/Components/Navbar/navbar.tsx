@@ -54,11 +54,11 @@ const Navbar = () => {
                         </li>
                         <li className="nav-item">
                             <NavLink
-                                to="/media"
+                                to="/impact"
                                 className="nav-links"
                                 onClick={() => handleClick()}
                             >
-                                <h3>Media</h3>
+                                <h3>Impact</h3>
                             </NavLink>
                         </li>
                         <li className="nav-item">

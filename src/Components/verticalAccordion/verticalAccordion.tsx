@@ -58,6 +58,7 @@ const VerticalAccordionItemTwo = () => {
                         pdfLink={publication.pdfLink}
                         image={publication.image}
                         active={isItemOpen === index}
+                        icon={publication.icon}
                         triggerTitle={publication.triggerTitle}
                         title={publication.title}
                         journal={publication.journal}

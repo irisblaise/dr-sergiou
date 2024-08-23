@@ -89,9 +89,15 @@
         border-bottom: 6px double black;
         padding: 10px 0;
         border-top: 6px double black;
-        height: 20%;
+        height: 23%;
         background: #f8f8f8;
         color: black;
+
+        svg {
+            height: 65px;
+            width: 35px;
+            color: #e1c4be;
+        }
     }
 }
 

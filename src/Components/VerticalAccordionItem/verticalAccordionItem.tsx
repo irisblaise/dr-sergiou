@@ -1,12 +1,13 @@
 import React, { forwardRef, useRef } from 'react'
 import './verticalAccordionItem.scss'
 import backgroundPaper from './backgroundpaper.avif'
-import PDF1 from '../../assets/pdfs/Publication 1. Psychopathy as a predisposition to lie hedonistically.pdf'
+import { FaAward, FaUserGraduate } from 'react-icons/fa'
 
 export type VerticalAccordionItemProps = {
     index: number
     active: boolean
     title: string
+    icon?: string
     date: string
     description: string
     journal?: string
@@ -28,6 +29,7 @@ const VerticalAccordionItem = forwardRef<
         triggerTitle,
         index,
         title,
+        icon,
         date,
         description,
         authors,
@@ -60,8 +62,12 @@ const VerticalAccordionItem = forwardRef<
                     onClick={() => handleToggle(ref, index)}
                 >
                     <div className="journalWrapper">
-                        <h4>{journal}</h4>
-                        <h3 className="year">{date}</h3>
+                        <>
+                            <h4>{journal}</h4>
+                            {icon === 'award' && <FaAward />}
+                            {icon === 'phd' && <FaUserGraduate />}
+                            <h3 className="year">{date}</h3>
+                        </>
                     </div>
 
                     <div className="description">
@@ -73,9 +79,26 @@ const VerticalAccordionItem = forwardRef<
                     className="publication__container"
                 >
                     <div ref={publicationTextRef} className="publication__text">
-                        <h3>
-                            {journal}, {date}
-                        </h3>
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyItems: 'center',
+                                gap: '2px',
+                            }}
+                        >
+                            <h3>
+                                {icon === 'phd' && <FaUserGraduate />} {journal}
+                                , {date}
+                            </h3>
+                            {icon === 'award' && (
+                                <p>
+                                    <FaAward /> Society of biological
+                                    psychiatry: Best Paper Award
+                                </p>
+                            )}
+                        </div>
                         <h2 ref={titleRef}>{title}</h2>
                         <div>
                             <p className="authors">

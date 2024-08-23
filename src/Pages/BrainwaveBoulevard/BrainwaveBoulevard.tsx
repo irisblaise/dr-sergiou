@@ -7,6 +7,7 @@ import CODING from '../../assets/images/icons/code.svg'
 import BEHAVIOR from '../../assets/images/icons/brainheart.svg'
 import FORENSIC from '../../assets/images/icons/forensic.svg'
 import NEUROSCIENCE from '../../assets/images/icons/NEUROSCIENCE.png'
+import MUSIC_NOTE from '../../assets/images/icons/music-note-3.png'
 
 function BrainwaveBoulevard() {
     return (
@@ -54,6 +55,18 @@ function BrainwaveBoulevard() {
                             Antisocial | Aggression | Addiction | Criminal
                             Decision-making | Emotion-Regulation | Empathy |
                             Psychopathy
+                        </div>
+                    </div>
+                    <div className="skill">
+                        <h3>MUSIC</h3>
+                        <img
+                            style={{ marginRight: '30px' }}
+                            src={MUSIC_NOTE}
+                            alt={'behavior'}
+                        ></img>
+                        <div className="skill-description">
+                            VentroMedial | Kraft und Licht - Performance manager
+                            Milkshake | Der Hintergarten | Manager Subduction
                         </div>
                     </div>
                 </div>
