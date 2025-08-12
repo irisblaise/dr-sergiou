@@ -7,10 +7,12 @@ export type mediaCardProps = {
     subject?: string
     title?: string
     peopleInvolved?: string
+    description?: string
     image?: string
     link?: string
     date: string
     key: number
+    assets?: { type: 'image' | 'video'; src: string }[]
 }
 
 const MediaCard = ({

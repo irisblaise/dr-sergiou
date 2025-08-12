@@ -67,31 +67,24 @@ function Home() {
                 },
             })
 
-            tl.from(slide.querySelectorAll('.col__content-txt'), {
+            // Animate the title first
+            tl.from(slide.querySelectorAll('.col__content-title .line__inner'), {
+                y: 200,
+                duration: 1.2, // shorter duration for faster title animation
                 ease: 'power4',
-                y: '+=5vh',
-                duration: 2.5,
+                stagger: 0.08, // slightly faster stagger
             })
-                .from(
-                    slide.querySelectorAll('.line__inner'),
-                    {
-                        y: 200,
-                        duration: 2,
-                        ease: 'power4',
-                        stagger: 0.1,
-                    },
-                    0
-                )
+                // Animate the content text almost immediately after the title starts
                 .from(
                     slide.querySelectorAll('.col__content-txt'),
                     {
                         x: 100,
-                        y: 50,
+                        y: '+=5vh',
                         opacity: 0,
-                        duration: 2,
                         ease: 'power4',
+                        duration: 2,
                     },
-                    0.4
+                    '-=1.0' // start content text animation 1s before the title finishes
                 )
                 .from(
                     slide.querySelectorAll('.slide-link'),

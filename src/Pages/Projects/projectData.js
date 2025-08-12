@@ -9,8 +9,19 @@ import Brain2 from '../../assets/images/brains/Brain2.webp'
 import Brain9 from '../../assets/images/brains/Brain9.webp'
 import Brain4 from '../../assets/images/brains/Brain4.webp'
 import Brain8 from '../../assets/images/brains/Brain8.webp'
+import Award3 from '../../assets/images/awards/Award_3.jpeg'
 
 export const projectDataPresent = [
+        {
+        title: 'FORNEUROTECH Symposium',
+        description:
+            'A symposium on the future of neurotechnology',
+        link: '',
+        date: '2025 - Current',
+        image: Award3,
+        color: '#935b5b',
+        backgroundColor: '#d7cec5',
+    },
     {
         title: 'Growing Up in Society Together (GUTS)',
         description:
@@ -27,7 +38,7 @@ export const projectDataPresent = [
             'Postdoctoral researcher・VR study into investigating criminal decision-making in burglars',
         link: 'https://csl.mpg.de/en/projects/virtual-burglary-project',
         date: '2022 - Current',
-        image: Brain7,
+        image: Virtual_Burglary,
         color: '#759f7e',
         backgroundColor: '#cdd5e0',
     },
@@ -46,7 +57,7 @@ export const projectDataPresent = [
             'Head of translations・Website to inform victims of psychopatic individuals',
         link: 'https://aftermath-surviving-psychopathy.org/',
         date: '2019 - Current',
-        image: Brain9,
+        image: psycopath,
         color: '#db9f93',
         backgroundColor: '#f3d3b0',
     },
@@ -55,7 +66,7 @@ export const projectDataPresent = [
         description:
             'Co-author・Rapport on using ketamine in treatment-resistent depression ',
         link: 'https://open-foundation.org/',
-        image: Brain2,
+        image: KetamineDepression,
         date: '2022 - 2023',
         color: '#da964e',
         backgroundColor: '#d8c0c0',

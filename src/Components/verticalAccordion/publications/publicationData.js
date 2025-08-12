@@ -22,8 +22,52 @@ import Publication11 from '../../../assets/pdfs/Publication11.pdf'
 import Publication12 from '../../../assets/pdfs/Publication12.pdf'
 import Publication13 from '../../../assets/pdfs/Publication13.pdf'
 import Publication14 from '../../../assets/pdfs/Publication14.pdf'
+import Publication15 from '../../../assets/pdfs/Publication15.pdf'
+import Publication16 from '../../../assets/pdfs/Publication16.pdf'
+import Publication17 from '../../../assets/pdfs/Publication17.pdf'
 
-export const publicationData = [
+export const publicationData =  [
+    {
+        title: 'Virtual reality: What is it and should criminologists pay attention?',
+        triggerTitle: 'Virtual Reality: Implications for Criminology',
+        journal: 'Criminologist',
+        date: 2025,
+        authors: 'Jean-Louis van Gelder1,2, Esther Mertens1,3, Daniel Nagin1,4, Aniek Siezenga1,2, Dominik Gerstner1,5, Margaret Webb1,6, William McClanahan1,7, Tim Barnum1,8, Shaina Herman1,8, Carmen Sergiou2,3, Lisa Natter1, Yikang Zhang1, Janis Butz1, Sara-Laure Faraji1, Sebastian Kübel1, Clay Driscoll11, J. C. Barnes11, Peter Wozniak1, Wade Jacobsen12',
+        authorship: 'Co-author',
+        pdfTitle:
+            'Publication 18. VR criminoloy ',
+        image: Brain2,
+        link: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1328839/full',
+        pdfLink: Publication17,
+    },
+    {
+        title: 'Waar letten inbrekers op?: Hoe observeren van inbrekers in een virtual reality omgeving en hardop-denken rapportage ons inzicht kan verdiepen in waar inbrekers op letten.',
+        triggerTitle: 'Waar letten inbrekers op?',
+        journal: 'Tijdschrift voor Criminologie',
+        date: 2024,
+        authors:
+            'Sergiou, C. S., Elffers, H., & van Gelder, J. L.',
+        authorship: 'First author',
+        pdfTitle:
+            'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
+        image: Brain5,
+        link: 'https://www.boomportaal.nl/tijdschrift/TvC/TvC_0165-182X_2024_066_002_003',
+        pdfLink: Publication16,
+    },
+        {
+        title: 'Neuroprediction of violence and criminal behavior using neuro-imaging data: From innovation to considerations for future directions.',
+        triggerTitle: 'Neuroprediction of violence and criminal behavior',
+        journal: 'Aggression & Violent Behavior',
+        date: 2025,
+        authors:
+            'van Dongen, J. D., Haveman, Y., Sergiou, C. S., & Choy, O.',
+        authorship: 'Co-author',
+        pdfTitle:
+            'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
+        image: Brain1,
+        link: 'https://doi.org/10.1016/j.avb.2024.102008',
+        pdfLink: Publication15,
+    },
     {
         title: 'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
         triggerTitle: 'Neuropsychological assessment of aggressive offenders',
@@ -33,8 +77,6 @@ export const publicationData = [
         authors:
             'Hutten, J. C., Van Horn, J. E., Hoppenbrouwers, S. S., Ziermans, T. B., Geurts, H. M., Sergiou C.S.',
         authorship: 'Co-author',
-        description:
-            'Europsychological assessment of aggressive offenders: a Delphi consensus study',
         pdfTitle:
             'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
         image: Brain8,
@@ -42,16 +84,14 @@ export const publicationData = [
         pdfLink: Publication14,
     },
     {
-        title: 'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
+        title: 'Virtual reality-based retrospective think aloud (VR-RTA): a novel method for studying offender decision-making',
         triggerTitle:
-            'Virtual Reality-(VR-RTA): A Novel Method for Studying Offender Decision-Making',
-        journal: 'CrimRxiv',
+            'Virtual reality-based retrospective think aloud (VR-RTA): Offender decision-making',
+        journal: 'Crime Science',
         date: 2024,
         authors:
             'Sergiou, C.-S., Gerstner, D., Nee, C., Elffers, H., & van Gelder, J.-L.',
         authorship: 'First author',
-        description:
-            'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
         pdfTitle:
             'Virtual Reality-Based Retrospective Think Aloud (VR-RTA): A Novel Method for Studying Offender Decision-Making',
         image: Brain2,
@@ -66,8 +106,6 @@ export const publicationData = [
         authors:
             'McClanahan, W. P., Sergiou, C. S., Siezenga, A. M., Gerstner, D., Elffers, H., van der Schalk, J., & van Gelder, J. L.',
         authorship: 'Co-author',
-        description:
-            'Neighborhood crime reduction interventions and perceived livability: A virtual reality study on fear of crime ',
         pdfTitle:
             'Publication 12. Neighborhood crime reduction interventions and perceived livability: A virtual reality study on fear of crime',
         image: Brain1,
@@ -82,7 +120,6 @@ export const publicationData = [
         authors:
             'Rassin, E., Sergiou, C., van der Linde, D., & van Dongen, J.D.M.',
         authorship: 'Co-author',
-        description: 'Psychopathy as a predisposition to lie hedonistically',
         pdfTitle:
             'Publication 1. Psychopathy as a predisposition to lie hedonistically,',
         image: Brain9,
@@ -92,14 +129,12 @@ export const publicationData = [
     {
         title: 'The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
         triggerTitle:
-            'The effect of HD-tDCS on brain oscillations in Violent Offenders',
+            'Effect HD-tDCS on brain oscillations in Violent Offenders',
         journal: 'International journal of Clinical and Health Psychology',
         date: 2023,
         authors:
             'Sergiou, C.S., Tatti, E., Romanella, S.M., Santarnecchi, E., Weidema, A.D., Rassin, E.C.G., Franken, I.H.A., & van Dongen, J.D.M',
         authorship: 'First author',
-        description:
-            'The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
         pdfTitle:
             'Publication 2.The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.',
         image: Brain10,
@@ -114,8 +149,6 @@ export const publicationData = [
         date: 2022,
         authors: 'Sergiou, C.S.',
         authorship: 'First author',
-        description:
-            'Understanding the Aggressive Brain: High-Definition transcranial Direct Current Stimulation (HD-tDCS) in reducing aggression and as a treatment intervention in forensic patients.',
         pdfTitle:
             'Publication 1. Psychopathy as a predisposition to lie hedonistically,',
         image: Brain1,
@@ -131,8 +164,6 @@ export const publicationData = [
         authors:
             'Sergiou, C. S., Santarnecchi, E., Romanella, S. M., Wieser, M. J., Franken, I. H. A., Rassin, E. G. C., & van Dongen, J. D. M.',
         authorship: 'First author',
-        description:
-            'tDCS targeting the Ventromedial Prefrontal Cortex reduces reactive aggression and modulates electrophysiological responses in a forensic population.',
         pdfTitle: 'Publication 3. tDCS reducing Aggression',
         image: Brain7,
         link: 'https://doi.org/10.1016/j.bpsc.2021.05.007',
@@ -141,14 +172,12 @@ export const publicationData = [
     {
         title: 'Transcranial direct current stimulation (tDCS) as an intervention to improve\nempathic abilities and reduce violent behavior in forensic offenders: study\nprotocol for a randomized controlled trial',
         triggerTitle:
-            'Study Protocol using HD-tDCS to reduce Aggression in Forensic Patients',
+            'Study Protocol: HD-tDCS reducing Aggression in Forensic Patients',
         journal: 'Trials',
         date: 2020,
         authors:
             'Sergiou, C.S., Woods, A., Franken, I.H.A., & van Dongen, J.D.M.',
         authorship: 'First author',
-        description:
-            'Transcranial direct current stimulation (tDCS) as an intervention to improve\nempathic abilities and reduce violent behavior in forensic offenders: study\nprotocol for a randomized controlled trial',
         pdfTitle: 'Publication 4. Sergiou et al. (2020). Study Protocol paper',
         image: Brain4,
         link: 'https://doi.org/10.1186/s13063-020-4074-0.',
@@ -157,14 +186,12 @@ export const publicationData = [
     {
         title: 'The effectiveness of Transcranial Direct Current Stimulation as an intervention to improve empathic abilities and reduce violent behavior: A literature review.',
         triggerTitle:
-            'Literature Review using tDCS to increase Empatrhic Abilities & reduce Aggression',
+            'Literature Review: tDCS, Empathic Abilities & Reducing Aggression',
         journal: 'Aggression and Violent Behavior',
         date: 2020,
         authors:
             'Sergiou, C. S., Santarnecchi, E., Franken, I. H. A., & van Dongen, J. D. M',
         authorship: 'First author',
-        description:
-            'The effectiveness of Transcranial Direct Current Stimulation as an intervention to improve empathic abilities and reduce violent behavior: A literature review.',
         pdfTitle: 'Publication 5. Sergiou et al. (2020). Literature Review',
         image: Brain9,
         link: 'https://doi.org/10.1016/j.avb.2020.101463',
@@ -178,8 +205,6 @@ export const publicationData = [
         authors:
             'Ekthiari H., Zangen, A., Del Felice, A., Shahbabaie, A., Gourdriaan, A., Sergiou C.S., et al.',
         authorship: 'Co-author',
-        description:
-            'Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine: A consensus paper on the present state of the science and the road ahead.',
         pdfTitle:
             'Publication 6.Ekthiari et al. (2019).Transcranial Electrical and Magnetic Stimulation (tES and TMS) for Addiction Medicine',
         image: Brain6,
@@ -188,14 +213,12 @@ export const publicationData = [
     },
     {
         title: 'Visual attention in violent offenders: susceptibility to distraction',
-        triggerTitle: 'Visual attention in violent offender',
+        triggerTitle: 'Visual attention in violent offenders',
         journal: 'Psychiatry Research',
         date: 2016,
         authors:
             'Slotboom, J., Hoppenbrouwers, S.S., In ‘t Hout, W., Sergiou, C.S., Van der Stigchel, S. & Theeuwes, J.',
         authorship: 'Co-author',
-        description:
-            'Visual attention in violent offenders: susceptibility to distraction',
         pdfTitle:
             'Publication 7. Slotboom et al. (2017). Visual Attention in violent offenders',
         image: Brain3,
@@ -210,8 +233,6 @@ export const publicationData = [
         authors:
             'Hoppenbrouwers, S.S., Van der Stigchel, S., Sergiou C.S., & Theeuwes, J.',
         authorship: 'Co-author',
-        description:
-            'Top down attention and selection history in psychopathy: evidence from a community sample',
         pdfTitle:
             'Publication 8. Hoppenbrouwersea2016_Top-DownAttentionandSelectionHistoryinPsychopathypdf.pdf',
         image: Brain8,
@@ -221,13 +242,11 @@ export const publicationData = [
     {
         title: 'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
         triggerTitle:
-            'Review paper Interventions for Improving Affective Abilities in Adolescents',
+            'Review: Improving Affective Abilities in Adolescents',
         journal: 'Adolescent Research Review Clinical Samples of Adolescents',
         date: 2016,
         authors: 'Lui, J., Sergiou, C.S., Barry, C.',
         authorship: 'Co-author',
-        description:
-            'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
         pdfTitle:
             'Publication 9. Lui et al (2017). Interventions for Improving Affective Abilities in Adolescents',
         image: Brain5,
@@ -241,8 +260,6 @@ export const publicationData = [
         date: 2019,
         authors: 'Dongen, J. van, Sergiou, C., Franken, I. ',
         authorship: 'NEDERLANDS- CO AUTEUR',
-        description:
-            'Middelengebruik en geweld.\nontwikkeling en validatie van een testbatterij.',
         pdfTitle: 'Publication 10. van Dongen et al. Middelengebruik en Geweld',
         image: Brain2,
         link: '2711_Volledige_Tekst_tcm28-368226.pdf (wodc.nl)',
