@@ -49,7 +49,7 @@ const ImpactSwiper: React.FC<ImpactSwiperProps> = ({ items}) => {
 
   return (
     <div className="container impact-swiper">
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start' }}>
+      <div className="container-wrapper">
         <div className="impact-legenda">
           <ul className="impact-legenda__list">
             {groupOrder.map((group, gIdx) => (
@@ -62,17 +62,22 @@ const ImpactSwiper: React.FC<ImpactSwiperProps> = ({ items}) => {
                 >
                   {group}
                 </li>
+                <div className="items-wrapper">
                 {groups[group].map(({ item, originalIdx }) => (
+              
                   <li
                     key={item.key}
                     className={activeIndex === originalIdx ? 'active' : ''}
-                    style={{ cursor: 'pointer', fontWeight: activeIndex === originalIdx ? 'bold' : 'normal' }}
                     onMouseEnter={() => handleSelect(originalIdx)}
                     onClick={() => handleSelect(originalIdx)}
                   >
                     {item.mediaType}
                   </li>
-                ))}
+                )
+                              
+
+                )}
+                    </div>
               </React.Fragment>
             ))}
           </ul>

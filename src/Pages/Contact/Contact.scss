@@ -3,16 +3,23 @@
     height: 100vh;
     align-items: center;
     justify-content: center;
-    background-color: rgba(162, 189, 191, 0.51);
+    background-color: #d7cec5;
 
     a {
         text-decoration: underline;
         text-decoration-color: #f8e9e6;
     }
+
+        @media all and (max-width: 980px) {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
 
 .emails {
     display: flex;
+    flex-direction: column;
+    text-align: center;
     gap: 3px;
 }
 
@@ -20,31 +27,31 @@
     text-align: center;
 }
 
+
+.carmen {
+    height: 100vh;
+    display: block;
+
+    @media all and (max-width: 980px) {
+        height: 40%;
+    }
+}
+
 .contact-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    @media all and (max-width: 480px) {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .carmen {
-        width: 45%;
-        display: block;
-        max-width: 400px;
-    }
+    width: 30%;
 
     .details {
-        width: 50%;
+        width: 100%;
         gap: 12px;
         display: flex;
         flex-direction: column;
         justify-content: start;
         align-items: center;
 
-        @media all and (max-width: 480px) {
+        @media all and (max-width: 980px) {
             width: 100%;
             gap: 10px;
         }
@@ -70,6 +77,24 @@ $social-button-colors: (
     'twitter': #55acee,
     'orcid': #a6ce39,
 );
+
+.forNeurotech {
+    width: 150px;
+    height: auto;
+}
+
+.forNeurotechLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
 
 .social-button {
     position: relative;

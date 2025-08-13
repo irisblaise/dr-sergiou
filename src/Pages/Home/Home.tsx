@@ -645,13 +645,33 @@ function Home() {
                                     Dr. Carmen-Silva Sergiou
                                 </a>
                                 <p>
-                                    cs.sergiou@gmail.com |
-                                    neurosciencenft@gmail.com
+                                    <a
+                                        href="mailto:cs.sergiou@gmail.com"
+                                        aria-label="Mail"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        >
+                                         cs.sergiou@gmail.com
+                                    </a> 
+                                    <br></br>
+                                    <a
+                                        href="mailto:neurosciencenft@gmail.com"
+                                        aria-label="Mail"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        >
+                                        neurosciencenft@gmail.com
+                                    </a> 
+                                    <br></br>
+                                    <a
+                                        href="mailto:forneurotech.network@gmail.com"
+                                        aria-label="Mail"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        >
+                                        forneurotech.network@gmail.com
+                                    </a> 
                                 </p>
-                                <a className="footer__link-top" href="#slide-0">
-                                    <p>Top</p>
-                                    <span className="footer__link-top-line"></span>
-                                </a>
                             </div>
                         </div>
                     </div>

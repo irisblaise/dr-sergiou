@@ -17,7 +17,8 @@ const VerticalAccordionItemTwo = () => {
     const accordionItems = useRef(new Array())
 
     useLayoutEffect(() => {
-        if (isMobile) return
+        // Disable animation for screens <= 980px (matches SCSS breakpoint)
+        if (window.innerWidth <= 980 || isMobile) return
         const ctx = gsap.context(() => {
             tl.current.to(accordionItems.current, {
                 x: -100 * (accordionItems.current.length - 1),

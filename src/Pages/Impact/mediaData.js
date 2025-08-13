@@ -17,7 +17,7 @@ export const mediaData = [
         mediaType: 'Symposium and Network',
         subject: 'Grantholder: FORNEUROTECH - Integrating Neurobiology with Technology in Forensic Care',
         peopleInvolved: 'C.S. Sergiou',
-        description: 'FORNEUROTECH is a lasting platform for interdisciplinary collaboration with national and international experts in neuroscience, technology and practice. Join our mailinglist: forneurotech.network@gmail.com',
+        description: 'FORNEUROTECH is a lasting platform for interdisciplinary collaboration with national and international experts in neuroscience, technology and practice. Join our mailinglist: ',
         link: '',
         date: '04-04-2025',
         image: FNT1,

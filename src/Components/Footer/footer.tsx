@@ -19,7 +19,7 @@ const Footer = () => {
                         studies of Dr. Sergiou
                     </p>
                 </div>
-                <p>Iris Blaise &copy; 2024</p>
+                <p>Website by Iris Blaise &copy; 2025</p>
             </div>
         </footer>
     )

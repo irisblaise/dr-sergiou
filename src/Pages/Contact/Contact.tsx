@@ -1,15 +1,18 @@
 import React from 'react'
 import './Contact.scss'
-import carmen from '../../assets/images/camren2.webp'
+import carmen from '../../assets/images/carmen6.png'
 import { FaOrcid, FaTwitter } from 'react-icons/fa'
 import { FaLinkedinIn } from 'react-icons/fa'
 import { IoMail } from 'react-icons/io5'
+import Award6 from '../../assets/images/awards/Award6.png'
+
 
 function Contact() {
     return (
         <div className="contact">
+            <img className="carmen" src={carmen} alt="carmen" />
+
             <div className="contact-wrapper">
-                <img className="carmen" src={carmen} alt="carmen" />
 
                 <div className="details">
                     <h1>Get in touch</h1>
@@ -22,7 +25,6 @@ function Contact() {
                         >
                             <p>cs.sergiou@gmail.com</p>
                         </a>
-                        <p>|</p>
                         <a
                             href="mailto:neurosciencenft@gmail.com"
                             aria-label="Mail"
@@ -82,6 +84,21 @@ function Contact() {
                             <FaOrcid />
                         </a>
                     </div>
+
+
+                    <p className="forNeurotechLink">Interested in the future of forensic neurotechnology?<br/> Join the mailinglist:                        
+                        <a
+                            href="mailto:forneurotech.network@gmail.com"
+                            aria-label="Mail"
+                            target="_blank"
+                            rel="noreferrer"
+                            >
+                            forneurotech.network@gmail.com
+                        </a> 
+                        </p>
+
+
+                     <img className="forNeurotech" src={Award6} alt="Forneurotech logo"/>
                 </div>
             </div>
         </div>

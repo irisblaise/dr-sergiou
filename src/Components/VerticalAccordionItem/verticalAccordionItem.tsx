@@ -110,6 +110,20 @@ const VerticalAccordionItem = forwardRef<
                             href={pdfLink}
                             target="_blank"
                             rel="noreferrer"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '9px',
+                                borderRadius: '50px',
+                                padding: '10px 20px',
+                                border: '3px solid #c07474',
+                                background: 'transparent',
+                                width: 'fit-content',
+                                fontWeight: 600,
+                                fontSize: '1em',
+                                justifyContent: 'center',
+                                margin: '10px auto',
+                            }}
                         >
                             READ ME
                         </a>

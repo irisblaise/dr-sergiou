@@ -179,7 +179,7 @@
     pointer-events: visible;
 }
 
-@media all and (max-width: 480px) {
+@media all and (max-width: 980px) {
     .item {
         width: 100%;
         height: 100%;
@@ -190,10 +190,11 @@
             width: 100%;
 
             .publication__container {
-                height: 100%;
+                max-height: 1000px;
                 width: 100%;
                 opacity: 1;
                 border-bottom: 1px solid black;
+                transition: max-height 0.5s ease, opacity 0.5s ease;
             }
 
             .publication__text {
@@ -205,7 +206,7 @@
 
     .itemWrapper {
         width: 100%;
-        height: 100%;
+        height: auto;
         flex-direction: column;
     }
 
@@ -266,11 +267,14 @@
     }
 
     .publication__container {
-        height: 0;
+        max-height: 0;
+        overflow: hidden;
+        width: 100%;
         border-top: unset;
-        border-bottom: unset;
         border-bottom: unset;
         border-right: unset;
         margin-left: unset;
+        opacity: 0;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
     }
 }

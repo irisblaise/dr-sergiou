@@ -10,7 +10,7 @@
         block-size: calc(100% - 80px);
     }
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 980px) {
         block-size: 100%;
     }
 
@@ -49,7 +49,7 @@
         }
     }
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 980px) {
         overflow: unset;
 
         .grid:first-child {
@@ -80,7 +80,7 @@
         }
     }
 
-    @media all and (max-width: 480px) {
+    @media all and (max-width: 980px) {
         overflow: unset;
         flex-direction: column;
 
