@@ -1,6 +1,8 @@
+@import '../../assets/styles/global.scss';
+
 .footer-distributed {
-    background-color: rgba(162, 189, 191, 0.51);
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    background-color: $color-footer-bg;
+    box-shadow: 0 1px 1px 0 $color-footer-shadow;
     box-sizing: border-box;
     width: 100%;
     text-align: left;
@@ -8,7 +10,7 @@
 }
 
 .footer-distributed .footer-left p {
-    color: #8f9296;
+    color: $color-footer-link;
     font-size: 14px;
     margin: 0;
 }
@@ -24,7 +26,7 @@
 .footer-distributed p.footer-links {
     font-size: 18px;
     font-weight: bold;
-    color: #ffffff;
+    color: $color-footer-link-hover;
     margin: 0 0 10px;
     padding: 0;
     transition: ease 0.25s;
@@ -61,10 +63,10 @@
     display: inline-block;
     width: 35px;
     height: 35px;
-    background-color: #33383b;
+    background-color: $color-footer-right-bg;
     border-radius: 2px;
     font-size: 20px;
-    color: #ffffff;
+    color: $color-footer-right;
     text-align: center;
     line-height: 35px;
     margin-left: 3px;

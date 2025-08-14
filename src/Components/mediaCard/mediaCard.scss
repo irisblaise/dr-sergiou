@@ -1,7 +1,4 @@
-// Color Variables
-$indigo: #5c6bc0;
-$blue: #29b6f6;
-$black: #717171;
+@import '../../assets/styles/global.scss';
 
 .card__image {
     -webkit-border-radius: 3px;
@@ -57,8 +54,8 @@ $black: #717171;
 .card__overlay--indigo {
     background-image: linear-gradient(
         to bottom,
-        rgba($indigo, 0.1),
-        rgb(192 116 116)
+        rgba($color-indigo, 0.1),
+        $color-media-card-overlay
     );
     z-index: 2;
 }
@@ -66,8 +63,8 @@ $black: #717171;
 .card__overlay--blue {
     background-image: linear-gradient(
         to bottom,
-        rgba($blue, 0.1),
-        rgba($blue, 0.8)
+        rgba($color-blue, 0.1),
+        $color-media-card-overlay-blue
     );
     z-index: 2;
 }
@@ -87,7 +84,7 @@ $black: #717171;
     }
 
     li {
-        color: #f8f8f8;
+        color: $color-offwhite;
         display: inline;
         list-style-type: none;
         margin-bottom: 0;
@@ -101,7 +98,7 @@ $black: #717171;
             content: '\25cf';
             font-style: normal;
             position: relative;
-            color: rgba(white, 0.88);
+            color: $color-media-card-list-dot;
             right: -0.6em;
         }
     }

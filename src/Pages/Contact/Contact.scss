@@ -1,13 +1,15 @@
+@import '../../assets/styles/global.scss';
+
 .contact {
     display: flex;
     height: 100vh;
     align-items: center;
     justify-content: center;
-    background-color: #d7cec5;
+    background-color: $color-beige;
 
     a {
         text-decoration: underline;
-        text-decoration-color: #f8e9e6;
+        text-decoration-color: $color-peach;
     }
 
         @media all and (max-width: 980px) {

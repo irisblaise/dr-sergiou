@@ -1,5 +1,7 @@
+@import '../../assets/styles/global.scss';
+
 .panel.projects {
-    background: #f8e9e6;
+    background: $color-peach;
 
     .project-wrapper {
         width: 80%;
@@ -53,11 +55,11 @@
 .spacer {
     width: 100%;
     height: 100vh;
-    background: #ddd;
+    background: $color-offwhite;
 }
 
 .gallery h1 {
-    color: #c07474;
+    color: $color-dark-peach;
     font-size: clamp(2em, 4vw, 6em);
 }
 
@@ -113,7 +115,7 @@
 .link {
     border-radius: 50px;
     padding: 10px 20px;
-    border: 3px solid #c07474;
+    border: 3px solid $color-dark-peach;
     background: transparent;
     width: fit-content;
     display: flex;
@@ -128,7 +130,7 @@
     border-radius: 6px;
     position: relative;
     overflow: hidden;
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 3px $color-footer-shadow;
 }
 
 .desktopPhoto {

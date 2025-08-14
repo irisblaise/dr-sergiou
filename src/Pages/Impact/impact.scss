@@ -1,3 +1,5 @@
+@import '../../assets/styles/global.scss';
+
 .panel {
     position: sticky;
     inset: 0 0 auto;
@@ -6,7 +8,7 @@
     place-items: center;
 
     &.media {
-        background: #f8e9e6;
+        background: $color-peach;
         block-size: calc(100% - 80px);
     }
 
@@ -24,7 +26,7 @@
 }
 
 .media-list-container {
-    background: #777;
+    background: $color-dark-grey-bg;
 }
 
 .grid-title {

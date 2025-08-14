@@ -1,9 +1,11 @@
+@import '../../assets/styles/global.scss';
+
 .home {
     overflow-x: hidden;
 }
 .stage {
     position: relative;
-    background: white;
+    background: $color-white;
     visibility: hidden;
 }
 
@@ -15,7 +17,7 @@
 .intro {
     position: relative;
     padding: 0 5vw;
-    background: rgb(162 189 191 / 51%);
+    background: $color-footer-bg;
     overflow: hidden;
 }
 
@@ -139,58 +141,58 @@
 }
 
 .col__content--1 {
-    background: #d8c0c0;
+    background: $color-light-brown;
 
     @media all and (max-width: 768px) {
-        background: rgba(#d8c0c0, 0.9);
+        background: rgba($color-light-brown, 0.9);
     }
 }
 
 .col__content--2 {
-    background: #cdd5e0;
+    background: $color-light-blue;
 
     @media all and (max-width: 768px) {
-        background: rgba(#cdd5e0, 0.9);
+        background: rgba($color-light-blue, 0.9);
     }
 }
 
 .col__content--3 {
-    background: #f3d3b0;
+    background: $color-light-orange;
 
     @media all and (max-width: 768px) {
-        background: rgba(#f3d3b0, 0.9);
+        background: rgba($color-light-orange, 0.9);
     }
 }
 
 .col__content--4 {
-    background: #f8e9e6;
+    background: $color-peach;
 
     @media all and (max-width: 768px) {
-        background: rgba(#f8e9e6, 0.9);
+        background: rgba($color-peach, 0.9);
     }
 }
 
 .col__content--5 {
-    background: #d1e2ec;
+    background: $color-pale-blue;
 
     @media all and (max-width: 768px) {
-        background: rgba(#d1e2ec, 0.9);
+        background: rgba($color-pale-blue, 0.9);
     }
 }
 
 .col__content--6 {
-    background: #d7cec5;
+    background: $color-beige;
 
     @media all and (max-width: 768px) {
-        background: rgba(#d7cec5, 0.9);
+        background: rgba($color-beige, 0.9);
     }
 }
 
 .col__content--7 {
-    background: #c5d7c9;
+    background: $color-light-green;
 
     @media all and (max-width: 768px) {
-        background: rgba(#c5d7c9, 0.9);
+        background: rgba($color-light-green, 0.9);
     }
 }
 
@@ -314,43 +316,43 @@
 
 .slide--0 {
     .slide__scroll-line {
-        background: #c0d7d8;
+        background: $color-grey-blue;
     }
 }
 
 .slide--1 {
     .slide__scroll-line {
-        background: #d8c0c0;
+        background: $color-light-brown;
     }
 }
 
 .slide--2 {
     .slide__scroll-line {
-        background: #cdd5e0;
+        background: $color-light-blue;
     }
 }
 
 .slide--3 {
     .slide__scroll-line {
-        background: #f3d3b0;
+        background: $color-light-orange;
     }
 }
 
 .slide--4 {
     .slide__scroll-line {
-        background: #f8e9e6;
+        background: $color-peach;
     }
 }
 
 .slide--5 {
     .slide__scroll-line {
-        background: #d1e2ec;
+        background: $color-pale-blue;
     }
 }
 
 .slide--6 {
     .slide__scroll-line {
-        background: #d7cec5;
+        background: $color-beige;
     }
 }
 
@@ -383,13 +385,6 @@
     justify-content: center;
     flex-direction: column;
     background: #cecece;
-}
-
-.footer__link {
-    font-size: 5vw;
-    color: var(--dark);
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
 }
 
 .footer__link-top {

@@ -1,3 +1,5 @@
+@import '../../assets/styles/global.scss';
+
 .panel.brainwave-boulevard {
     background: #e0dcdc;
 
@@ -38,27 +40,27 @@
         padding: 20px;
 
         &:first-child {
-            background: #c5d7c9;
+            background: $color-light-green;
         }
 
         &:nth-child(2) {
-            background: #cdd5e0;
+            background: $color-light-blue;
         }
 
         &:nth-child(3) {
-            background: #f8e9e6;
+            background: $color-peach;
         }
 
         &:nth-child(4) {
-            background: #f3d3b0;
+            background: $color-light-orange;
         }
 
         &:nth-child(5) {
-            background: #d8c0c0;
+            background: $color-light-brown;
         }
 
         &:nth-child(6) {
-            background: #d7cec5;
+            background: $color-beige;
         }
     }
 

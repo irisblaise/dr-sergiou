@@ -1,3 +1,5 @@
+@import '../../assets/styles/global.scss';
+
 .butt {
     width: 100px;
     height: 40px;
@@ -6,12 +8,12 @@
 .item {
     width: 100%;
     height: calc(100vh - 80px);
-    border-top: 0.5px solid #e1c4be;
+    border-top: 0.5px solid $color-light-yellow;
 
     &.active {
         .titleWrapper {
             border-right: none;
-            background-color: #e1c4be;
+            background-color: $color-light-yellow;
             opacity: 0.9;
         }
         .publication__container {
@@ -45,16 +47,16 @@
     justify-content: start;
     width: auto;
     height: auto;
-    border-left: 0.5px solid #f8f8f8;
-    border-right: 0.5px solid #f8f8f8;
+    border-left: 0.5px solid $color-offwhite;
+    border-right: 0.5px solid $color-offwhite;
     cursor: pointer;
     gap: 5px;
     padding: 10px;
     transition: all 0.3s ease;
-    background-color: #f8e9e6;
+    background-color: $color-peach;
 
     &:hover {
-        background: #e1c4be;
+        background: $color-light-yellow;
         opacity: 0.9;
         box-shadow: -2px 20px 20px rgba(0, 0, 0, 0.4);
         transform: scale(1.03, 1.01);
@@ -114,7 +116,7 @@
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.5s ease;
-    border-top: 4px solid #e1c4be;
+    border-top: 4px solid $color-light-yellow;
     border-bottom: 4px solid #e1c4be;
     background-color: #f8f8f8;
     pointer-events: none;
@@ -173,7 +175,7 @@
 }
 
 .readMe {
-    background: #e1c4be;
+    background: $color-light-yellow;
     padding: 5px;
     font-weight: 600;
     pointer-events: visible;
