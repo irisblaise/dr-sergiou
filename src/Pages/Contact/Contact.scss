@@ -1,8 +1,14 @@
 @import '../../assets/styles/global.scss';
 
+
 .contact {
+ height: 100%;
+}
+
+.contact-container {
     display: flex;
     height: 100vh;
+    margin-top: 30px;
     align-items: center;
     justify-content: center;
     background-color: $color-beige;
@@ -12,7 +18,7 @@
         text-decoration-color: $color-peach;
     }
 
-        @media all and (max-width: 980px) {
+    @media all and (max-width: 980px) {
         flex-direction: column;
         gap: 15px;
     }
@@ -29,13 +35,12 @@
     text-align: center;
 }
 
-
 .carmen {
     height: 100vh;
     display: block;
 
     @media all and (max-width: 980px) {
-        height: 40%;
+        height: 30vh;
     }
 }
 
@@ -44,6 +49,10 @@
     align-items: center;
     justify-content: space-between;
     width: 30%;
+
+    @media screen and (max-width: 980px) {
+        width: 80%;  
+    }
 
     .details {
         width: 100%;
@@ -81,7 +90,7 @@ $social-button-colors: (
 );
 
 .forNeurotech {
-    width: 150px;
+    width: 170px;
     height: auto;
 }
 

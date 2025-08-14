@@ -9,10 +9,12 @@ import Impact from '../Pages/Impact/impact'
 import Footer from '../Components/Footer/footer'
 import BrainwaveBoulevard from '../Pages/BrainwaveBoulevard/BrainwaveBoulevard'
 import Projects2 from '../Pages/Projects/Projects2'
+import ScrollToTop from '../Components/ScrollToTop'
 
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <Navbar />
             <Routes>
                 <Route>

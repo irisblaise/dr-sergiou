@@ -26,16 +26,16 @@ import Publication15 from '../../../assets/pdfs/Publication15.pdf'
 import Publication16 from '../../../assets/pdfs/Publication16.pdf'
 import Publication17 from '../../../assets/pdfs/Publication17.pdf'
 
-export const publicationData =  [
+export const publicationData = [
     {
         title: 'Virtual reality: What is it and should criminologists pay attention?',
         triggerTitle: 'Virtual Reality: Implications for Criminology',
         journal: 'Criminologist',
         date: 2025,
-        authors: 'Jean-Louis van Gelder1,2, Esther Mertens1,3, Daniel Nagin1,4, Aniek Siezenga1,2, Dominik Gerstner1,5, Margaret Webb1,6, William McClanahan1,7, Tim Barnum1,8, Shaina Herman1,8, Carmen Sergiou2,3, Lisa Natter1, Yikang Zhang1, Janis Butz1, Sara-Laure Faraji1, Sebastian Kübel1, Clay Driscoll11, J. C. Barnes11, Peter Wozniak1, Wade Jacobsen12',
+        authors:
+            'Jean-Louis van Gelder1,2, Esther Mertens1,3, Daniel Nagin1,4, Aniek Siezenga1,2, Dominik Gerstner1,5, Margaret Webb1,6, William McClanahan1,7, Tim Barnum1,8, Shaina Herman1,8, Carmen Sergiou2,3, Lisa Natter1, Yikang Zhang1, Janis Butz1, Sara-Laure Faraji1, Sebastian Kübel1, Clay Driscoll11, J. C. Barnes11, Peter Wozniak1, Wade Jacobsen12',
         authorship: 'Co-author',
-        pdfTitle:
-            'Publication 18. VR criminoloy ',
+        pdfTitle: 'Publication 18. VR criminoloy ',
         image: Brain2,
         link: 'https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1328839/full',
         pdfLink: Publication17,
@@ -45,8 +45,7 @@ export const publicationData =  [
         triggerTitle: 'Waar letten inbrekers op?',
         journal: 'Tijdschrift voor Criminologie',
         date: 2024,
-        authors:
-            'Sergiou, C. S., Elffers, H., & van Gelder, J. L.',
+        authors: 'Sergiou, C. S., Elffers, H., & van Gelder, J. L.',
         authorship: 'First author',
         pdfTitle:
             'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
@@ -54,13 +53,12 @@ export const publicationData =  [
         link: 'https://www.boomportaal.nl/tijdschrift/TvC/TvC_0165-182X_2024_066_002_003',
         pdfLink: Publication16,
     },
-        {
+    {
         title: 'Neuroprediction of violence and criminal behavior using neuro-imaging data: From innovation to considerations for future directions.',
         triggerTitle: 'Neuroprediction of violence and criminal behavior',
         journal: 'Aggression & Violent Behavior',
         date: 2025,
-        authors:
-            'van Dongen, J. D., Haveman, Y., Sergiou, C. S., & Choy, O.',
+        authors: 'van Dongen, J. D., Haveman, Y., Sergiou, C. S., & Choy, O.',
         authorship: 'Co-author',
         pdfTitle:
             'Neuropsychological assessment of aggressive offenders: a Delphi consensus study',
@@ -241,8 +239,7 @@ export const publicationData =  [
     },
     {
         title: 'Interventions for Improving Affective Abilities in Adolescents: An Integrative Review Across Community and Clinical Samples of Adolescents.',
-        triggerTitle:
-            'Review: Improving Affective Abilities in Adolescents',
+        triggerTitle: 'Review: Improving Affective Abilities in Adolescents',
         journal: 'Adolescent Research Review Clinical Samples of Adolescents',
         date: 2016,
         authors: 'Lui, J., Sergiou, C.S., Barry, C.',

@@ -2,16 +2,15 @@ export const homeData = [
     {
         section: 'Section1',
         Title: 'Hello There,',
-        description:
-            "Follow me into the world of curious neuronerding — through past projects, into current experiments, and toward the next big quests. Hi, I am Dr. Carmen-Silva Sergiou, a Forensic Neuroscientist with a fascination for investigating real-time brain processes with innovative technologies in forensic populations. This website is a glimpse into the life of a true neuro-enthusiast, dedicated to unraveling the underpinnings of the brain and merging it with cutting-edge technology. Currently working as a post-doctoral researcher in the Growing Up Together In Society Consortium (GUTS) at the Amsterdam UMC. The GUTS project is a longitudinal study into the biopsychosocial development of high-risk youth, and how this shapes their behavior over time. In my previous postdoc I used Virtual Reality to step into the world of incarcerated burglars, studying how they make decisions in real time. I love bringing new technology into neuroscience—anything that gets us closer to understanding real behavior as it happens.\n' +
-            'My never ending exploration of the brain is a journey guided by six driving forces:\n' +
-            'No.1. (Forensic) Neuroscience\n' +
-            'No.2. Criminal Decision-making\n' +
-            'No.3. Innovative Technologies\n' +
-            'No.4. The Future of Decentralized Science\n' +
-            'No.5. Psychedelics in Mental Health Care\n' +
-            'No.6. Musical Synergy                                                                                                                                                                                                                                                                                                                                                                                      ' +
-            "Recently, I founded the FORNEUROTECH network with support from the KNAW Early Career Partnership 2025 grant. This initiative brings together neuroscientists and technology experts working in forensic care, with the goal of having a neurobiological basis to guide technology.On this site, you’ll find my projects, publications, and everything that makes me a very excited pup. Go explore! And if you’re as excited about brains and innovation as I am, let’s connect!🧠🚀",
+        description: `Follow me into the world of curious neuronerding — through past projects, into current experiments, and toward the next big quests. Hi, I am Dr. Carmen-Silva Sergiou, a Forensic Neuroscientist with a fascination for investigating real-time brain processes with innovative technologies in forensic populations. This website is a glimpse into the life of a true neuro-enthusiast, dedicated to unraveling the underpinnings of the brain and merging it with cutting-edge technology. Currently working as a post-doctoral researcher in the Growing Up Together In Society Consortium (GUTS) at the Amsterdam UMC. The GUTS project is a longitudinal study into the biopsychosocial development of high-risk youth, and how this shapes their behavior over time. In my previous postdoc I used Virtual Reality to step into the world of incarcerated burglars, studying how they make decisions in real time. I love bringing new technology into neuroscience—anything that gets us closer to understanding real behavior as it happens.
+        My never ending exploration of the brain is a journey guided by six driving forces:
+        No.1. (Forensic) Neuroscience
+        No.2. Criminal Decision-making
+        No.3. Innovative Technologies
+        No.4. The Future of Decentralized Science
+        No.5. Psychedelics in Mental Health Care
+        No.6. Musical Synergy
+        Recently, I founded the FORNEUROTECH network with support from the KNAW Early Career Partnership 2025 grant. This initiative brings together neuroscientists and technology experts working in forensic care, with the goal of having a neurobiological basis to guide technology.On this site, you’ll find my projects, publications, and everything that makes me a very excited pup. Go explore! And if you’re as excited about brains and innovation as I am, let’s connect!🧠🚀`,
     },
     {
         section: 'Section2',

@@ -68,12 +68,15 @@ function Home() {
             })
 
             // Animate the title first
-            tl.from(slide.querySelectorAll('.col__content-title .line__inner'), {
-                y: 200,
-                duration: 1.2, // shorter duration for faster title animation
-                ease: 'power4',
-                stagger: 0.08, // slightly faster stagger
-            })
+            tl.from(
+                slide.querySelectorAll('.col__content-title .line__inner'),
+                {
+                    y: 200,
+                    duration: 1.2, // shorter duration for faster title animation
+                    ease: 'power4',
+                    stagger: 0.08, // slightly faster stagger
+                }
+            )
                 // Animate the content text almost immediately after the title starts
                 .from(
                     slide.querySelectorAll('.col__content-txt'),
@@ -638,39 +641,34 @@ function Home() {
                                 alt="carmen"
                             />
                             <div className="footer__content">
-                                <a
-                                    className="footer__link"
-                                    href="http://www.duda.ie/"
-                                >
-                                    Dr. Carmen-Silva Sergiou
-                                </a>
+                                <h2>Dr. Carmen-Silva Sergiou</h2>
                                 <p>
                                     <a
                                         href="mailto:cs.sergiou@gmail.com"
                                         aria-label="Mail"
                                         target="_blank"
                                         rel="noreferrer"
-                                        >
-                                         cs.sergiou@gmail.com
-                                    </a> 
+                                    >
+                                        cs.sergiou@gmail.com
+                                    </a>
                                     <br></br>
                                     <a
                                         href="mailto:neurosciencenft@gmail.com"
                                         aria-label="Mail"
                                         target="_blank"
                                         rel="noreferrer"
-                                        >
+                                    >
                                         neurosciencenft@gmail.com
-                                    </a> 
+                                    </a>
                                     <br></br>
                                     <a
                                         href="mailto:forneurotech.network@gmail.com"
                                         aria-label="Mail"
                                         target="_blank"
                                         rel="noreferrer"
-                                        >
+                                    >
                                         forneurotech.network@gmail.com
-                                    </a> 
+                                    </a>
                                 </p>
                             </div>
                         </div>

@@ -10,9 +10,8 @@
 @font-face {
     font-family: 'Heebo';
     src:
-            local('Heebo'),
-            url('./fonts/Heebo/static/Heebo-Regular.ttf')
-            format('truetype');
+        local('Heebo'),
+        url('./fonts/Heebo/static/Heebo-Regular.ttf') format('truetype');
     font-weight: bold;
 }
 
@@ -97,5 +96,14 @@ input {
 }
 
 code {
-    font-family: var(--font-code, Heebo, source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace);
+    font-family: var(
+        --font-code,
+        Heebo,
+        source-code-pro,
+        Menlo,
+        Monaco,
+        Consolas,
+        'Courier New',
+        monospace
+    );
 }

@@ -9,7 +9,8 @@ export const awardsData = [
         mediaType: 'Best Paper Award',
         subject: 'Society of Biological Psychiatry: Best-Paper Award',
         peopleInvolved: 'C.S. Sergiou',
-        description: 'Award for the most cited and downloaded paper of BPCNNI, on my paper on using HD-tDCS to reduce aggression in violent offenders.',
+        description:
+            'Award for the most cited and downloaded paper of BPCNNI, on my paper on using HD-tDCS to reduce aggression in violent offenders.',
         date: '12-05-2024',
         image: Award1,
         assets: [
@@ -23,21 +24,19 @@ export const awardsData = [
         subject:
             "Biological Psychiatry: Cognitive Neuroscience and Imaging's Best Cover Award",
         peopleInvolved: 'C.S.Sergiou',
-        description: 'Chosen for the cover of BPCCNI January 2022 issue, where my biophysical modelling of the HD-tDCS at Harvard Medical School is showcased ',
+        description:
+            'Chosen for the cover of BPCCNI January 2022 issue, where my biophysical modelling of the HD-tDCS at Harvard Medical School is showcased ',
         date: '01-01-2022',
-        assets: [
-            { type: 'image', src: Award4 },
-        ],
+        assets: [{ type: 'image', src: Award4 }],
     },
-        {
+    {
         mediaType: 'KNAW Early Career Partnership 2025',
         subject:
-            "KNAW grant to organise my own network & symposium on FORNEUROTECH.",
+            'KNAW grant to organise my own network & symposium on FORNEUROTECH.',
         peopleInvolved: 'C.S.Sergiou',
-        description: 'Awarded the KNAW grant to organise a two-day symposium with experts on the integration of Neurobiological knowledge and Technology in Forensic Care. ',
+        description:
+            'Awarded the KNAW grant to organise a two-day symposium with experts on the integration of Neurobiological knowledge and Technology in Forensic Care. ',
         date: '01-04-2025',
-         assets: [
-            { type: 'image', src: Award5 },
-        ],
+        assets: [{ type: 'image', src: Award5 }],
     },
 ]

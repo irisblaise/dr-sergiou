@@ -21,6 +21,10 @@
     align-items: center;
     justify-content: start;
     gap: 10px;
+
+    a {
+        color: $color-footer-link;
+    }
 }
 
 .footer-distributed p.footer-links {

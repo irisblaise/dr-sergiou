@@ -4,18 +4,12 @@ import psycopath from '../../assets/images/Projects2/psycopath.png'
 import Virtual_Burglary from '../../assets/images/Projects2/Virtual_Burglary.avif'
 import Neuromodulation from '../../assets/images/Projects2/brainneuromodilation.png'
 import KetamineDepression from '../../assets/images/Projects2/ketamineDepression.webp'
-import Brain7 from '../../assets/images/brains/Brain7.webp'
-import Brain2 from '../../assets/images/brains/Brain2.webp'
-import Brain9 from '../../assets/images/brains/Brain9.webp'
-import Brain4 from '../../assets/images/brains/Brain4.webp'
-import Brain8 from '../../assets/images/brains/Brain8.webp'
 import Award3 from '../../assets/images/awards/Award_3.jpeg'
 
 export const projectDataPresent = [
-        {
+    {
         title: 'FORNEUROTECH Symposium',
-        description:
-            'A symposium on the future of neurotechnology',
+        description: 'A symposium on the future of neurotechnology',
         link: '',
         date: '2025 - Current',
         image: Award3,

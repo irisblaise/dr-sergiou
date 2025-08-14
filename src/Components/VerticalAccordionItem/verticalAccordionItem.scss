@@ -196,7 +196,9 @@
                 width: 100%;
                 opacity: 1;
                 border-bottom: 1px solid black;
-                transition: max-height 0.5s ease, opacity 0.5s ease;
+                transition:
+                    max-height 0.5s ease,
+                    opacity 0.5s ease;
             }
 
             .publication__text {
@@ -277,6 +279,8 @@
         border-right: unset;
         margin-left: unset;
         opacity: 0;
-        transition: max-height 0.5s ease, opacity 0.5s ease;
+        transition:
+            max-height 0.5s ease,
+            opacity 0.5s ease;
     }
 }

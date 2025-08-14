@@ -13,21 +13,21 @@ function Impact() {
         ...item,
         key: idx,
         group: 'Media',
-        assets: item.assets?.map(asset => ({
+        assets: item.assets?.map((asset) => ({
             type: asset.type === 'video' ? 'video' : 'image',
-            src: asset.src as string
-        })) as { type: 'image' | 'video'; src: string }[]
-    }));
+            src: asset.src as string,
+        })) as { type: 'image' | 'video'; src: string }[],
+    }))
     const awardsItems = awardsData.map((item, idx) => ({
         ...item,
         key: mediaItems.length + idx,
         group: 'Awards',
-        assets: item.assets?.map(asset => ({
+        assets: item.assets?.map((asset) => ({
             type: asset.type === 'video' ? 'video' : 'image',
-            src: asset.src as string
-        })) as { type: 'image' | 'video'; src: string }[]
-    }));
-    const allItems = [...mediaItems, ...awardsItems];
+            src: asset.src as string,
+        })) as { type: 'image' | 'video'; src: string }[],
+    }))
+    const allItems = [...mediaItems, ...awardsItems]
     return (
         <div className="media panel-wrapper">
             <div className="panel media-header">
