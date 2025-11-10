@@ -1,6 +1,6 @@
 import React from 'react'
 import './Contact.scss'
-import carmen from '../../assets/images/carmen6.png'
+import carmen from '../../assets/images/Carmen7.png'
 import { FaOrcid, FaTwitter } from 'react-icons/fa'
 import { FaLinkedinIn } from 'react-icons/fa'
 import { IoMail } from 'react-icons/io5'

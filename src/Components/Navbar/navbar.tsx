@@ -80,6 +80,16 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
+                            <a
+                                href="https://www.forneurotech.com"
+                                className="nav-links"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <h3>Forneurotech</h3>
+                            </a>
+                        </li>
+                        <li className="nav-item">
                             <NavLink
                                 to="/contact"
                                 className="nav-links"

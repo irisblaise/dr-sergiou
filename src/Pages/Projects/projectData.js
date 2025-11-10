@@ -10,7 +10,7 @@ export const projectDataPresent = [
     {
         title: 'FORNEUROTECH Symposium',
         description: 'A symposium on the future of neurotechnology',
-        link: '',
+        link: 'https://www.forneurotech.com',
         date: '2025 - Current',
         image: Award3,
         color: '#935b5b',
