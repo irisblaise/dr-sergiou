@@ -490,12 +490,12 @@
         margin-left: 8px;
 
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         height: 93vh;
     }
 
     .footer {
-        justify-content: start;
+        justify-content: flex-start;
     }
 
     .footer__content {
