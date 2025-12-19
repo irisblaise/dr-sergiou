@@ -25,8 +25,22 @@ import Publication14 from '../../../assets/pdfs/Publication14.pdf'
 import Publication15 from '../../../assets/pdfs/Publication15.pdf'
 import Publication16 from '../../../assets/pdfs/Publication16.pdf'
 import Publication17 from '../../../assets/pdfs/Publication17.pdf'
+import Publication18 from '../../../assets/pdfs/Publication18.pdf'
 
 export const publicationData = [
+    {
+        title: 'On the possibility to modulate psychopathic traits via non-invasive brainstimulation: A systematic review and meta-analysis',
+        triggerTitle: 'Modulating Psychopathic Traits Neuromodulation Review',
+        journal: 'Progress in Neuropsychopharmacology & Biological Psychiatry',
+        date: 2025,
+        authors: 'Camara, C.F., Sergiou, C.S., Molero Chamizo, A., Sel, A., Rivera Urbina, N.G.,Nitsche, M.A. & Hanel, P.H.P.',
+        authorship: 'Co-author',
+        pdfTitle:
+            'Publication 18. Neuromodulation Psychopathy Review ',
+        image: Brain10,
+        link: 'https://www.sciencedirect.com/science/article/pii/S0278584625003367?via%3Dihub',
+        pdfLink: Publication18,
+    },
     {
         title: 'Virtual reality: What is it and should criminologists pay attention?',
         triggerTitle: 'Virtual Reality: Implications for Criminology',

@@ -8,11 +8,23 @@ import Talkshow4 from '../../assets/images/media/Talkshow4.jpeg'
 import Talkshow5 from '../../assets/images/media/Talkshow5.jpeg'
 import Talkshow6 from '../../assets/images/media/Talkshow6.jpeg'
 import Talkshow7 from '../../assets/images/media/Talkshow7.jpeg'
+import PD1 from '../../assets/images/media/PD1.jpeg'
 import VBP1 from '../../assets/images/media/VBP1.png'
 import DrKelderEnCo from '../../assets/images/media/DrKelderEnCo.webp'
 import MaxPlanckInstitute from '../../assets/images/media/MaxPlanckInstitute.svg'
 
 export const mediaData = [
+    {
+        mediaType: 'Interview: Postdoc Appreciation Week',
+        subject: 'Interview about my carreer and postdoc position',
+        peopleInvolved: 'C.S. Sergiou',
+        description: 'Interview for Postdoc Appreciation week about my forensic neuroscience carreer,how I combine forensic, neuro and technology, and shape my rol as supervisor and network builder',
+        link: 'https://www.amsterdamumc.org/en/research/news/spotlight-on-aph-postdocs-carmen-silva-sergious-story.htm',
+        date: '18-09-2025',
+        image: PD1,
+        assets: [
+            { type: 'image', src: PD1 },
+        ],},
     {
         mediaType: 'Symposium and Network',
         subject:
