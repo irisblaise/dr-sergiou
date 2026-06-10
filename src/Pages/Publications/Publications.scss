@@ -1,6 +1,12 @@
 @import '../../assets/styles/global.scss';
 
 .publications {
+    // Guard against any stray native horizontal scrollbar — the only
+    // horizontal motion should come from the GSAP scrub, not the page itself.
+    // `clip` (not `hidden`) avoids creating a scroll container that would
+    // interfere with the sticky panels / ScrollTrigger pin.
+    overflow-x: clip;
+
     .panel {
         position: sticky;
         inset: 0 0 auto;

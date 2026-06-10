@@ -25,7 +25,12 @@ const VerticalAccordionItemTwo = () => {
                 ease: 'none',
                 scrollTrigger: {
                     trigger: component.current,
-                    start: '-80px',
+                    // Pin (and only then start the horizontal scrub) once the
+                    // accordion reaches the top of the viewport, just below the
+                    // 80px fixed navbar. Using a bare '-80px' offset made the
+                    // scrub start as soon as the container entered the viewport
+                    // bottom — i.e. while the video overlay was still on screen.
+                    start: 'top 80px',
                     pin: true,
                     scrub: 0.6,
                     markers: false,

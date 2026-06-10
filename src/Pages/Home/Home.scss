@@ -363,8 +363,11 @@
 .col__image-wrap {
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    // Centre the 160vh image inside the 100vh slide window using positioning
+    // only — (100vh - 160vh) / 2 = -30vh. The `transform` is left entirely to
+    // GSAP's parallax (which animates `y`); mixing CSS `translateY(-50%)` with
+    // a GSAP-animated transform broke after the gsap 3.11 -> 3.13 upgrade.
+    top: -30vh;
     width: 100%;
     height: 160vh;
 }
@@ -466,6 +469,7 @@
         height: 100%;
         position: relative;
         transform: unset;
+        top: unset;
     }
 
     .img {

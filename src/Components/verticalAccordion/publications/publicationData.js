@@ -8,6 +8,7 @@ import Brain7 from '../../../assets/images/brains/Brain7.webp'
 import Brain8 from '../../../assets/images/brains/Brain8.webp'
 import Brain9 from '../../../assets/images/brains/Brain9.webp'
 import Brain10 from '../../../assets/images/brains/Brain10.webp'
+import Publication19Image from '../../../assets/images/publications/Publication19.png'
 import Publication1 from '../../../assets/pdfs/Publication 1. Psychopathy as a predisposition to lie hedonistically.pdf'
 import Publication2 from '../../../assets/pdfs/Publication 2. Sergiou et al. (2023).The effect of HD-tDCS on brain oscillations and frontal synchronicity during resting-state EEG in violent offenders with a substance dependence.pdf'
 import Publication3 from '../../../assets/pdfs/Publication 3.Sergiou et al. (2021)tDCS reducing aggression. Screenshot website.PNG'
@@ -26,8 +27,50 @@ import Publication15 from '../../../assets/pdfs/Publication15.pdf'
 import Publication16 from '../../../assets/pdfs/Publication16.pdf'
 import Publication17 from '../../../assets/pdfs/Publication17.pdf'
 import Publication18 from '../../../assets/pdfs/Publication18.pdf'
+import Publication19 from '../../../assets/pdfs/Publication 19. Neuromodulation Psychopathy Review.pdf'
+import Publication20 from '../../../assets/pdfs/Publication 20. Bringing Technology to Justice-Involved Youth.pdf'
+import Publication21 from '../../../assets/pdfs/Publication 21. Bookchapter.pdf'
 
 export const publicationData = [
+       {
+        title: 'On the possibility to modulate psychopathic traits via non-invasive brainstimulation: A systematic review and meta-analysis',
+        triggerTitle: 'Modulating Psychopathic Traits Neuromodulation Review',
+        journal: 'Progress in Neuropsychopharmacology & Biological Psychiatry',
+        date: 2025,
+        authors: 'Camara, C.F., Sergiou, C.S., Molero Chamizo, A., Sel, A., Rivera Urbina, N.G.,Nitsche, M.A. & Hanel, P.H.P.',
+        authorship: 'Co-author',
+        pdfTitle:
+            'Publication 18. Neuromodulation Psychopathy Review ',
+        image: Brain5,
+        link: 'https://www.sciencedirect.com/science/article/pii/S0278584625003367?via%3Dihub',
+        pdfLink: Publication21,
+    },
+    {
+        title: 'Bringing Technology to Justice-Involved Youth',
+        triggerTitle: 'Bringing Technology to Justice-Involved Youth',
+        journal: 'Research on Child and Adolescent Psychopathology',
+        date: 2026,
+        authors: 'Mertens, E.C.A., Asscher, J.J., Sergiou, C.S., van Gelder, J.L.',
+        authorship: 'Co-author',
+        pdfTitle:
+            'Publication 19. Bringing Technology to Justice-Involved Youth ',
+        image: Brain1,
+        link: 'https://doi.org/10.1007/s10802-026-01428-z',
+        pdfLink: Publication20,
+    },
+    {
+        title: 'Resting-State fMRI Networks in High-Risk Youth with Antisocial Traits: Exploring Neuroconnectivity and Implications for Understanding Disruptive Behavior',
+        triggerTitle: 'Resting-State fMRI Networks in High-Risk Youth with Antisocial Traits',
+        journal: 'Wiley handbook "Youth Deviance, Crime, and Justice: The Neuro-Psycho-Criminological Perspective"',
+        date: 2026,
+        authors: 'Sergiou, C.S.',
+        authorship: 'First Author',
+        pdfTitle:
+            'Publication 20. Bookchapter',
+        image: Brain2,
+        link: 'https://doi.org/10.1002/9781394251520.ch7',
+        pdfLink: Publication19,
+    },
     {
         title: 'On the possibility to modulate psychopathic traits via non-invasive brainstimulation: A systematic review and meta-analysis',
         triggerTitle: 'Modulating Psychopathic Traits Neuromodulation Review',

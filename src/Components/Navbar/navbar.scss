@@ -45,6 +45,14 @@ $color-white: #fff;
     right: 0;
 }
 
+.external-link {
+    svg {
+        font-size: 0.7em;
+        vertical-align: middle;
+        margin-left: 0.3em;
+    }
+}
+
 .nav-logo {
     color: $color-yellow;
     align-items: center;

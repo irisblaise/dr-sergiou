@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import './navbar.scss'
 import { isMobile } from 'react-device-detect'
+import { RiExternalLinkFill } from "react-icons/ri";
 
 const Navbar = () => {
     const [click, setClick] = React.useState(false)
@@ -86,7 +87,10 @@ const Navbar = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <h3>Forneurotech</h3>
+                                <h3 className="external-link">
+                                    Forneurotech
+                                    <RiExternalLinkFill aria-hidden="true" />
+                                </h3>
                             </a>
                         </li>
                         <li className="nav-item">
