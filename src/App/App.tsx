@@ -1,34 +1,32 @@
-import React from 'react'
-import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from '../Components/Navbar/navbar'
-import Publications from '../Pages/Publications/Publications'
-import Contact from '../Pages/Contact/Contact'
-import Home from '../Pages/Home/Home'
-import Impact from '../Pages/Impact/impact'
-import Footer from '../Components/Footer/footer'
-import BrainwaveBoulevard from '../Pages/BrainwaveBoulevard/BrainwaveBoulevard'
-import Projects2 from '../Pages/Projects/Projects2'
-import ScrollToTop from '../Components/ScrollToTop'
+import Navbar from '../components/Navbar/Navbar'
+import Footer from '../components/Footer/Footer'
+import ScrollToTop from '../components/ScrollToTop'
+import Home from '../pages/Home/Home'
+import Projects from '../pages/Projects/Projects'
+import Impact from '../pages/Impact/Impact'
+import Skills from '../pages/Skills/Skills'
+import Publications from '../pages/Publications/Publications'
+import Contact from '../pages/Contact/Contact'
+import styles from './App.module.scss'
 
-function App() {
+export default function App() {
     return (
         <Router>
             <ScrollToTop />
+            <div className={styles.bgGlow} aria-hidden />
             <Navbar />
-            <Routes>
-                <Route>
+            <main className={styles.main}>
+                <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<Projects2 />} />
+                    <Route path="/projects" element={<Projects />} />
                     <Route path="/impact" element={<Impact />} />
+                    <Route path="/skills" element={<Skills />} />
                     <Route path="/publications" element={<Publications />} />
-                    <Route path="/skills" element={<BrainwaveBoulevard />} />
                     <Route path="/contact" element={<Contact />} />
-                </Route>
-            </Routes>
+                </Routes>
+            </main>
             <Footer />
         </Router>
     )
 }
-
-export default App

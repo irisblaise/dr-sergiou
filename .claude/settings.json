@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mobshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/impact-mobile.png\")",
+      "Bash(sed -e 's#http://localhost:5050/#http://localhost:5050/impact#' -e 's/9343/9362/' /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mobshot.mjs)",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mi.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/impact-mobile.png\")",
+      "Bash(pkill -f \"remote-debugging-port\")",
+      "Bash(sed -e 's#http://localhost:5050/#http://localhost:5050/impact#' -e s/9343/9371/ -e 's/setDeviceMetricsOverride.,{width:390,height:1850,deviceScaleFactor:1,mobile:true}\\)/setDeviceMetricsOverride\\\\x27,{width:390,height:2200,deviceScaleFactor:1,mobile:true,screenWidth:390,screenHeight:844}\\)/' /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mobshot.mjs)",
+      "Bash(sed -i '' 's/width:390,height:1850,scale:1/width:390,height:2200,scale:1/' /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mi2.mjs)",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/mi2.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/impact-mobile.png\")",
+      "Bash(awk '{print $2, $11, $12, $13}')",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/measure412.mjs)",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/navshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/nav-open2.png\")",
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/navshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/nav-open3.png\")"
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+/* Outer wrapper centres the card vertically over the shelf; `left` set by JS,
+   anchored under the selected spine and clamped to the viewport. */
+.anchor {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 332px;
+    z-index: 8;
+}
+
+.card {
+    position: relative;
+    background: linear-gradient(180deg, #fdf6ef, #f7ece1);
+    border: 1px solid var(--accent-mid);
+    border-radius: 5px;
+    box-shadow: 0 26px 50px -20px rgba(60, 30, 40, 0.4);
+    padding: 30px 30px 28px;
+    text-align: center;
+    animation: cardIn 0.42s cubic-bezier(0.2, 0.85, 0.25, 1);
+
+    /* inner hairline frame */
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 6px;
+        border: 1px solid rgba(var(--accent-glow), 0.3);
+        border-radius: 3px;
+        pointer-events: none;
+    }
+}
+
+.close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--accent-glow), 0.4);
+    background: transparent;
+    color: var(--accent-mid);
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+    &:hover {
+        background: var(--accent-mid);
+        color: #fff;
+    }
+}
+
+.year {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    color: var(--ink);
+    line-height: 1;
+}
+
+.kind {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    color: var(--accent-mid);
+}
+
+.badgeRow {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 12px;
+    border: 1px solid rgba(var(--accent-glow), 0.4);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+}
+
+.diamond {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 14px 0;
+    color: var(--accent-mid);
+    font-size: 8px;
+
+    span {
+        height: 1px;
+        width: 40px;
+        background: rgba(var(--accent-glow), 0.4);
+    }
+}
+
+.title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.22;
+    color: var(--ink);
+}
+
+.authors {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.journal {
+    margin-top: 8px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 12.5px;
+    color: var(--body);
+}
+
+.abstract,
+.abstractMuted {
+    margin-top: 16px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--body);
+    max-height: 7.5em;
+    overflow: hidden;
+}
+
+.abstractMuted {
+    color: var(--soft);
+    font-style: italic;
+}
+
+.read {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent-mid);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: var(--accent-deep);
+    }
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './assets/styles/global.scss'
-import './index.css'
+import './fonts/fonts.css'
+import './styles/global.scss'
 import App from './App/App'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)

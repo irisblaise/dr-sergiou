@@ -1,0 +1,190 @@
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: var(--nav-height);
+    padding: 0 var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+    transition:
+        background 0.45s ease,
+        box-shadow 0.45s ease,
+        backdrop-filter 0.45s ease;
+}
+
+.scrolled {
+    background: rgba(239, 234, 224, 0.82);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    box-shadow: 0 1px 0 rgba(60, 54, 40, 0.08);
+}
+
+/* ---------- Logo lockup ---------- */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.glyph {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: 1px solid var(--accent-mid);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-mid);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+}
+
+.lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+}
+
+.role {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.32em;
+    color: var(--accent-mid);
+    margin-top: 4px;
+}
+
+/* ---------- Links ---------- */
+.links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+
+    a {
+        color: var(--nav-ink);
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: var(--accent-mid);
+        }
+    }
+
+    .active {
+        color: var(--accent-mid);
+    }
+}
+
+.external {
+    display: inline-flex;
+    align-items: center;
+}
+
+.arrow {
+    font-size: 0.9em;
+    margin-left: 2px;
+}
+
+/* ---------- Mobile ---------- */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: none;
+    border: none;
+
+    span {
+        display: block;
+        height: 1.6px;
+        width: 22px;
+        background: var(--ink);
+        transition:
+            transform 0.3s ease,
+            opacity 0.3s ease;
+    }
+}
+
+.mobileMenu {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    /* Nav stays fixed (out of flow); height comes from the responsive
+       --nav-height token (60px on mobile). */
+
+    .name {
+        font-size: 15px;
+    }
+    .role {
+        font-size: 8.5px;
+        letter-spacing: 0.28em;
+    }
+
+    .links {
+        display: none;
+    }
+
+    .burger {
+        display: flex;
+    }
+
+    .open {
+        background: rgba(239, 234, 224, 0.95);
+        backdrop-filter: blur(9px);
+    }
+
+    .open .burger span:nth-child(1) {
+        transform: translateY(6.6px) rotate(45deg);
+    }
+    .open .burger span:nth-child(2) {
+        opacity: 0;
+    }
+    .open .burger span:nth-child(3) {
+        transform: translateY(-6.6px) rotate(-45deg);
+    }
+
+    .mobileMenu {
+        position: fixed;
+        inset: var(--nav-height) 0 0;
+        z-index: 49;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 36px var(--gutter);
+        /* fully opaque so the page never shows through (independent of
+           backdrop-filter support) */
+        background: var(--canvas);
+        overflow-y: auto;
+
+        a {
+            font-family: var(--font-mono);
+            font-size: 15px;
+            letter-spacing: 0.18em;
+            color: var(--nav-ink);
+            padding: 14px 0;
+            border-bottom: 1px solid var(--list-rule);
+        }
+
+        .active {
+            color: var(--accent-mid);
+        }
+    }
+}

@@ -1,0 +1,40 @@
+.footer {
+    margin-top: auto;
+    border-top: 1px solid var(--rule-strong);
+    padding: 22px var(--gutter) 30px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    color: var(--soft);
+}
+
+.credit {
+    margin-top: 14px;
+
+    a {
+        font-family: var(--font-mono);
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        color: var(--soft);
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: var(--accent-mid);
+        }
+    }
+}
+
+@media (max-width: 620px) {
+    .row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

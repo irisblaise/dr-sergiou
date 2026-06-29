@@ -1,0 +1,169 @@
+.spine {
+    --ink-on: #5c4f37;
+    position: relative;
+    flex: 0 0 114px;
+    width: 114px;
+    height: 566px;
+    border: none;
+    padding: 22px 10px 18px;
+    border-radius: 5px 5px 2px 2px;
+    background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 4px),
+        var(--cover);
+    box-shadow:
+        inset 1.5px 0 3px rgba(255, 255, 255, 0.14),
+        inset -3px 0 8px rgba(0, 0, 0, 0.26),
+        0 14px 26px -18px rgba(40, 30, 20, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--ink-on);
+    cursor: pointer;
+    transition:
+        transform 0.4s var(--ease),
+        opacity 0.45s var(--ease),
+        width 0.45s var(--ease),
+        margin 0.45s var(--ease),
+        box-shadow 0.4s var(--ease);
+}
+
+.light {
+    --ink-on: #ece3d2;
+}
+.dark {
+    --ink-on: #5c4f37;
+}
+
+.spine:hover {
+    transform: translateY(-9px);
+}
+
+.year {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+}
+
+/* Diamond rule — hairline with a centred diamond */
+.rule {
+    position: relative;
+    width: 22px;
+    height: 6px;
+    margin: 14px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.35;
+    }
+
+    &::after {
+        content: '';
+        position: relative;
+        width: 4.5px;
+        height: 4.5px;
+        background: currentColor;
+        opacity: 0.72;
+        transform: rotate(45deg);
+    }
+}
+
+.title {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 15.5px;
+    line-height: 1.42;
+    letter-spacing: 0.015em;
+    text-align: center;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.journal {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 10px;
+    line-height: 1.3;
+    text-align: center;
+    opacity: 0.72;
+    max-width: 98px;
+    margin-top: 2px;
+}
+
+.accolade {
+    margin-top: 12px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.72;
+}
+
+.index {
+    margin-top: 11px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    opacity: 0.62;
+}
+
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-mid);
+    border-radius: 5px 5px 0 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* ---------- Selected ---------- */
+.selected {
+    transform: translateY(-26px);
+    box-shadow:
+        inset 1.5px 0 3px rgba(255, 255, 255, 0.14),
+        inset -3px 0 8px rgba(0, 0, 0, 0.26),
+        0 0 0 2px rgba(var(--accent-glow), 0.85),
+        0 26px 40px -22px rgba(var(--accent-glow), 0.7);
+}
+
+.selected:hover {
+    transform: translateY(-26px);
+}
+
+.selected .topbar {
+    opacity: 1;
+}
+
+/* ---------- Filtered out ---------- */
+.dimmed {
+    width: 0;
+    flex-basis: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+}
