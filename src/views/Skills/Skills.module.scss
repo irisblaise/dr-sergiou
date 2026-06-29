@@ -1,7 +1,29 @@
 /* ---------- Desktop radial stage ---------- */
-.stageWrap {
+.page {
     position: relative;
-    width: 100%;
+    max-width: var(--content-max);
+    margin: 0 auto;
+    // Same top/side spacing as every other page's intro.
+    padding: calc(var(--nav-height) + 40px) var(--gutter) 0;
+    min-height: calc(100svh - var(--nav-height));
+    display: flex;
+    flex-direction: column;
+}
+
+/* Intro: pinned at the standard page-intro position (top-left, content gutter) —
+   an overlay so the map can still use the full area behind it. Not scaled. */
+.intro {
+    position: absolute;
+    top: calc(var(--nav-height) + 40px);
+    left: var(--gutter);
+    z-index: 6;
+    width: 300px;
+}
+
+/* The map div fills the whole page area (behind the intro) and is scaled by fit(). */
+.stageWrap {
+    position: absolute;
+    inset: 0;
     overflow: hidden;
 }
 
@@ -11,9 +33,12 @@
     left: 0;
 }
 
-.intro {
+/* The radial map (neuron + skill nodes/labels) nudged right of the intro.
+   Lives in stage coordinates, so it scales with the stage transform. */
+.cluster {
     position: absolute;
-    z-index: 6;
+    inset: 0;
+    transform: translateX(110px);
 }
 
 .heading {
@@ -31,6 +56,7 @@
     font-size: 13px;
     letter-spacing: 0.22em;
     color: var(--accent-mid);
+    width: 80%;
 }
 
 .paragraph {
@@ -121,6 +147,12 @@
 @media (max-width: 760px) {
     .page {
        padding: var(--nav-height) 0 80px;
+       display: block;
+       min-height: 0;
+    }
+
+    .intro {
+        display: none; // mobile uses its own .mHeader
     }
 
     .stageWrap {

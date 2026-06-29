@@ -1,8 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { publications, publicationStats } from '../../data/publications'
-import { ALL_TOPICS, type Topic } from '../../data/types'
+import { ALL_TOPICS, type Topic, type Publication } from '../../data/types'
 import BookSpine from '../../components/BookSpine/BookSpine'
 import DetailCard from '../../components/DetailCard/DetailCard'
 import AccoladeIcon from '../../components/AccoladeIcon/AccoladeIcon'
@@ -11,7 +10,18 @@ import styles from './Publications.module.scss'
 const CARD_WIDTH = 332
 const RAIL_DOTS = 16
 
-export default function Publications() {
+export default function Publications({ publications }: { publications: Publication[] }) {
+    // Stats derived from the publications themselves (via each entry's `kind`),
+    // so they stay accurate as items are added/edited in the Studio.
+    const countKind = (k: Publication['kind']) =>
+        publications.filter((p) => p.kind === k).length
+    const stats = [
+        { value: String(publications.length), label: 'PUBLICATIONS' },
+        { value: String(countKind('RESEARCH ARTICLE')), label: 'PEER-REVIEWED ARTICLES' },
+        { value: String(countKind('REVIEW')), label: 'REVIEWS' },
+        { value: String(countKind('BOOK CHAPTER')), label: 'BOOK CHAPTERS' },
+    ]
+
     const [filters, setFilters] = useState<Set<Topic>>(new Set())
     const [selected, setSelected] = useState(-1)
     const [cardLeft, setCardLeft] = useState(0)
@@ -172,7 +182,7 @@ export default function Publications() {
                 </p>
 
                 <div className={styles.stats}>
-                    {publicationStats.map((s) => (
+                    {stats.map((s) => (
                         <div key={s.label} className={styles.stat}>
                             <div className={styles.statValue}>{s.value}</div>
                             <div className={styles.statLabel}>{s.label}</div>

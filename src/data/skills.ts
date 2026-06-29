@@ -1,58 +1,8 @@
-import type { Skill } from './types'
-const skillNeuro = '/assets/handoff/skill-neuro.png'
-const skillCoding = '/assets/handoff/skill-coding.png'
-const skillForensic = '/assets/handoff/skill-forensic.png'
-const skillVr = '/assets/handoff/skill-vr.png'
-const skillBehavior = '/assets/handoff/skill-behavior.png'
-const skillMusic = '/assets/handoff/skill-music.png'
-
-// NEW PAGE — the "six passions" as skill domains. One source of truth drives both
-// the desktop radial neuron map and the mobile timeline.
-// TODO(client): verify the `detail` copy — the prototype text may contain typos /
-// placeholder phrasing (e.g. the MUSIC entries). Treat `detail` as client-owned content.
-export const skills: Skill[] = [
-    {
-        key: 'neuro',
-        label: 'NEURO',
-        image: skillNeuro,
-        detail: 'EEG | fMRI | Networks | Neuromodulation',
-    },
-    {
-        key: 'coding',
-        label: 'CODING',
-        image: skillCoding,
-        detail: 'MatLab | EEGlab | Python (beginner)',
-    },
-    {
-        key: 'forensic',
-        label: 'FORENSIC',
-        image: skillForensic,
-        detail: '11 Prisons | 3 TBS | 5 Addiction Clinics',
-    },
-    {
-        key: 'vr',
-        label: 'VR',
-        image: skillVr,
-        detail: 'Virtual Burglary | VR-RTA',
-    },
-    {
-        key: 'behavior',
-        label: 'BEHAVIOR',
-        image: skillBehavior,
-        detail: 'Antisocial | Aggression | Addiction | Criminal Decision-making | Emotion-Regulation | Empathy | Psychopathy',
-    },
-    {
-        key: 'music',
-        label: 'MUSIC',
-        image: skillMusic,
-        detail: 'VentroMedial | Kraft und Licht – Performance manager Milkshake | Der Hintergarten | Manager Subduction',
-    },
-]
-
-// Section intro copy (shared by both layouts).
+// Section intro copy for the Skills page. The skill entries themselves now live
+// in Sanity (the `skill` document type) and are fetched per-request.
 export const skillsIntro = {
     heading: 'Skills',
-    eyebrow: 'A MAP OF CAPABILITIES',
+    eyebrow: 'CURIOUS BY NATURE, DRIVEN BY UNDERSTANDING',
     paragraph:
         'Combining scientific depth with technical expertise to understand minds, behavior and impact.',
 }

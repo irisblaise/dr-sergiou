@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { projects } from '../../data/projects'
+import type { Project } from '../../data/types'
 import styles from './Projects.module.scss'
 
 const H = 1526 // fixed timeline canvas height (matches the design)
 
-export default function Projects() {
+export default function Projects({ projects }: { projects: Project[] }) {
     const timelineRef = useRef<HTMLDivElement>(null)
     const railRef = useRef<SVGSVGElement>(null)
 

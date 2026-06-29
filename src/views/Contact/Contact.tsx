@@ -9,7 +9,7 @@ const CONTACTS = [
         note: 'Personal & general inquiries',
     },
     {
-        label: 'RESEARCH CONTACT',
+        label: 'FORNEUROTECH CONTACT',
         value: 'forneurotech.network@gmail.com',
         href: 'mailto:forneurotech.network@gmail.com',
         note: 'For research collaborations',
@@ -66,7 +66,7 @@ export default function Contact() {
                     <div className={styles.ctaEyebrow}>STAY&nbsp;CONNECTED</div>
                     <h3 className={styles.ctaTitle}>Interested in forensic neurotechnology?</h3>
                     <p className={styles.ctaBody}>
-                        Join the mailing list to follow the symposium, network and research as the
+                        Have a look at the community website to follow the symposium, network and research as the
                         field evolves.
                     </p>
                     <a
@@ -75,7 +75,7 @@ export default function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        JOIN&nbsp;THE&nbsp;MAILING&nbsp;LIST <span aria-hidden>→</span>
+                        VISIT&nbsp;THE&nbsp;WEBSITE <span aria-hidden>→</span>
                     </a>
                 </div>
 

@@ -5,7 +5,18 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
     gap: clamp(32px, 6vw, 100px);
-    align-items: start;
+    align-items: stretch;
+    // Fill the viewport below the nav so the page reads as one screen and the
+    // bottom-anchored portrait stays in view rather than pushing the page taller.
+    min-height: calc(100svh - var(--nav-height));
+}
+
+/* Left column stretches to the (taller) right column so the portrait can sit
+   pinned to the bottom, shifted toward the centre gutter — matching the design. */
+.left {
+    display: flex;
+    flex-direction: column;
+    position: relative; // containing block for the absolutely-placed portrait
 }
 
 /* ---------- Left ---------- */
@@ -35,8 +46,20 @@
 }
 
 .portrait {
-  margin-top: -63px;
-  width: clamp(220px, 32vw, 410px);
+    // Taken out of flow so resizing never changes the page height. Anchored to
+    // the bottom, beside the intro text.
+    position: absolute;
+    left: 29%;
+    bottom: 0;
+    // Size tracks BOTH viewport height and width: the vw term shrinks the figure
+    // as the window narrows so it never balloons into the contact column.
+    height: min(83vh, 56vw, 730px);
+    width: auto;
+    // Stay inside the left column (left 29% + 70% ≈ column width) so it can't
+    // cover the contact details on smaller screens.
+    max-width: 70%;
+    pointer-events: none;
+    user-select: none;
 }
 
 /* ---------- Right ---------- */
@@ -175,7 +198,13 @@
         grid-template-columns: 1fr;
     }
     .portrait {
+        position: static;
+        height: auto;
+        top: auto;
+        left: auto;
+        max-width: 100%;
         margin-top: -10px;
+        align-self: center;
         width: clamp(200px, 60vw, 300px);
     }
 }

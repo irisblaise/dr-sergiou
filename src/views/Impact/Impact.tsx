@@ -1,8 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { awards, media } from '../../data/impact'
-import type { ImpactAsset } from '../../data/types'
+import type { Award, ImpactAsset, MediaItem } from '../../data/types'
 import styles from './Impact.module.scss'
 
 type Category = 'MEDIA' | 'AWARD'
@@ -40,7 +39,7 @@ const prefersReduced = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-export default function Impact() {
+export default function Impact({ awards, media }: { awards: Award[]; media: MediaItem[] }) {
     const items = useMemo<ImpactItem[]>(() => {
         const mediaItems: ImpactItem[] = media.map((m, i) => ({
             id: `media-${i}`,
@@ -68,7 +67,7 @@ export default function Impact() {
             assets: a.assets,
         }))
         return [...mediaItems, ...awardItems]
-    }, [])
+    }, [awards, media])
 
     const mediaCount = media.length
     const awardCount = awards.length

@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import '../fonts/fonts.css'
 import '../styles/global.scss'
-import styles from './layout.module.scss'
-import Navbar from '../components/Navbar/Navbar'
-import Footer from '../components/Footer/Footer'
 
 export const metadata: Metadata = {
     title: 'Dr. Carmen-Silva Sergiou',
@@ -17,6 +14,9 @@ export const viewport: Viewport = {
     themeColor: '#000000',
 }
 
+// Minimal root layout: only <html>/<body> + global styles. The site chrome
+// (Navbar/Footer/background) lives in the (site) route group so it never wraps
+// the embedded Studio at /studio.
 export default function RootLayout({
     children,
 }: {
@@ -24,12 +24,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body>
-                <div className={styles.bgGlow} aria-hidden />
-                <Navbar />
-                <main className={styles.main}>{children}</main>
-                <Footer />
-            </body>
+            <body>{children}</body>
         </html>
     )
 }

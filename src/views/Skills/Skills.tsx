@@ -1,8 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
-import { skills, skillsIntro } from '../../data/skills'
-import type { SkillKey } from '../../data/types'
+import { skillsIntro } from '../../data/skills'
+import type { Skill, SkillKey } from '../../data/types'
 const neuron = '/assets/handoff/neuron-pink.png'
 import styles from './Skills.module.scss'
 
@@ -29,7 +29,7 @@ const LABELS: Record<SkillKey, { left: number; top: number; width: number; align
     music: { left: 975, top: 648, width: 240, align: 'left' },
 }
 
-export default function Skills() {
+export default function Skills({ skills }: { skills: Skill[] }) {
     const wrapRef = useRef<HTMLDivElement>(null)
     const stageRef = useRef<HTMLDivElement>(null)
 
@@ -37,85 +37,86 @@ export default function Skills() {
         const wrap = wrapRef.current
         const stage = stageRef.current
         if (!wrap || !stage) return
+        // The map div (.stageWrap) is a flex child that fills the space below the
+        // intro; contain the stage within that box (by width OR height) and centre.
         const vw = wrap.clientWidth
-        if (vw < 1) return // hidden (mobile layout active)
-        const s = Math.min(1, (vw - 24) / STAGE_W)
+        const vh = wrap.clientHeight
+        if (vw < 1 || vh < 1) return // hidden (mobile layout active)
+        const s = Math.min(1, (vw - 24) / STAGE_W, (vh - 24) / STAGE_H)
         const tx = Math.max(0, (vw - STAGE_W * s) / 2)
+        const ty = Math.max(0, (vh - STAGE_H * s) / 2)
         stage.style.transformOrigin = 'top left'
-        stage.style.transform = `translateX(${tx}px) scale(${s})`
-        wrap.style.height = `${STAGE_H * s}px`
+        stage.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`
     }, [])
 
     useEffect(() => {
         fit()
-        const wrap = wrapRef.current
-        if (!wrap || typeof ResizeObserver === 'undefined') {
-            window.addEventListener('resize', fit)
-            return () => window.removeEventListener('resize', fit)
-        }
-        // Only react to WIDTH changes (fit() sets the wrapper height, which would
-        // otherwise re-trigger the observer → "ResizeObserver loop" warning).
-        // Defer via rAF to break any synchronous notification loop.
-        let lastWidth = -1
+        // fit() only sets the stage transform (never the wrap size), so observing
+        // the wrap can't loop. Refit on any viewport/layout change.
         let raf = 0
-        const ro = new ResizeObserver((entries) => {
-            const width = Math.round(entries[0].contentRect.width)
-            if (width === lastWidth) return
-            lastWidth = width
+        const onResize = () => {
             cancelAnimationFrame(raf)
             raf = requestAnimationFrame(fit)
-        })
-        ro.observe(wrap)
+        }
+        window.addEventListener('resize', onResize)
+        const ro =
+            typeof ResizeObserver !== 'undefined' ? new ResizeObserver(onResize) : null
+        if (ro && wrapRef.current) ro.observe(wrapRef.current)
         return () => {
-            ro.disconnect()
+            window.removeEventListener('resize', onResize)
+            ro?.disconnect()
             cancelAnimationFrame(raf)
         }
     }, [fit])
 
     return (
         <div className={styles.page}>
+            {/* Intro — normal element at the standard page-intro position (not
+                scaled with the map), matching the other pages. */}
+            <div className={styles.intro}>
+                <h1 className={styles.heading}>{skillsIntro.heading}</h1>
+                <div className={styles.eyebrow}>{skillsIntro.eyebrow}</div>
+                <p className={styles.paragraph}>{skillsIntro.paragraph}</p>
+            </div>
+
             {/* ---------- Desktop: radial neuron map ---------- */}
             <div className={styles.stageWrap} ref={wrapRef}>
                 <div className={styles.stage} ref={stageRef} style={{ width: STAGE_W, height: STAGE_H }}>
-                    {/* Intro */}
-                    <div className={styles.intro} style={{ left: 60, top: 150, width: 300 }}>
-                        <h1 className={styles.heading}>{skillsIntro.heading}</h1>
-                        <div className={styles.eyebrow}>{skillsIntro.eyebrow}</div>
-                        <p className={styles.paragraph}>{skillsIntro.paragraph}</p>
+                    {/* Radial cluster — shifted right of the intro via .cluster */}
+                    <div className={styles.cluster}>
+                        {/* Centre piece */}
+                        <div className={styles.aura} />
+                        <img className={styles.neuron} src={neuron} alt="" />
+
+                        {/* Nodes */}
+                        {skills.map((s) => {
+                            const n = NODES[s.key]
+                            return (
+                                <div
+                                    key={`node-${s.key}`}
+                                    className={styles.node}
+                                    style={{ left: n.left, top: n.top }}
+                                >
+                                    <img src={s.image} alt={s.label} />
+                                </div>
+                            )
+                        })}
+
+                        {/* Labels */}
+                        {skills.map((s) => {
+                            const l = LABELS[s.key]
+                            return (
+                                <div
+                                    key={`label-${s.key}`}
+                                    className={styles.label}
+                                    style={{ left: l.left, top: l.top, width: l.width, textAlign: l.align }}
+                                >
+                                    <div className={styles.labelTitle}>{s.label}</div>
+                                    <div className={styles.labelDetail}>{s.detail}</div>
+                                </div>
+                            )
+                        })}
                     </div>
-
-                    {/* Centre piece */}
-                    <div className={styles.aura} />
-                    <img className={styles.neuron} src={neuron} alt="" />
-
-                    {/* Nodes */}
-                    {skills.map((s) => {
-                        const n = NODES[s.key]
-                        return (
-                            <div
-                                key={`node-${s.key}`}
-                                className={styles.node}
-                                style={{ left: n.left, top: n.top }}
-                            >
-                                <img src={s.image} alt={s.label} />
-                            </div>
-                        )
-                    })}
-
-                    {/* Labels */}
-                    {skills.map((s) => {
-                        const l = LABELS[s.key]
-                        return (
-                            <div
-                                key={`label-${s.key}`}
-                                className={styles.label}
-                                style={{ left: l.left, top: l.top, width: l.width, textAlign: l.align }}
-                            >
-                                <div className={styles.labelTitle}>{s.label}</div>
-                                <div className={styles.labelDetail}>{s.detail}</div>
-                            </div>
-                        )
-                    })}
                 </div>
             </div>
 

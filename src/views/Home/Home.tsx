@@ -2,18 +2,22 @@
 
 import { useEffect, useRef } from 'react'
 import BrainAnimation from '../../components/BrainAnimation/brainAnimation'
-import { heroIntro, passions } from '../../data/home'
+import type { HomeContent } from '../../sanity/lib/queries'
 import styles from './Home.module.scss'
 
 const NS = 'http://www.w3.org/2000/svg'
 
-export default function Home() {
+export default function Home({ home }: { home: HomeContent | null }) {
     const wrapRef = useRef<HTMLDivElement>(null)
     const spineRef = useRef<SVGSVGElement>(null)
     const brainRef = useRef<HTMLDivElement>(null)
 
+    const heroHeadline = home?.heroHeadline ?? 'The Never Ending Exploration of the Brain.'
+    const heroIntro = home?.heroIntro ?? []
+    const passions = home?.passions ?? []
+
     // Emphasise the leading "Hello there," in Ink (first paragraph only).
-    const [firstIntro, ...restIntro] = heroIntro
+    const [firstIntro = '', ...restIntro] = heroIntro
     const lead = 'Hello there,'
     const firstTail = firstIntro.startsWith(lead) ? firstIntro.slice(lead.length) : firstIntro
 
@@ -563,13 +567,7 @@ export default function Home() {
             {/* Hero header */}
             <header className={styles.header}>
                 <div className={styles.heroInner}>
-                    <h1 className={styles.headline}>
-                        The Never
-                        <br />
-                        Ending Exploration
-                        <br />
-                        of the Brain.
-                    </h1>
+                    <h1 className={styles.headline}>{heroHeadline}</h1>
 
                     <div className={styles.intro}>
                         <p>
@@ -581,12 +579,12 @@ export default function Home() {
                         ))}
                     </div>
 
-                    <a href="#no1" className={styles.scrollCue}>
+                    <div className={styles.scrollCue}>
                         CONTINUE&nbsp;EXPLORING
                         <span className={styles.cueLine}>
                             <span className={styles.cueDot} />
                         </span>
-                    </a>
+                    </div>
                 </div>
             </header>
 
@@ -598,7 +596,7 @@ export default function Home() {
                     const textLeft = i % 2 === 0
                     return (
                         <section
-                            key={p.section}
+                            key={i}
                             id={i === 0 ? 'no1' : undefined}
                             className={`${styles.section} ${i === 0 ? styles.sectionFirst : ''}`}
                         >
