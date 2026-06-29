@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useState } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.scss'
 
 const LINKS = [
@@ -11,7 +14,7 @@ const LINKS = [
 
 function Logo({ onClick }: { onClick?: () => void }) {
     return (
-        <Link to="/" className={styles.logo} onClick={onClick} aria-label="Carmen Sergiou — home">
+        <Link href="/" className={styles.logo} onClick={onClick} aria-label="Carmen Sergiou — home">
             <span className={styles.glyph}>cs</span>
             <span className={styles.lockup}>
                 <span className={styles.name}>CARMEN&nbsp;SERGIOU</span>
@@ -22,16 +25,17 @@ function Logo({ onClick }: { onClick?: () => void }) {
 }
 
 function Links({ onNavigate }: { onNavigate?: () => void }) {
-    const active = ({ isActive }: { isActive: boolean }) => (isActive ? styles.active : undefined)
+    const pathname = usePathname()
+    const active = (to: string) => (pathname === to ? styles.active : undefined)
     return (
         <>
             {LINKS.map((l) => (
-                <NavLink key={l.to} to={l.to} className={active} onClick={onNavigate}>
+                <Link key={l.to} href={l.to} className={active(l.to)} onClick={onNavigate}>
                     {l.label}
-                </NavLink>
+                </Link>
             ))}
             <a
-                href="https://forneurotech.network"
+                href="https://www.forneurotech.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.external}
@@ -39,9 +43,9 @@ function Links({ onNavigate }: { onNavigate?: () => void }) {
             >
                 FORNEUROTECH<span className={styles.arrow} aria-hidden>↗</span>
             </a>
-            <NavLink to="/contact" className={active} onClick={onNavigate}>
+            <Link href="/contact" className={active('/contact')} onClick={onNavigate}>
                 CONTACT
-            </NavLink>
+            </Link>
         </>
     )
 }

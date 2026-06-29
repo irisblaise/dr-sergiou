@@ -1,3 +1,5 @@
+'use client'
+
 import { forwardRef } from 'react'
 import type { Publication } from '../../data/types'
 import AccoladeIcon from '../AccoladeIcon/AccoladeIcon'

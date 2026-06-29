@@ -1,10 +1,10 @@
 import type { Skill } from './types'
-import skillNeuro from '../assets/handoff/skill-neuro.png'
-import skillCoding from '../assets/handoff/skill-coding.png'
-import skillForensic from '../assets/handoff/skill-forensic.png'
-import skillVr from '../assets/handoff/skill-vr.png'
-import skillBehavior from '../assets/handoff/skill-behavior.png'
-import skillMusic from '../assets/handoff/skill-music.png'
+const skillNeuro = '/assets/handoff/skill-neuro.png'
+const skillCoding = '/assets/handoff/skill-coding.png'
+const skillForensic = '/assets/handoff/skill-forensic.png'
+const skillVr = '/assets/handoff/skill-vr.png'
+const skillBehavior = '/assets/handoff/skill-behavior.png'
+const skillMusic = '/assets/handoff/skill-music.png'
 
 // NEW PAGE — the "six passions" as skill domains. One source of truth drives both
 // the desktop radial neuron map and the mobile timeline.

@@ -1,11 +1,11 @@
 import type { Project } from './types'
-import HorizonNeuroscience from '../assets/images/Projects2/HorizonNeuroscience.png'
-import neuroYouth from '../assets/images/Projects2/neuroYouth.jpeg'
-import psycopath from '../assets/images/Projects2/psycopath.png'
-import Virtual_Burglary from '../assets/images/Projects2/Virtual_Burglary.avif'
-import Neuromodulation from '../assets/images/Projects2/brainneuromodilation.png'
-import KetamineDepression from '../assets/images/Projects2/ketamineDepression.webp'
-import Award3 from '../assets/images/awards/Award_3.jpeg'
+const HorizonNeuroscience = '/assets/images/Projects2/HorizonNeuroscience.png'
+const neuroYouth = '/assets/images/Projects2/neuroYouth.jpeg'
+const psycopath = '/assets/images/Projects2/psycopath.png'
+const Virtual_Burglary = '/assets/images/Projects2/Virtual_Burglary.avif'
+const Neuromodulation = '/assets/images/Projects2/brainneuromodilation.png'
+const KetamineDepression = '/assets/images/Projects2/ketamineDepression.webp'
+const Award3 = '/assets/images/awards/Award_3.jpeg'
 
 // Ported from Projects/projectData.js (projectDataPresent), extended with year + accent.
 export const projects: Project[] = [

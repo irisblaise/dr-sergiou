@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { publications, publicationStats } from '../../data/publications'
 import { ALL_TOPICS, type Topic } from '../../data/types'

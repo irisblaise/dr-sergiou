@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { awards, media } from '../../data/impact'
 import type { ImpactAsset } from '../../data/types'

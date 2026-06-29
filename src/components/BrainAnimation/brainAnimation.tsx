@@ -1,6 +1,8 @@
+'use client'
+
 import React, { useEffect } from 'react'
 import './brainAnimation.scss'
-import brain from './brain4.png'
+const brain = '/assets/brain/brain4.png'
 
 const BrainAnimation = () => {
     function animationNeurolize(svgElements: any, animationDelay: number) {

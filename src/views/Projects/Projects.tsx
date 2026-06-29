@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import { projects } from '../../data/projects'
 import styles from './Projects.module.scss'

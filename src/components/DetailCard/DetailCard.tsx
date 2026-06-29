@@ -1,3 +1,5 @@
+'use client'
+
 import type { Publication } from '../../data/types'
 import AccoladeIcon from '../AccoladeIcon/AccoladeIcon'
 import styles from './DetailCard.module.scss'

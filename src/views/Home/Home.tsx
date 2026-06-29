@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import BrainAnimation from '../../components/BrainAnimation/brainAnimation'
 import { heroIntro, passions } from '../../data/home'

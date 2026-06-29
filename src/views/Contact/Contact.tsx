@@ -1,4 +1,4 @@
-import portrait from '../../assets/handoff/portrait-sketch.png'
+const portrait = '/assets/handoff/portrait-sketch.png'
 import styles from './Contact.module.scss'
 
 const CONTACTS = [

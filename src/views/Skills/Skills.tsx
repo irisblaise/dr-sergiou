@@ -1,7 +1,9 @@
+'use client'
+
 import { useCallback, useEffect, useRef } from 'react'
 import { skills, skillsIntro } from '../../data/skills'
 import type { SkillKey } from '../../data/types'
-import neuron from '../../assets/handoff/neuron-pink.png'
+const neuron = '/assets/handoff/neuron-pink.png'
 import styles from './Skills.module.scss'
 
 const STAGE_W = 1400
