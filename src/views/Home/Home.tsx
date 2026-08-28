@@ -16,11 +16,6 @@ export default function Home({ home }: { home: HomeContent | null }) {
     const heroIntro = home?.heroIntro ?? []
     const passions = home?.passions ?? []
 
-    // Emphasise the leading "Hello there," in Ink (first paragraph only).
-    const [firstIntro = '', ...restIntro] = heroIntro
-    const lead = 'Hello there,'
-    const firstTail = firstIntro.startsWith(lead) ? firstIntro.slice(lead.length) : firstIntro
-
     useEffect(() => {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -570,11 +565,7 @@ export default function Home({ home }: { home: HomeContent | null }) {
                     <h1 className={styles.headline}>{heroHeadline}</h1>
 
                     <div className={styles.intro}>
-                        <p>
-                            <span className={styles.lead}>{lead}</span>
-                            {firstTail}
-                        </p>
-                        {restIntro.map((para, i) => (
+                        {heroIntro.map((para, i) => (
                             <p key={i}>{para}</p>
                         ))}
                     </div>

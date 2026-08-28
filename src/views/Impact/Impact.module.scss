@@ -19,18 +19,18 @@
 }
 
 .eyebrow {
-    margin-top: 16px;
+    margin-top: var(--intro-title-gap);
     font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    line-height: 1.7;
+    font-size: var(--intro-eyebrow-size);
+    letter-spacing: var(--intro-eyebrow-tracking);
+    line-height: var(--intro-eyebrow-lh);
     color: var(--accent-mid);
 }
 
 .blurb {
-    margin-top: 16px;
-    font-size: 13.5px;
-    line-height: 1.6;
+    margin-top: var(--intro-eyebrow-gap);
+    font-size: var(--intro-body-size);
+    line-height: var(--intro-body-lh);
     color: var(--body);
 }
 

@@ -51,19 +51,20 @@
 }
 
 .eyebrow {
-    margin-top: 22px;
+    margin-top: var(--intro-title-gap);
     font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.22em;
+    font-size: var(--intro-eyebrow-size);
+    letter-spacing: var(--intro-eyebrow-tracking);
+    line-height: var(--intro-eyebrow-lh);
     color: var(--accent-mid);
     width: 80%;
 }
 
 .paragraph {
-    margin-top: 18px;
+    margin-top: var(--intro-eyebrow-gap);
     max-width: 188px;
-    font-size: 14px;
-    line-height: 1.62;
+    font-size: var(--intro-body-size);
+    line-height: var(--intro-body-lh);
     color: var(--body);
 }
 

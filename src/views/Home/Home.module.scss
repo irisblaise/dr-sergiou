@@ -67,7 +67,8 @@
     position: absolute;
     left: clamp(20px, 4vw, 52px);
     top: 23vh;
-    max-width: 340px;
+    // Scales down with the viewport instead of a fixed width.
+    max-width: clamp(240px, 28vw, 380px);
     pointer-events: auto;
 }
 
@@ -75,7 +76,7 @@
     margin: 0;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(32px, 3.6vw, 50px);
+    font-size: clamp(32px, 4.6vw, 69px);
     line-height: 1.06;
     letter-spacing: -0.02em;
     color: var(--ink);
@@ -94,10 +95,6 @@
         line-height: 1.62;
         color: var(--body);
     }
-}
-
-.lead {
-    color: var(--ink);
 }
 
 .scrollCue {

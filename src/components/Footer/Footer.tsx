@@ -6,7 +6,7 @@ export default function Footer() {
             <div className={styles.row}>
             <div className={styles.copy}>
                 <a
-                    href="https://www.linkedin.com/in/iris-blaise-van-dijken"
+                    href="https://www.linkedin.com/in/irisblaise/"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

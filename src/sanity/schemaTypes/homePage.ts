@@ -19,7 +19,6 @@ export const homePage = defineType({
             title: 'Hero intro paragraphs',
             type: 'array',
             of: [{ type: 'text', rows: 3 }],
-            description: 'The first paragraph’s opening "Hello there," is emphasised automatically.',
         }),
         defineField({
             name: 'passions',

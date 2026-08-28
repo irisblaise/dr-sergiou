@@ -34,6 +34,18 @@
     --gutter: clamp(20px, 4vw, 52px);
     --nav-height: 90px;
 
+    /* Page-intro typography — the eyebrow/title/paragraph stack that opens
+       every page. Font-size on the title varies per page (it's tuned to that
+       page's grid column width), but weight/tracking/family and the rhythm
+       between the three elements stay fixed here. */
+    --intro-title-gap: 20px;
+    --intro-eyebrow-size: 12px;
+    --intro-eyebrow-tracking: 0.22em;
+    --intro-eyebrow-lh: 1.7;
+    --intro-eyebrow-gap: 16px;
+    --intro-body-size: 14px;
+    --intro-body-lh: 1.65;
+
     /* Borders */
     --rule: rgba(43, 43, 43, 0.14);
     --rule-strong: rgba(43, 43, 43, 0.16);
@@ -71,12 +83,6 @@ body {
 ::-moz-selection {
     background: rgba(var(--accent-glow), 0.32);
     color: var(--ink);
-}
-
-#root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 h1,

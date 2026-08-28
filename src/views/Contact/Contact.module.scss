@@ -30,18 +30,19 @@
 }
 
 .eyebrow {
-    margin-top: 20px;
+    margin-top: var(--intro-title-gap);
     font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.26em;
+    font-size: var(--intro-eyebrow-size);
+    letter-spacing: var(--intro-eyebrow-tracking);
+    line-height: var(--intro-eyebrow-lh);
     color: var(--accent-mid);
 }
 
 .blurb {
-    margin-top: 18px;
+    margin-top: var(--intro-eyebrow-gap);
     max-width: 300px;
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: var(--intro-body-size);
+    line-height: var(--intro-body-lh);
     color: var(--body);
 }
 
@@ -81,7 +82,7 @@
     font-size: 10px;
     letter-spacing: 0.24em;
     color: var(--accent-mid);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .detailValue {
@@ -129,7 +130,7 @@
 }
 
 .ctaTitle {
-    margin-top: 14px;
+    margin-top: 10px;
     font-family: var(--font-serif);
     font-weight: 400;
     font-size: 24px;
@@ -172,7 +173,7 @@
     font-size: 10px;
     letter-spacing: 0.24em;
     color: var(--accent-mid);
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .socials {
