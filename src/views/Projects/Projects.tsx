@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import type { Project } from '../../data/types'
 import styles from './Projects.module.scss'
 
@@ -314,7 +315,13 @@ export default function Projects({ projects }: { projects: Project[] }) {
                         </div>
                         <div className={styles.illu}>
                             {p.image ? (
-                                <img src={p.image} alt={p.imageAlt || p.title} loading="lazy" />
+                                <Image
+                                    src={p.image}
+                                    alt={p.imageAlt || p.title}
+                                    fill
+                                    sizes="(max-width: 900px) 100vw, clamp(320px, 30vw, 560px)"
+                                    style={{ objectFit: 'cover' }}
+                                />
                             ) : (
                                 <div className={styles.placeholder}>
                                     <span>Brain · circuit sketch</span>

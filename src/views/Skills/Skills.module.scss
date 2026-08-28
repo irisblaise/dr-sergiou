@@ -109,17 +109,16 @@
     background: var(--canvas);
     box-shadow: 0 6px 22px rgba(142, 33, 78, 0.14);
     z-index: 4;
+}
 
-    img {
-        width: 107%;
-        height: 110%;
-        object-fit: cover;
-        object-position: left top;
-        mix-blend-mode: multiply;
-        /* enlarge a touch and pull toward the top-left so the subject sits
-           cleanly inside the circle */
-        transform: scale(1.19) translate(-8%, -4%);
-    }
+.nodeImgWrap {
+    position: absolute;
+    inset: 0;
+    width: 107%;
+    height: 110%;
+    /* enlarge a touch and pull toward the top-left so the subject sits
+       cleanly inside the circle */
+    transform: scale(1.19) translate(-8%, -4%);
 }
 
 /* Labels */
@@ -219,6 +218,7 @@
     }
 
     .mNode {
+        position: relative;
         flex: none;
         width: 56px;
         height: 56px;

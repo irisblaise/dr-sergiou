@@ -10,6 +10,14 @@ const nextConfig = {
     sassOptions: {
         includePaths: ['./src'],
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+            },
+        ],
+    },
 }
 
 export default nextConfig

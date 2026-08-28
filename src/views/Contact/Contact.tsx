@@ -1,5 +1,7 @@
-const portrait = '/assets/handoff/portrait-sketch.png'
+import Image from 'next/image'
 import styles from './Contact.module.scss'
+
+const portrait = '/assets/handoff/portrait-sketch.png'
 
 const CONTACTS = [
     {
@@ -32,7 +34,14 @@ export default function Contact() {
                     For research collaborations, talks, interviews or anything at the crossroads of
                     neuro &amp; technology — reach out via any of the channels below.
                 </p>
-                <img className={styles.portrait} src={portrait} alt="Portrait of Carmen Sergiou" />
+                <Image
+                    className={styles.portrait}
+                    src={portrait}
+                    alt="Portrait of Carmen Sergiou"
+                    width={1023}
+                    height={1537}
+                    priority
+                />
             </div>
 
             <div className={styles.right}>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { skillsIntro } from '../../data/skills'
 import type { Skill, SkillKey } from '../../data/types'
 const neuron = '/assets/handoff/neuron-pink.png'
@@ -86,7 +87,13 @@ export default function Skills({ skills }: { skills: Skill[] }) {
                     <div className={styles.cluster}>
                         {/* Centre piece */}
                         <div className={styles.aura} />
-                        <img className={styles.neuron} src={neuron} alt="" />
+                        <Image
+                            className={styles.neuron}
+                            src={neuron}
+                            alt=""
+                            width={1024}
+                            height={1024}
+                        />
 
                         {/* Nodes */}
                         {skills.map((s) => {
@@ -97,7 +104,19 @@ export default function Skills({ skills }: { skills: Skill[] }) {
                                     className={styles.node}
                                     style={{ left: n.left, top: n.top }}
                                 >
-                                    <img src={s.image} alt={s.imageAlt || s.label} />
+                                    <div className={styles.nodeImgWrap}>
+                                        <Image
+                                            src={s.image}
+                                            alt={s.imageAlt || s.label}
+                                            fill
+                                            sizes="150px"
+                                            style={{
+                                                objectFit: 'cover',
+                                                objectPosition: 'left top',
+                                                mixBlendMode: 'multiply',
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             )
                         })}
@@ -136,7 +155,7 @@ export default function Skills({ skills }: { skills: Skill[] }) {
                             className={`${styles.row} ${i === skills.length - 1 ? styles.rowLast : ''}`}
                         >
                             <span className={styles.mNode}>
-                                <img src={s.image} alt={s.imageAlt || s.label} />
+                                <Image src={s.image} alt={s.imageAlt || s.label} fill sizes="56px" />
                             </span>
                             <span className={styles.mText}>
                                 <span className={styles.mLabel}>{s.label}</span>

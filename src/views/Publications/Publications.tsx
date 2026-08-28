@@ -43,7 +43,7 @@ export default function Publications({ publications }: { publications: Publicati
     const isVisible = useCallback(
         (i: number) =>
             filters.size === 0 || publications[i].topics.some((t) => filters.has(t)),
-        [filters],
+        [filters, publications],
     )
 
     const toggleTopic = (t: Topic) => {

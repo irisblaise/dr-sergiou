@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
 import styles from './Impact.module.scss'
 
@@ -313,7 +314,14 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                             allowFullScreen
                         />
                     ) : heroSrc ? (
-                        <img className={styles.heroImg} src={heroSrc} alt={item.imageAlt || item.title} />
+                        <Image
+                            className={styles.heroImg}
+                            src={heroSrc}
+                            alt={item.imageAlt || item.title}
+                            fill
+                            sizes="(max-width: 900px) 100vw, 40vw"
+                            style={{ objectFit: 'cover' }}
+                        />
                     ) : (
                         <div className={styles.heroPlaceholder}>
                             <span>media · portrait</span>
@@ -364,10 +372,20 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                                                 : a.alt || `${item.title} — image ${i + 1}`
                                         }
                                     >
-                                        <img
-                                            src={a.type === 'image' ? a.src : item.image}
-                                            alt={a.type === 'image' ? a.alt || item.title : ''}
-                                        />
+                                        {(() => {
+                                            const thumbSrc = a.type === 'image' ? a.src : item.image
+                                            return (
+                                                thumbSrc && (
+                                                    <Image
+                                                        src={thumbSrc}
+                                                        alt={a.type === 'image' ? a.alt || item.title : ''}
+                                                        fill
+                                                        sizes="90px"
+                                                        style={{ objectFit: 'cover' }}
+                                                    />
+                                                )
+                                            )
+                                        })()}
                                         {a.type === 'video' && <span className={styles.thumbPlay} aria-hidden />}
                                     </button>
                                 ))}

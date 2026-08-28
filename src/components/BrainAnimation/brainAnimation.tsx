@@ -5,16 +5,16 @@ import './brainAnimation.scss'
 const brain = '/assets/brain/brain4.png'
 
 const BrainAnimation = () => {
-    function animationNeurolize(svgElements: any, animationDelay: number) {
-        svgElements.forEach((svgElement: any, index: number) => {
-            const totalLength = svgElement.getTotalLength()
-            svgElement.style.strokeDasharray = String(totalLength)
-            svgElement.style.strokeDashoffset = String(totalLength)
-            svgElement.style.animationDelay = `${animationDelay * index}s`
-        })
-    }
+    useEffect(() => {
+        function animationNeurolize(svgElements: any, animationDelay: number) {
+            svgElements.forEach((svgElement: any, index: number) => {
+                const totalLength = svgElement.getTotalLength()
+                svgElement.style.strokeDasharray = String(totalLength)
+                svgElement.style.strokeDashoffset = String(totalLength)
+                svgElement.style.animationDelay = `${animationDelay * index}s`
+            })
+        }
 
-    function neurolize() {
         const paths = document.querySelectorAll('path')
         const polylines = document.querySelectorAll('polyline')
         const circles = document.querySelectorAll('circle')
@@ -26,11 +26,7 @@ const BrainAnimation = () => {
         animationNeurolize(circles, -0.6)
         animationNeurolize(ellipses, -0.1)
         animationNeurolize(lines, -0.8)
-    }
-
-    useEffect(() => {
-        neurolize()
-    }, [neurolize])
+    }, [])
 
     return (
         <div className="brainAnimation">
