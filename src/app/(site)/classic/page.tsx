@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import HomeRedesign from '../../views/HomeRedesign/HomeRedesign'
-import { getHome, getSiteSettings } from '../../sanity/lib/queries'
+import Home from '../../../views/Home/Home'
+import { getHome, getSiteSettings } from '../../../sanity/lib/queries'
 
 export async function generateMetadata(): Promise<Metadata> {
     const home = await getHome()
@@ -14,12 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
     return {
         title,
         description,
-        alternates: { canonical: '/' },
-        robots: home?.seo?.noIndex ? { index: false, follow: false } : undefined,
+        alternates: { canonical: '/classic' },
+        robots: { index: false, follow: false },
         openGraph: {
             title,
             description,
-            url: '/',
+            url: '/classic',
             images: ogImage ? [{ url: ogImage, alt: home?.seo?.ogImageAlt || title }] : undefined,
         },
         twitter: { title, description, images: ogImage ? [ogImage] : undefined },
@@ -42,7 +42,7 @@ export default async function Page() {
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <HomeRedesign home={home} />
+            <Home home={home} />
         </>
     )
 }

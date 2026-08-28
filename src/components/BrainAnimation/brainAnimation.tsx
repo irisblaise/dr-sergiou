@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 import './brainAnimation.scss'
-const brain = '/assets/brain/brain4.png'
+const brain = '/assets/brain/brain5.png'
 
 const BrainAnimation = () => {
     useEffect(() => {

@@ -176,7 +176,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 path(`M ${sx.toFixed(1)} ${yy.toFixed(1)} L ${ex.toFixed(1)} ${ey.toFixed(1)}`, 1, G1, 0.42)
                 if (rng() < 0.5)
                     circ(ex, ey, 1.3 + rng() * 1.1, {
-                        fill: rng() < 0.5 ? G1 : '#efeae0',
+                        fill: rng() < 0.5 ? G1 : '#efeae1',
                         stroke: G1,
                         'stroke-width': 1,
                         opacity: 0.5,
@@ -220,7 +220,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 path(d, 1.1, rng() < 0.8 ? G1 : G2, 0.5)
                 const big = rng() < 0.3
                 circ(reach, by, big ? 3 + rng() * 1.4 : 1.6 + rng() * 1.1, {
-                    fill: big ? '#efeae0' : rng() < 0.5 ? G1 : '#efeae0',
+                    fill: big ? '#efeae1' : rng() < 0.5 ? G1 : '#efeae1',
                     stroke: rng() < 0.5 ? G1 : SAGE,
                     'stroke-width': 1.1,
                     opacity: 0.55,
@@ -251,7 +251,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 )
                 const halo = circ(sx, ny, 13, { fill: ACC, opacity: 0.13 })
                 halo.style.filter = 'blur(4px)'
-                circ(sx, ny, 6, { fill: '#efeae0', stroke: G1, 'stroke-width': 1.7 })
+                circ(sx, ny, 6, { fill: '#efeae1', stroke: G1, 'stroke-width': 1.7 })
                 const core = circ(sx, ny, 3, { fill: ACC })
                 if (i < 5)
                     core.style.animation = `nodepulse ${(3 + i * 0.25).toFixed(2)}s ease-in-out ${(i * 0.2).toFixed(2)}s infinite`
@@ -262,7 +262,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
             const tx = xAt(bot)
             const th = circ(tx, bot, 11, { fill: SAGE, opacity: 0.12 })
             th.style.filter = 'blur(4px)'
-            circ(tx, bot, 3.4, { fill: '#efeae0', stroke: SAGE, 'stroke-width': 1.6 })
+            circ(tx, bot, 3.4, { fill: '#efeae1', stroke: SAGE, 'stroke-width': 1.6 })
         }
 
         buildSpine()

@@ -26,7 +26,7 @@
     font-size: var(--intro-eyebrow-size);
     letter-spacing: var(--intro-eyebrow-tracking);
     line-height: var(--intro-eyebrow-lh);
-    color: var(--accent-mid);
+    color: var(--science-line);
 }
 
 .blurb {
@@ -70,7 +70,7 @@
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.18em;
-    color: var(--accent-mid);
+    color: var(--text-label);
 }
 
 .swipeHint {
@@ -354,7 +354,7 @@
     font-size: 8.5px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--accent-mid);
+    color: var(--text-label);
 }
 
 .mBody {
@@ -369,7 +369,7 @@
     font-family: var(--font-mono);
     font-size: 9.5px;
     letter-spacing: 0.2em;
-    color: var(--accent-mid);
+    color: var(--text-label);
     margin-bottom: 10px;
 }
 

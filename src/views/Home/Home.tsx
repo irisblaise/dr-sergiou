@@ -12,7 +12,7 @@ export default function Home({ home }: { home: HomeContent | null }) {
     const spineRef = useRef<SVGSVGElement>(null)
     const brainRef = useRef<HTMLDivElement>(null)
 
-    const heroHeadline = home?.heroHeadline ?? 'The Never Ending Exploration of the Brain.'
+    const heroHeadline = home?.heroHeadline ?? 'The Never Ending Exploration of <br>the Brain.'
     const heroIntro = home?.heroIntro ?? []
     const passions = home?.passions ?? []
 
@@ -170,7 +170,7 @@ export default function Home({ home }: { home: HomeContent | null }) {
                 c.setAttribute('cx', x.toFixed(1))
                 c.setAttribute('cy', y.toFixed(1))
                 c.setAttribute('r', r.toFixed(1))
-                c.setAttribute('fill', mode === 'fill' ? col || G1 : '#efeae0')
+                c.setAttribute('fill', mode === 'fill' ? col || G1 : '#efeae1')
                 c.setAttribute('stroke', col || G1)
                 c.setAttribute('stroke-width', (r > 5 ? 1.7 : 1.4).toFixed(1))
                 svg.appendChild(c)

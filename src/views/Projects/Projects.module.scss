@@ -25,7 +25,7 @@
     font-size: var(--intro-eyebrow-size);
     letter-spacing: var(--intro-eyebrow-tracking);
     line-height: var(--intro-eyebrow-lh);
-    color: var(--accent-mid);
+    color: var(--science-line);
 }
 
 .blurb {
@@ -78,7 +78,7 @@
     font-family: var(--font-mono);
     font-size: 14px;
     letter-spacing: 0.04em;
-    color: var(--nav-ink);
+    color: var(--science-line);
 }
 
 .text {
@@ -103,7 +103,7 @@
     font-family: var(--font-mono);
     font-size: 11.5px;
     letter-spacing: 0.06em;
-    color: #9a9486;
+    color: var(--science-line);
 }
 
 .desc {
@@ -173,7 +173,7 @@
     font-family: var(--font-mono);
     font-size: 10.5px;
     letter-spacing: 0.12em;
-    color: var(--accent-mid);
+    color: var(--text-label);
 }
 
 /* ---------- Mobile: stacked, spine hidden ---------- */

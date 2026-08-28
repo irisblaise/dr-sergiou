@@ -1,0 +1,542 @@
+/* ============ Layers of Exploration ============
+   Header band + 3-column body (brain stack / copy / vertical 01–06 rail),
+   pinned in a sticky viewport-height panel while a tall scroll track behind
+   it (.scroller) advances through the six subjects. Exactly one pink overlay
+   + one text state is active at a time, switched by scrolling, clicking a
+   rail item, or (native <button> behaviour) Tab + Enter/Space. */
+
+/* Self-hosted, scoped to this component only (mirrors src/fonts/fonts.css's
+   pattern but isn't wired into the site-wide --font-mono / Space Mono). */
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+        U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('./fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+        U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('./fonts/ibm-plex-mono-500-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+        U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('./fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+        U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+.section {
+    position: relative;
+    padding: 0 var(--gutter);
+
+    // Scoped override: this section reads in IBM Plex Mono, not the site's
+    // Space Mono. Shadowing the token here (rather than editing global.scss)
+    // keeps every other page's mono type untouched.
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    // Component-local tokens with no sitewide equivalent yet.
+    --rail-line: rgba(94, 89, 77, 0.35);
+    --ring-dot: 0 0 0 4px rgba(var(--accent-glow), 0.16);
+}
+
+/* tall scroll track — one viewport of scroll per subject */
+.scroller {
+    position: relative;
+}
+
+.sticky {
+    position: sticky;
+    top: var(--nav-height);
+    height: calc(100vh - var(--nav-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ---------- Header band ---------- */
+
+.headerBand {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+}
+
+.eyebrowTitle {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    color: var(--ink);
+}
+
+.readout {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.readoutSubject {
+    color: var(--accent-mid);
+}
+
+/* ---------- Body grid ---------- */
+
+.grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr) 172px;
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+}
+
+/* ---------- Column 1: brain stack ---------- */
+
+.visual {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+// Sized off the viewport's remaining height (not the column's width) so the
+// whole section — header band, image, scale bar, closing line — fits in one
+// screen instead of the image growing until it forces the page to scroll.
+.stack {
+    position: relative;
+    height: min(500px, max(240px, calc(100vh - var(--nav-height) - 250px)));
+    width: auto;
+    aspect-ratio: 1122 / 1402;
+    mix-blend-mode: multiply;
+}
+
+.base {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.overlayActive {
+    opacity: 1;
+}
+
+// pink-layer-0N's artwork isn't registered to the base image the way the
+// rest are — nudge each into alignment instead of re-exporting the assets.
+.overlayRegistration01 {
+    inset: auto;
+    bottom: -25px;
+    left: -8px;
+}
+
+.overlayRegistration02 {
+    inset: auto 76px 115px auto;
+    width: 62%;
+    height: 73%;
+}
+
+.overlayRegistration04 {
+    inset: auto;
+    left: -27px;
+    top: 8px;
+}
+
+.overlayRegistration05 {
+    inset: auto;
+    left: -6px;
+    bottom: 5px;
+}
+
+.overlayRegistration06 {
+    inset: 0;
+    left: -25px;
+    top: 20px;
+    width: 99%;
+    height: 99%;
+}
+
+.marker {
+    position: absolute;
+    max-width: 30%;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    line-height: 1.5;
+    color: var(--sage-deep);
+    pointer-events: none;
+}
+
+.markerKey {
+    color: var(--ink);
+    letter-spacing: 0.2em;
+}
+
+.markerSub {
+    opacity: 0.85;
+}
+
+.markerLine {
+    position: absolute;
+    top: 100%;
+    margin-top: 8px;
+    width: 1px;
+    background: var(--sage-deep);
+    opacity: 0.4;
+}
+
+.scaleBar {
+    margin-top: 6px;
+    width: 240px;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--muted);
+}
+
+.scaleTicks {
+    position: relative;
+    height: 7px;
+    border-top: 1px solid var(--rail-line);
+    display: flex;
+    justify-content: space-between;
+}
+
+.scaleTick {
+    width: 1px;
+    height: 7px;
+    background: var(--rail-line);
+}
+
+.scaleLabels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+}
+
+.closingLine {
+    margin-top: 20px;
+    text-align: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 26px);
+    line-height: 1.2;
+    color: var(--ink);
+}
+
+/* ---------- Column 2: copy ---------- */
+
+// All six states share the same grid cell (a stacking trick, not
+// position: absolute) so the row auto-sizes to the tallest one instead of
+// relying on a guessed fixed height.
+.content {
+    display: grid;
+    min-width: 0;
+}
+
+.state {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+// Each child fades/lifts on its own — a gentle, unhurried curve (no snappy
+// "ease") and a slight stagger on the way in (label, then heading, then
+// paragraph, then CTA) so the swap reads as one considered beat rather than
+// the whole block jumping at once. Going inactive stays a single plain fade,
+// which is what keeps the exit calm rather than doubling the stagger up.
+.state > * {
+    opacity: 0;
+    transform: translateY(-14px);
+    transition:
+        opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stateActive > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stateActive > *:nth-child(1) {
+    transition-delay: 0ms;
+}
+.stateActive > *:nth-child(2) {
+    transition-delay: 70ms;
+}
+.stateActive > *:nth-child(3) {
+    transition-delay: 140ms;
+}
+.stateActive > *:nth-child(4) {
+    transition-delay: 200ms;
+}
+
+.label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: var(--accent-label);
+}
+
+.heading {
+    margin: 18px 0 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    max-width: 460px;
+}
+
+.description {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.72;
+    color: var(--body);
+    max-width: 460px;
+    text-wrap: pretty;
+}
+
+.cta {
+    margin-top: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: var(--accent-mid);
+    transition: color 200ms ease;
+
+    &:hover {
+        color: var(--accent-label);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 4px;
+        border-radius: 2px;
+    }
+}
+
+/* ---------- Column 3: vertical rail ---------- */
+
+.rail {
+    position: relative;
+}
+
+.railSpine {
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    bottom: 26px;
+    width: 1px;
+    background: var(--rail-line);
+}
+
+.rail ul {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2.6vw, 30px);
+}
+
+.railBtn {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    text-align: left;
+    color: var(--muted);
+    transition: color 300ms ease;
+
+    &:hover {
+        color: var(--ink);
+
+        .railDot {
+            background: var(--accent-tint);
+            border-color: var(--accent-mid);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+        border-radius: 2px;
+    }
+}
+
+.railDot {
+    margin-top: 4px;
+    flex: 0 0 9px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--canvas);
+    border: 1px solid var(--rail-line);
+    box-shadow: none;
+    transition:
+        background 300ms ease,
+        border-color 300ms ease,
+        box-shadow 300ms ease;
+}
+
+.railText {
+    display: block;
+}
+
+.railNum {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+.railNav {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.railBtnActive {
+    color: var(--accent-mid);
+
+    &,
+    &:hover {
+        color: var(--accent-mid);
+    }
+
+    .railNum {
+        opacity: 1;
+    }
+
+    .railDot {
+        background: var(--accent);
+        border-color: var(--accent);
+        box-shadow: var(--ring-dot);
+    }
+
+    &:hover .railDot {
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+}
+
+/* ---------- Mobile ----------
+   No pinned/scroll-jacked two-column layout here — the brain sits above the
+   text in normal document flow, and the vertical rail becomes one horizontal
+   tappable row. Not covered by the design handoff yet ("confirm with the
+   designer"); this is a reasonable stopgap. */
+@media (max-width: 900px) {
+    .scroller {
+        height: auto !important;
+    }
+
+    .sticky {
+        position: static;
+        height: auto;
+        display: block;
+        padding: 40px 0;
+    }
+
+    .grid {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .visual {
+        order: 0;
+    }
+
+    .stack {
+        height: auto;
+        width: min(320px, 78vw);
+        margin: 0 auto;
+    }
+
+    .marker {
+        display: none;
+    }
+
+    .content {
+        order: 1;
+        margin-top: 8px;
+    }
+
+    .heading,
+    .description {
+        max-width: none;
+    }
+
+    .rail {
+        order: 2;
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--rule);
+        overflow-x: auto;
+    }
+
+    .railSpine {
+        display: none;
+    }
+
+    .rail ul {
+        flex-direction: row;
+        gap: 22px;
+        min-width: max-content;
+    }
+
+    .railNav {
+        display: none;
+    }
+}

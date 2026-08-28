@@ -24,7 +24,7 @@
     font-size: var(--intro-eyebrow-size);
     letter-spacing: var(--intro-eyebrow-tracking);
     line-height: var(--intro-eyebrow-lh);
-    color: var(--accent-mid);
+    color: var(--science-line);
 }
 
 .blurb {
@@ -107,7 +107,7 @@
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.22em;
-    color: var(--accent-mid);
+    color: var(--science-line);
 }
 
 .headCount {
@@ -165,7 +165,7 @@
     font-family: var(--font-mono);
     font-size: 9.5px;
     letter-spacing: 0.16em;
-    color: var(--soft);
+    color: var(--science-line);
     margin-bottom: 4px;
 }
 
@@ -253,7 +253,7 @@
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.16em;
-    color: var(--accent-mid);
+    color: var(--text-label);
     text-transform: uppercase;
 }
 
@@ -262,7 +262,7 @@
     font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.18em;
-    color: #9a9486;
+    color: var(--science-line);
 }
 
 .featureTitle {
@@ -552,7 +552,7 @@
         z-index: 20;
         margin-top: 22px;
         padding: 16px 0 12px;
-        background: rgba(239, 234, 224, 0.94);
+        background: rgba(239, 234, 225, 0.94);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         border-bottom: 1px solid rgba(94, 89, 77, 0.16);
@@ -633,7 +633,7 @@
         font-family: var(--font-mono);
         font-size: 9.5px;
         letter-spacing: 0.12em;
-        color: var(--soft);
+        color: var(--science-line);
     }
 
     .chipTitle {
@@ -659,7 +659,7 @@
         right: 0;
         width: 42px;
         pointer-events: none;
-        background: linear-gradient(to right, rgba(239, 234, 224, 0), #efeae0 78%);
+        background: linear-gradient(to right, rgba(239, 234, 225, 0), #efeae1 78%);
     }
 
     .media {

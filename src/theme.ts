@@ -3,7 +3,7 @@
 // custom properties in styles/global.scss; the palette switcher swaps the accent ramp.
 
 export const color = {
-    canvas: '#efeae0', // page background — warm bone
+    canvas: '#efeae1', // page background — warm bone
     ink: '#23211c', // primary text, headings
     body: '#5b574c', // paragraph copy
     muted: '#6c6458', // secondary text, captions
@@ -17,16 +17,20 @@ export const color = {
 export interface Palette {
     light: string
     mid: string
+    label: string // contrast-matched sibling for small pink type — sits between mid and deep
     deep: string
     tint: string
     glow: string // rgb triplet for rgba()
 }
 
+// NOTE: `label` for coral/violet/sage is a computed estimate (same lightness/
+// saturation/hue offset from `mid` that pink's designer-supplied #A9255D has),
+// pending real design review — only the pink ramp is wired into live CSS today.
 export const palettes = {
-    pink: { light: '#ED4C92', mid: '#C8326F', deep: '#8E214E', tint: '#F8DEEA', glow: '237,76,146' },
-    coral: { light: '#FF6A4D', mid: '#E04428', deep: '#9E2C1A', tint: '#FCE0D8', glow: '255,106,77' },
-    violet: { light: '#8A6CFF', mid: '#6647D9', deep: '#3F2C93', tint: '#E5DEFA', glow: '138,108,255' },
-    sage: { light: '#7aab96', mid: '#5d8a74', deep: '#3f5e50', tint: '#DDE8E1', glow: '122,171,150' },
+    pink: { light: '#ED4C92', mid: '#C8326F', label: '#A9255D', deep: '#8E214E', tint: '#F8DEEA', glow: '237,76,146' },
+    coral: { light: '#FF6A4D', mid: '#E04428', label: '#C52F17', deep: '#9E2C1A', tint: '#FCE0D8', glow: '255,106,77' },
+    violet: { light: '#8A6CFF', mid: '#6647D9', label: '#4625CF', deep: '#3F2C93', tint: '#E5DEFA', glow: '138,108,255' },
+    sage: { light: '#7aab96', mid: '#5d8a74', label: '#47735D', deep: '#3f5e50', tint: '#DDE8E1', glow: '122,171,150' },
 } as const satisfies Record<string, Palette>
 
 export type PaletteKey = keyof typeof palettes
@@ -37,6 +41,7 @@ export function applyPalette(el: HTMLElement, key: PaletteKey): void {
     const p = palettes[key]
     el.style.setProperty('--accent', p.light)
     el.style.setProperty('--accent-mid', p.mid)
+    el.style.setProperty('--accent-label', p.label)
     el.style.setProperty('--accent-deep', p.deep)
     el.style.setProperty('--accent-tint', p.tint)
     el.style.setProperty('--accent-glow', p.glow)

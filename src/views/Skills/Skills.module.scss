@@ -59,7 +59,7 @@
     font-size: var(--intro-eyebrow-size);
     letter-spacing: var(--intro-eyebrow-tracking);
     line-height: var(--intro-eyebrow-lh);
-    color: var(--accent-mid);
+    color: var(--science-line);
     width: 80%;
 }
 
@@ -133,7 +133,7 @@
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.2em;
-    color: var(--accent-mid);
+    color: var(--text-label);
 }
 
 .labelDetail {
@@ -250,7 +250,7 @@
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.2em;
-        color: var(--accent-mid);
+        color: var(--text-label);
     }
 
     .mDetail {

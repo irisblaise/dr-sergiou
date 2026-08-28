@@ -5,7 +5,7 @@
 
 :root {
     /* Foundation */
-    --canvas: #efeae0;
+    --canvas: #efeae1;
     --ink: #23211c;
     --body: #5b574c;
     --muted: #6c6458;
@@ -17,12 +17,25 @@
     --sage-mid: #5d8a74;
     --sage-deep: #3f5e50;
 
-    /* Accent ramp — default theme: pink. Swapped at runtime by the palette switcher. */
+    /* Accent ramp — default theme: pink. Swapped at runtime by the palette switcher.
+       Four steps, one job each: --accent is glow/pulse/animated-energy only (never
+       type, never a border); --accent-mid is links, CTAs, active nav, selection
+       rings; --accent-label is small pink type (mono eyebrows, taglines, captions);
+       --accent-deep is the hover end of the ramp. */
     --accent: #ed4c92;
     --accent-mid: #c8326f;
+    --accent-label: #a9255d;
     --accent-deep: #8e214e;
     --accent-tint: #f8deea;
     --accent-glow: 237, 76, 146;
+
+    /* Semantic aliases — so intent reads in the markup instead of raw ramp steps. */
+    --text-label: var(--accent-label);
+    --link: var(--accent-mid);
+    --link-hover: var(--accent-deep);
+    --science-line: var(--sage-deep);
+    --science-node: var(--sage);
+    --energy: var(--accent);
 
     /* Fonts */
     --font-serif: 'Newsreader', Georgia, serif;
