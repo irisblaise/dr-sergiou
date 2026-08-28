@@ -4,11 +4,22 @@ import { useEffect, useRef } from 'react'
 import type { Project } from '../../data/types'
 import styles from './Projects.module.scss'
 
-const H = 1526 // fixed timeline canvas height (matches the design)
+// Rows sit at an even vertical rhythm rather than each project's hand-picked
+// Sanity `node` pixel value — that value only sets display order now, so
+// every row (and its image) can share the same generous height without
+// risking overlap into the next one.
+const ROW_H = 420
+const TOP_Y = 130 // first row's node Y — headroom for the spine's top terminal
+const BOTTOM_TAIL = 300 // room below the last row for its image + tail terminal
+
+const rowY = (index: number) => TOP_Y + index * ROW_H
+const canvasHeight = (count: number) =>
+    TOP_Y + Math.max(0, count - 1) * ROW_H + BOTTOM_TAIL
 
 export default function Projects({ projects }: { projects: Project[] }) {
     const timelineRef = useRef<HTMLDivElement>(null)
     const railRef = useRef<SVGSVGElement>(null)
+    const H = canvasHeight(projects.length)
 
     useEffect(() => {
         const cont = timelineRef.current
@@ -263,7 +274,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
             window.clearTimeout(t)
             window.removeEventListener('resize', onResize)
         }
-    }, [])
+    }, [H])
 
     return (
         <div className={styles.page}>
@@ -275,17 +286,17 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 </p>
             </header>
 
-            <div className={styles.timeline} ref={timelineRef}>
+            <div className={styles.timeline} ref={timelineRef} style={{ height: H }}>
                 {/* Procedurally-drawn organic spine (buildSpine) */}
                 <svg className={styles.rail} ref={railRef} aria-hidden />
 
-                {/* Project rows — anchored to the same node Ys the spine markers use */}
+                {/* Project rows — evenly spaced; anchored to the same node Ys the spine markers use */}
                 {projects.map((p, i) => (
                     <div
                         key={i}
                         className={styles.trow}
-                        data-node={p.node}
-                        style={{ top: p.node - 42 }}
+                        data-node={rowY(i)}
+                        style={{ top: rowY(i) - 42 }}
                     >
                         <div className={styles.year}>{p.year}</div>
                         <div className={styles.text}>

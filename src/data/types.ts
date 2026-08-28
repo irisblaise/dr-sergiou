@@ -23,8 +23,8 @@ export interface Project {
     color: string
     image?: string
     imageAlt?: string
-    /** Y position (px) down the 1526px timeline canvas — the anchor shared by
-     *  the row and its spine marker. See PROJECTS_PAGE.md. */
+    /** Timeline order key (lower = earlier/higher up) — rows are spaced
+     *  evenly on the page, this only decides display order. */
     node: number
 }
 

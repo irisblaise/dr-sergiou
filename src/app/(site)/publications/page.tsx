@@ -5,11 +5,12 @@ import { getPublications } from '../../../sanity/lib/queries'
 export const metadata: Metadata = {
     title: 'Publications',
     description:
-        'Peer-reviewed research, book chapters, and dissertations authored by Dr. Carmen-Silva Sergiou.',
+        "Peer-reviewed articles, reviews, and book chapters on forensic neuroscience and neuromodulation — browse Dr. Carmen-Silva Sergiou's research by topic.",
     alternates: { canonical: '/publications' },
     openGraph: {
         title: 'Publications — Dr. Carmen-Silva Sergiou',
-        description: 'Peer-reviewed research, book chapters, and dissertations by Dr. Carmen-Silva Sergiou.',
+        description:
+            "Peer-reviewed articles, reviews, and book chapters on forensic neuroscience and neuromodulation — browse Dr. Carmen-Silva Sergiou's research by topic.",
         url: '/publications',
     },
 }

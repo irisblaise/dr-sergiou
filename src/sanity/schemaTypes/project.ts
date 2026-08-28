@@ -1,7 +1,8 @@
 import { defineField, defineType } from 'sanity'
 
-// Mirrors the `Project` interface in src/data/types.ts. NOTE: `node` (the px
-// Y-position down the timeline canvas) is layout-critical — do not drop it.
+// Mirrors the `Project` interface in src/data/types.ts. NOTE: `node` only
+// sets display order (via the "Timeline position" ordering below) — rows are
+// laid out at an even pixel rhythm in Projects.tsx, not at this literal value.
 export const project = defineType({
     name: 'project',
     title: 'Project',
@@ -30,10 +31,10 @@ export const project = defineType({
         }),
         defineField({
             name: 'node',
-            title: 'Timeline node (px)',
+            title: 'Timeline order',
             type: 'number',
             description:
-                'Y position (px) down the 1526px timeline canvas — the anchor shared by the row and its spine marker.',
+                'Sets this project\'s position in the timeline (lower = earlier/higher up). Rows are spaced evenly on the page — this is an order key, not a pixel position.',
             validation: (r) => r.required(),
         }),
         defineField({

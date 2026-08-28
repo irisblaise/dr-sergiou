@@ -40,7 +40,8 @@
 .timeline {
     position: relative;
     margin-top: 50px;
-    height: 1526px;
+    // Height is set inline from Projects.tsx (ROW_H * project count) so it
+    // always matches the evenly-spaced rows below.
 }
 
 .rail {
@@ -60,7 +61,12 @@
     top: var(--top);
     left: 0;
     right: 0;
+    // Every row gets the same slot — must match ROW_H in Projects.tsx.
+    height: 420px;
     z-index: 2;
+    /* Shared with .text/.illu so the copy column always clears the image,
+       however wide the image gets on a given viewport. */
+    --illu-w: clamp(320px, 30vw, 560px);
 }
 
 .year {
@@ -78,10 +84,10 @@
 .text {
     position: absolute;
     left: 300px;
-    right: 330px;
+    right: calc(var(--illu-w) + 40px);
     top: 0;
     // Cap the line length so the copy doesn't run too wide on the 1640 layout.
-    max-width: 560px;
+    max-width: 510px;
 }
 
 .title {
@@ -129,10 +135,19 @@
 
 .illu {
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 300px;
-    height: 182px;
+    // Nudges the image up off the text baseline so it reads as centred in
+    // the row's whitespace rather than flush with the title — independent of
+    // viewport since every row's height/image height is a fixed px value.
+    top: -60px;
+    // Inset from the content column's edge by the same amount as the page
+    // gutter (plus half of any extra width beyond the 1640px column), so the
+    // image keeps a balanced margin instead of touching the browser edge.
+    right: calc(var(--gutter) + max(0px, 100vw - var(--content-max)) / 2);
+    width: var(--illu-w);
+    // Fixed and equal across every row (rows are now evenly spaced by
+    // ROW_H = 420px in Projects.tsx) — leaves ~110px for the text column
+    // and breathing room before the next row starts.
+    height: 310px;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--rule);
