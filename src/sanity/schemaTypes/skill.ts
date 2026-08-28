@@ -37,6 +37,15 @@ export const skill = defineType({
             title: 'Node image',
             type: 'image',
             options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    title: 'Alt text',
+                    type: 'string',
+                    description: 'Describe the image for screen readers and search engines.',
+                    validation: (r) => r.required(),
+                }),
+            ],
         }),
         defineField({
             name: 'order',

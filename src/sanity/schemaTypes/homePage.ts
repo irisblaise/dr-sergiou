@@ -42,6 +42,7 @@ export const homePage = defineType({
             type: 'text',
             rows: 5,
         }),
+        defineField({ name: 'seo', title: 'SEO', type: 'seo' }),
     ],
     preview: { select: { title: 'heroHeadline' }, prepare: ({ title }) => ({ title: 'Home Page', subtitle: title }) },
 })

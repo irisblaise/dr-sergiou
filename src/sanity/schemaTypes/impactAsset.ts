@@ -22,6 +22,14 @@ export const impactAsset = defineType({
             type: 'image',
             options: { hotspot: true },
             hidden: ({ parent }) => parent?.type !== 'image',
+            fields: [
+                defineField({
+                    name: 'alt',
+                    title: 'Alt text',
+                    type: 'string',
+                    description: 'Describe the image for screen readers and search engines.',
+                }),
+            ],
         }),
         defineField({
             name: 'videoUrl',

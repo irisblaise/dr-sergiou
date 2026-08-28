@@ -15,6 +15,7 @@ interface ImpactItem {
     date: string
     link?: string
     image?: string
+    imageAlt?: string
     hasVideo: boolean
     assets: ImpactAsset[]
 }
@@ -51,6 +52,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
             date: m.date,
             link: m.link || undefined,
             image: m.image,
+            imageAlt: m.imageAlt,
             hasVideo: m.assets.some((a) => a.type === 'video'),
             assets: m.assets,
         }))
@@ -63,6 +65,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
             description: a.description,
             date: a.date,
             image: a.image,
+            imageAlt: a.imageAlt,
             hasVideo: a.assets.some((as) => as.type === 'video'),
             assets: a.assets,
         }))
@@ -310,7 +313,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                             allowFullScreen
                         />
                     ) : heroSrc ? (
-                        <img className={styles.heroImg} src={heroSrc} alt={item.title} />
+                        <img className={styles.heroImg} src={heroSrc} alt={item.imageAlt || item.title} />
                     ) : (
                         <div className={styles.heroPlaceholder}>
                             <span>media · portrait</span>
@@ -355,8 +358,16 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                                         key={i}
                                         className={`${styles.thumb} ${i === activeAsset ? styles.thumbActive : ''}`}
                                         onClick={() => setActiveAsset(i)}
+                                        aria-label={
+                                            a.type === 'video'
+                                                ? `Play video ${i + 1} of ${item.title}`
+                                                : a.alt || `${item.title} — image ${i + 1}`
+                                        }
                                     >
-                                        <img src={a.type === 'image' ? a.src : item.image} alt="" />
+                                        <img
+                                            src={a.type === 'image' ? a.src : item.image}
+                                            alt={a.type === 'image' ? a.alt || item.title : ''}
+                                        />
                                         {a.type === 'video' && <span className={styles.thumbPlay} aria-hidden />}
                                     </button>
                                 ))}

@@ -36,7 +36,21 @@ export const project = defineType({
                 'Y position (px) down the 1526px timeline canvas — the anchor shared by the row and its spine marker.',
             validation: (r) => r.required(),
         }),
-        defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true } }),
+        defineField({
+            name: 'image',
+            title: 'Image',
+            type: 'image',
+            options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    title: 'Alt text',
+                    type: 'string',
+                    description: 'Describe the image for screen readers and search engines.',
+                    validation: (r) => r.required(),
+                }),
+            ],
+        }),
     ],
     orderings: [
         { title: 'Timeline position', name: 'nodeAsc', by: [{ field: 'node', direction: 'asc' }] },

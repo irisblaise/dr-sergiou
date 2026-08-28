@@ -303,7 +303,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                         </div>
                         <div className={styles.illu}>
                             {p.image ? (
-                                <img src={p.image} alt={p.title} loading="lazy" />
+                                <img src={p.image} alt={p.imageAlt || p.title} loading="lazy" />
                             ) : (
                                 <div className={styles.placeholder}>
                                     <span>Brain · circuit sketch</span>

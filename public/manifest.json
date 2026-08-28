@@ -1,8 +1,9 @@
 {
-    "short_name": "Dr. Carmen-Silva Sergiou",
-    "name": "A online portfolio from Dr. Carmen-Silva Sergiou",
-    "start_url": ".",
-    "display": "",
+    "short_name": "C. Sergiou",
+    "name": "Dr. Carmen-Silva Sergiou",
+    "start_url": "/",
+    "display": "standalone",
     "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "background_color": "#ffffff",
+    "icons": [{ "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }]
 }

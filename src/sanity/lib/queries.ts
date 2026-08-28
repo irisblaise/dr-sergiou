@@ -4,13 +4,44 @@ import type { Award, MediaItem, Project, Publication, Skill } from '../../data/t
 
 // Each query resolves image references to plain CDN url strings (and gallery
 // assets to the flat { type, src } shape) so the existing components — which
-// expect `image: string` etc. — keep working unchanged.
+// expect `image: string` etc. — keep working unchanged. `imageAlt` is exposed
+// alongside as a sibling field rather than nesting `image` into an object, to
+// avoid touching every component's prop shape.
+
+const seoProjection = groq`{
+  metaTitle,
+  metaDescription,
+  "ogImage": ogImage.asset->url,
+  "ogImageAlt": ogImage.alt,
+  noIndex
+}`
+
+export interface SiteSettings {
+    siteName?: string
+    siteUrl?: string
+    defaultSeo?: {
+        metaTitle?: string
+        metaDescription?: string
+        ogImage?: string
+        ogImageAlt?: string
+        noIndex?: boolean
+    }
+    socialLinks?: string[]
+}
+
+const siteSettingsQuery = groq`*[_type == "siteSettings"][0]{
+  siteName,
+  siteUrl,
+  "defaultSeo": defaultSeo${seoProjection},
+  socialLinks
+}`
 
 const skillsQuery = groq`*[_type == "skill"] | order(order asc){
   "key": key,
   label,
   detail,
-  "image": image.asset->url
+  "image": image.asset->url,
+  "imageAlt": image.alt
 }`
 
 const projectsQuery = groq`*[_type == "project"] | order(node asc){
@@ -21,7 +52,8 @@ const projectsQuery = groq`*[_type == "project"] | order(node asc){
   year,
   color,
   node,
-  "image": image.asset->url
+  "image": image.asset->url,
+  "imageAlt": image.alt
 }`
 
 const publicationsQuery = groq`*[_type == "publication"] | order(year desc){
@@ -41,7 +73,8 @@ const publicationsQuery = groq`*[_type == "publication"] | order(year desc){
 
 const galleryProjection = `"assets": assets[]{
     "type": type,
-    "src": select(type == "video" => videoUrl, image.asset->url)
+    "src": select(type == "video" => videoUrl, image.asset->url),
+    "alt": image.alt
   }`
 
 const awardsQuery = groq`*[_type == "award"] | order(order asc){
@@ -51,6 +84,7 @@ const awardsQuery = groq`*[_type == "award"] | order(order asc){
   description,
   date,
   "image": image.asset->url,
+  "imageAlt": image.alt,
   ${galleryProjection}
 }`
 
@@ -62,6 +96,7 @@ const mediaQuery = groq`*[_type == "mediaItem"] | order(order asc){
   link,
   date,
   "image": image.asset->url,
+  "imageAlt": image.alt,
   ${galleryProjection}
 }`
 
@@ -70,18 +105,29 @@ export interface HomeContent {
     heroIntro: string[]
     passions: { number?: string; title: string; description: string }[]
     fullBio?: string
+    seo?: {
+        metaTitle?: string
+        metaDescription?: string
+        ogImage?: string
+        ogImageAlt?: string
+        noIndex?: boolean
+    }
 }
 
 const homeQuery = groq`*[_type == "homePage"][0]{
   heroHeadline,
   heroIntro,
   passions[]{ number, title, description },
-  fullBio
+  fullBio,
+  "seo": seo${seoProjection}
 }`
 
 // ISR: cache the fetch and revalidate on an interval so edits in the Studio
 // appear without a redeploy.
 const REVALIDATE = 60
+
+export const getSiteSettings = () =>
+    client.fetch<SiteSettings | null>(siteSettingsQuery, {}, { next: { revalidate: REVALIDATE } })
 
 export const getHome = () =>
     client.fetch<HomeContent | null>(homeQuery, {}, { next: { revalidate: REVALIDATE } })

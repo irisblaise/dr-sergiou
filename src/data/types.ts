@@ -22,6 +22,7 @@ export interface Project {
     /** Accent colour for the row node / date label. */
     color: string
     image?: string
+    imageAlt?: string
     /** Y position (px) down the 1526px timeline canvas — the anchor shared by
      *  the row and its spine marker. See PROJECTS_PAGE.md. */
     node: number
@@ -31,6 +32,7 @@ export interface Project {
 export interface ImpactAsset {
     type: 'image' | 'video'
     src: string
+    alt?: string
 }
 
 export interface Award {
@@ -40,6 +42,7 @@ export interface Award {
     description: string
     date: string
     image?: string
+    imageAlt?: string
     assets: ImpactAsset[]
 }
 
@@ -51,6 +54,7 @@ export interface MediaItem {
     link: string
     date: string
     image?: string
+    imageAlt?: string
     assets: ImpactAsset[]
 }
 
@@ -121,4 +125,5 @@ export interface Skill {
     detail: string
     /** Node image asset. */
     image: string
+    imageAlt?: string
 }

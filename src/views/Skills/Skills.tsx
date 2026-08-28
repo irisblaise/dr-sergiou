@@ -97,7 +97,7 @@ export default function Skills({ skills }: { skills: Skill[] }) {
                                     className={styles.node}
                                     style={{ left: n.left, top: n.top }}
                                 >
-                                    <img src={s.image} alt={s.label} />
+                                    <img src={s.image} alt={s.imageAlt || s.label} />
                                 </div>
                             )
                         })}
@@ -136,7 +136,7 @@ export default function Skills({ skills }: { skills: Skill[] }) {
                             className={`${styles.row} ${i === skills.length - 1 ? styles.rowLast : ''}`}
                         >
                             <span className={styles.mNode}>
-                                <img src={s.image} alt={s.label} />
+                                <img src={s.image} alt={s.imageAlt || s.label} />
                             </span>
                             <span className={styles.mText}>
                                 <span className={styles.mLabel}>{s.label}</span>

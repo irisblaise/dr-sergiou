@@ -12,7 +12,21 @@ export const mediaItem = defineType({
         defineField({ name: 'description', title: 'Description', type: 'text' }),
         defineField({ name: 'link', title: 'Link', type: 'url' }),
         defineField({ name: 'date', title: 'Date', type: 'string' }),
-        defineField({ name: 'image', title: 'Cover image', type: 'image', options: { hotspot: true } }),
+        defineField({
+            name: 'image',
+            title: 'Cover image',
+            type: 'image',
+            options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    title: 'Alt text',
+                    type: 'string',
+                    description: 'Describe the image for screen readers and search engines.',
+                    validation: (r) => r.required(),
+                }),
+            ],
+        }),
         defineField({ name: 'assets', title: 'Assets', type: 'array', of: [{ type: 'impactAsset' }] }),
         defineField({
             name: 'order',
