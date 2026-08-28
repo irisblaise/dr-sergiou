@@ -45,6 +45,12 @@
     font-size: 15px;
 }
 
+.glyphImg {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
 .lockup {
     display: flex;
     flex-direction: column;

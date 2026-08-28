@@ -141,6 +141,7 @@
 
 /* ---------- Selected ---------- */
 .selected {
+    z-index: 1;
     transform: translateY(-26px);
     box-shadow:
         inset 1.5px 0 3px rgba(255, 255, 255, 0.14),

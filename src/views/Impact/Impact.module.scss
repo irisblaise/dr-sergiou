@@ -12,8 +12,8 @@
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(40px, 6vw, 64px);
-    line-height: 1;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
     letter-spacing: -0.02em;
     color: var(--ink);
 }
@@ -180,19 +180,21 @@
     color: var(--ink);
 }
 
-/* ---------- Scroll-up hint ---------- */
+/* ---------- Scroll-up hint (matches the homepage's scroll cue) ---------- */
 .scrollUp {
     margin-top: 16px;
-    display: inline-flex;
+    width: 100%;
+    display: flex;
     align-items: center;
-    gap: 9px;
+    justify-content: center;
+    gap: 12px;
     background: none;
     border: none;
     padding: 0;
     cursor: pointer;
     font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
+    font-size: 11px;
+    letter-spacing: 0.24em;
     color: var(--accent-mid);
     transition: color 0.3s ease;
 
@@ -201,16 +203,43 @@
     }
 }
 
-.scrollUpIcon {
-    width: 26px;
-    height: 26px;
-    flex: 0 0 26px;
+.cueLine {
+    position: relative;
+    display: inline-block;
+    width: 1.5px;
+    height: 30px;
+    border-radius: 1px;
+    background: rgba(var(--accent-glow), 0.3);
+}
+
+.cueDot {
+    position: absolute;
+    bottom: 0;
+    left: -1.5px;
+    width: 4.5px;
+    height: 4.5px;
     border-radius: 50%;
-    border: 1px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: inherit;
+    background: var(--accent);
+    animation: scrollupdot 1.9s ease-in-out infinite;
+}
+
+// Defined locally: CSS Modules scope the animation-name above, so the matching
+// keyframes must live in this module (the copy in Home.module.scss isn't reachable).
+@keyframes scrollupdot {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    18% {
+        opacity: 1;
+    }
+    82% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
 }
 
 /* ---------- Center: featured detail text ---------- */

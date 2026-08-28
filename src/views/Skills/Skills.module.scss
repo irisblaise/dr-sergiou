@@ -5,7 +5,7 @@
     margin: 0 auto;
     // Same top/side spacing as every other page's intro.
     padding: calc(var(--nav-height) + 40px) var(--gutter) 0;
-    min-height: calc(100svh - var(--nav-height));
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
 }
@@ -23,7 +23,10 @@
 /* The map div fills the whole page area (behind the intro) and is scaled by fit(). */
 .stageWrap {
     position: absolute;
-    inset: 0;
+    top: var(--nav-height);
+    right: 0;
+    bottom: 0;
+    left: 0;
     overflow: hidden;
 }
 
@@ -38,14 +41,14 @@
 .cluster {
     position: absolute;
     inset: 0;
-    transform: translateX(110px);
+    transform: translate(75px, -35px);
 }
 
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: 78px;
-    line-height: 0.95;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
     letter-spacing: -0.02em;
     color: var(--ink);
 }

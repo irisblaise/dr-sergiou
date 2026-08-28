@@ -23,8 +23,8 @@
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(56px, 9vw, 96px);
-    line-height: 0.98;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
     letter-spacing: -0.02em;
     color: var(--ink);
 }

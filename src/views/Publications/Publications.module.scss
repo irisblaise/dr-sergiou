@@ -3,17 +3,18 @@
     margin: 0 auto;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 70px;
     display: grid;
-    grid-template-columns: 360px minmax(0, 1fr);
+    grid-template-columns: 540px minmax(0, 1fr);
     gap: clamp(24px, 4vw, 64px);
     align-items: start;
+    min-height: 100svh;
 }
 
 /* ---------- Intro ---------- */
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(40px, 4.4vw, 60px);
-    line-height: 1.04;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
     letter-spacing: -0.02em;
     color: var(--ink);
 }
@@ -112,6 +113,7 @@
 /* ---------- Shelf ---------- */
 .shelfCol {
     min-width: 0;
+    align-self: center;
 }
 
 .shelfArea {
@@ -121,7 +123,7 @@
 .shelf {
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 14px 2px 26px;
+    padding: 35px 2px 26px;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -430,10 +432,14 @@
 @media (max-width: 1080px) {
     .page {
         grid-template-columns: minmax(0, 1fr);
+        min-height: 0;
     }
     .intro,
     .mobileList {
         min-width: 0;
+    }
+    .shelfCol {
+        align-self: auto;
     }
 }
 

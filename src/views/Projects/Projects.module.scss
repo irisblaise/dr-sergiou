@@ -13,8 +13,8 @@
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(52px, 7vw, 86px);
-    line-height: 0.95;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
     letter-spacing: -0.02em;
     color: var(--ink);
 }
@@ -81,7 +81,7 @@
     right: 330px;
     top: 0;
     // Cap the line length so the copy doesn't run too wide on the 1640 layout.
-    max-width: 620px;
+    max-width: 560px;
 }
 
 .title {

@@ -35,9 +35,11 @@
     --nav-height: 90px;
 
     /* Page-intro typography — the eyebrow/title/paragraph stack that opens
-       every page. Font-size on the title varies per page (it's tuned to that
-       page's grid column width), but weight/tracking/family and the rhythm
-       between the three elements stay fixed here. */
+       every page. Title size is driven purely by viewport width (not by the
+       column it sits in), so it computes to the same size on every page at a
+       given viewport — narrower columns just wrap onto more lines. */
+    --intro-title-size: clamp(56px, 9vw, 86px);
+    --intro-title-lh: 0.98;
     --intro-title-gap: 20px;
     --intro-eyebrow-size: 12px;
     --intro-eyebrow-tracking: 0.22em;

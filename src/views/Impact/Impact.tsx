@@ -269,12 +269,10 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                 </div>
 
                 <button className={styles.scrollUp} onClick={scrollLegendTop}>
-                    <span className={styles.scrollUpIcon} aria-hidden>
-                        <svg viewBox="0 0 24 24" width="13" height="13" fill="none">
-                            <path d="M18 15l-6-6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
+                    SCROLL&nbsp;FOR&nbsp;MORE
+                    <span className={styles.cueLine}>
+                        <span className={styles.cueDot} />
                     </span>
-                    SCROLL&nbsp;UP
                 </button>
             </aside>
 
