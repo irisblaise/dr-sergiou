@@ -134,6 +134,11 @@ button {
     :root {
         --nav-height: 60px;
     }
+
+    /* Body copy reads better justified once lines wrap tight on mobile. */
+    p {
+        text-align: justify;
+    }
 }
 
 /* ============ Shared keyframes ============ */

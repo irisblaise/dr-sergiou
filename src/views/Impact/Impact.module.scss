@@ -9,6 +9,10 @@
 }
 
 /* ---------- Left rail ---------- */
+.rail {
+    position: relative;
+}
+
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
@@ -242,18 +246,71 @@
     }
 }
 
+/* ---------- Gutter spine: traced axon with a travelling signal ----------
+   A static SVG sized to exactly span the .page gap and the rail's live
+   height (measured in JS), redrawn whenever the rail resizes. Purely
+   decorative — it does not track the active row. */
+.spine {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: clamp(24px, 4vw, 56px);
+    pointer-events: none;
+}
+
+.spineSvg {
+    display: block;
+}
+
+.spineTrace {
+    fill: none;
+    stroke: rgba(94, 89, 77, 0.22);
+    stroke-width: 1;
+}
+
+.spineDot {
+    fill: var(--canvas);
+    stroke: rgba(94, 89, 77, 0.5);
+    stroke-width: 1.5;
+}
+
+.spineSignalPath {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 14 300;
+    opacity: 0.85;
+    animation: spineSignal 4.6s linear infinite;
+}
+
+@keyframes spineSignal {
+    from {
+        stroke-dashoffset: var(--spine-dash-from, 1000);
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .spine {
+        display: none;
+    }
+}
+
 /* ---------- Center: featured detail text ---------- */
 .center {
     padding: clamp(40px, 11vw, 70px) clamp(16px, 2.4vw, 46px);
-    border-left: 1px solid var(--rule);
-        height: 100%;
+    height: 100%;
 }
 
 .featureEyebrow {
     font-family: var(--font-mono);
     font-size: 13px;
     letter-spacing: 0.16em;
-    color: var(--text-label);
+    color: var(--accent-mid);
     text-transform: uppercase;
 }
 
@@ -269,17 +326,17 @@
     margin: 30px 0 0;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(28px, 3.2vw, 35px);
-    line-height: 1.1;
+    font-size: clamp(26px, 2.6vw, 30px);
+    line-height: 1.14;
     letter-spacing: -0.01em;
     color: var(--ink);
 }
 
 .featurePeople {
-    margin-top: 18px;
+    margin-top: 16px;
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 23px;
+    font-size: 21px;
     color: #3c382f;
 }
 
@@ -316,17 +373,15 @@
 /* ---------- Right: hero media ---------- */
 .media {
     position: relative;
-}
-
-/* single image (no slider) — centre it vertically against the text column */
-.mediaSolo {
+    /* centred unconditionally (not per asset-count) so switching between a
+       video item and a multi-asset item never shifts its position */
     align-self: center;
 }
 
 .hero {
     position: relative;
-    height: clamp(380px, 40vw, 600px);
-    border-radius: 18px;
+    height: clamp(380px, 46vw, 600px);
+    border-radius: 14px;
     overflow: hidden;
     border: 1px solid rgba(142, 33, 78, 0.1);
     box-shadow: 0 26px 60px -28px rgba(60, 40, 30, 0.55);
@@ -337,7 +392,7 @@
 .heroVideo {
     display: block;
     width: 100%;
-    height: clamp(380px, 40vw, 600px);
+    height: clamp(380px, 46vw, 600px);
     object-fit: cover;
 }
 
@@ -415,115 +470,79 @@
     border-color: transparent transparent transparent #fff;
 }
 
-/* ---------- Gallery (asset slider) ---------- */
-.gallery {
-    position: relative;
-    z-index: 2;
-    margin-top: -26px;
+/* ---------- Counter bar (in-image asset nav) ---------- */
+.bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 46px;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 18px;
-    /* frosted cream so it sits in the palette rather than a hard white card */
-    background: rgba(247, 243, 235, 0.78);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(142, 33, 78, 0.08);
-    border-radius: 18px;
-    box-shadow: 0 20px 46px -24px rgba(60, 40, 30, 0.4);
+    padding: 0 16px;
+    background: linear-gradient(180deg, rgba(28, 30, 26, 0), rgba(28, 30, 26, 0.62) 42%, rgba(28, 30, 26, 0.78));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
-.galArrow {
+// arrows and counter carry the SAME type treatment as the IMAGE/VIDEO label
+.barBtn {
+    width: 26px;
+    height: 26px;
     flex: none;
-    width: 30px;
-    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 1px solid rgba(142, 33, 78, 0.2);
+    border: none;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.55);
-    cursor: pointer;
-    color: var(--accent-mid);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.66);
     transition:
-        color 0.25s ease,
-        background 0.25s ease,
-        border-color 0.25s ease;
+        background 0.2s ease,
+        color 0.2s ease;
 
     &:hover {
+        background: rgba(255, 255, 255, 0.16);
         color: #fff;
-        background: var(--accent);
-        border-color: var(--accent);
     }
 
     &:disabled {
-        opacity: 0.3;
-        cursor: default;
+        opacity: 0.32;
     }
 }
 
-.galViewport {
-    flex: 1;
-    overflow: hidden;
+.count {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.66);
+    min-width: 62px;
+    text-align: center;
 }
 
-.galTrack {
-    display: flex;
-    gap: 12px;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+.kind {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.66);
 }
 
-.thumb {
-    position: relative;
-    flex: none;
-    width: 90px;
-    height: 78px;
-    padding: 0;
-    border-radius: 12px;
-    overflow: hidden;
-    background: none;
-    border: 1px solid rgba(142, 33, 78, 0.1);
-    cursor: pointer;
-    transition: border-color 0.25s ease;
+.kindVideo {
+    color: #fff;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    &:hover {
-        border-color: var(--accent);
-    }
-}
-
-.thumbActive {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent) inset;
-}
-
-.thumbPlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(142, 33, 78, 0.4);
-
-    &::after {
+    &::before {
         content: '';
-        margin-left: 2px;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-right: 8px;
         border-style: solid;
-        border-width: 4px 0 4px 7px;
-        border-color: transparent transparent transparent #fff;
+        border-width: 4px 0 4px 6px;
+        border-color: transparent transparent transparent var(--accent);
+        vertical-align: 1px;
     }
 }
 
@@ -570,21 +589,28 @@
         justify-content: center;
         gap: 7px;
         padding: 9px 0;
-        border-radius: 30px;
+        border-radius: 999px;
         cursor: pointer;
         border: 1px solid var(--rule);
         background: transparent;
-        color: var(--soft);
+        color: var(--nav-ink);
         font-family: var(--font-mono);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
+        font-size: 10.5px;
+        letter-spacing: 0.12em;
+        transition:
+            background 0.3s ease,
+            color 0.3s ease,
+            border-color 0.3s ease;
+
+        &:hover {
+            border-color: var(--accent-mid);
+        }
     }
 
     .tabActive {
-        border-color: var(--accent);
-        background: rgba(var(--accent-glow), 0.12);
-        color: var(--accent-mid);
+        background: var(--accent-mid);
+        border-color: var(--accent-mid);
+        color: #fff;
     }
 
     .tabCount {
@@ -617,15 +643,22 @@
         width: 158px;
         text-align: left;
         padding: 10px 13px;
-        border-radius: 11px;
+        border-radius: 999px;
         cursor: pointer;
-        border: 1px solid var(--list-rule);
+        border: 1px solid var(--rule);
         background: transparent;
+        transition:
+            background 0.3s ease,
+            border-color 0.3s ease;
+
+        &:hover {
+            border-color: var(--accent-mid);
+        }
     }
 
     .chipActive {
-        border-color: var(--accent);
-        background: rgba(var(--accent-glow), 0.1);
+        background: var(--accent-mid);
+        border-color: var(--accent-mid);
     }
 
     .chipDate {
@@ -634,6 +667,10 @@
         font-size: 9.5px;
         letter-spacing: 0.12em;
         color: var(--science-line);
+    }
+
+    .chipActive .chipDate {
+        color: rgba(255, 255, 255, 0.75);
     }
 
     .chipTitle {
@@ -649,7 +686,7 @@
     }
 
     .chipActive .chipTitle {
-        color: var(--ink);
+        color: #fff;
     }
 
     .chipsFade {
@@ -686,9 +723,5 @@
 
     .featurePeople {
         font-size: 19px;
-    }
-
-    .gallery {
-        display: none;
     }
 }

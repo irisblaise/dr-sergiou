@@ -434,6 +434,11 @@
     .shelfCol {
         align-self: auto;
     }
+    .eyebrow,
+    .blurb {
+        width: 100%;
+        max-width: none;
+    }
 }
 
 /* Switch from the horizontal shelf to the vertical card list */

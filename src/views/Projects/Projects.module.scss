@@ -178,6 +178,11 @@
 
 /* ---------- Mobile: stacked, spine hidden ---------- */
 @media (max-width: 900px) {
+    .blurb,
+    .desc {
+        text-align: left;
+    }
+
     .rail {
         display: none;
     }

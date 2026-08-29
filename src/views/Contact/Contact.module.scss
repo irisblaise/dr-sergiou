@@ -198,6 +198,10 @@
     .page {
         grid-template-columns: 1fr;
     }
+    .blurb {
+        width: 100%;
+        max-width: none;
+    }
     .portrait {
         position: static;
         height: auto;

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
 import styles from './Impact.module.scss'
@@ -40,6 +40,24 @@ function ytEmbed(url: string): string {
 const prefersReduced = () =>
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// ---- Gutter spine geometry: a static trace stepping sideways at three bends ----
+const SPINE_W = 56
+const SPINE_C = SPINE_W / 2
+function buildSpine(h: number) {
+    const bends = [
+        { y: h * 0.24, dx: 9 },
+        { y: h * 0.52, dx: -9 },
+        { y: h * 0.82, dx: 9 },
+    ]
+    let d = `M ${SPINE_C} 0`
+    for (const { y, dx } of bends) {
+        const x2 = SPINE_C + dx
+        d += ` L ${SPINE_C} ${y - 18} Q ${x2} ${y - 18} ${x2} ${y - 11} L ${x2} ${y + 11} Q ${x2} ${y + 18} ${SPINE_C} ${y + 18}`
+    }
+    d += ` L ${SPINE_C} ${h}`
+    return { d, bends }
+}
 
 export default function Impact({ awards, media }: { awards: Award[]; media: MediaItem[] }) {
     const items = useMemo<ImpactItem[]>(() => {
@@ -86,12 +104,10 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
         if (first >= 0) setSelected(first)
     }
 
-    // ---- Detail media: active asset + thumbnail track ----
+    // ---- Detail media: active asset ----
     const [activeAsset, setActiveAsset] = useState(0)
-    const [thumbStart, setThumbStart] = useState(0)
     useEffect(() => {
         setActiveAsset(0)
-        setThumbStart(0)
     }, [selected])
     const [playing, setPlaying] = useState(false)
     useEffect(() => setPlaying(false), [activeAsset, selected])
@@ -102,11 +118,9 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
         assets[activeAsset] ?? (item.image ? ({ type: 'image', src: item.image } as ImpactAsset) : undefined)
     const isVideo = heroAsset?.type === 'video'
     const heroSrc = heroAsset?.type === 'image' ? heroAsset.src : item.image
-    const THUMB_STEP = 102 // 90px thumb + 12px gap
-    const VISIBLE = 4
-    const maxStart = Math.max(0, assets.length - VISIBLE)
-    const prevThumb = () => setThumbStart((s) => Math.max(0, s - 1))
-    const nextThumb = () => setThumbStart((s) => Math.min(maxStart, s + 1))
+    const prevAsset = () => setActiveAsset((i) => (i - 1 + assets.length) % assets.length)
+    const nextAsset = () => setActiveAsset((i) => (i + 1) % assets.length)
+    const pad2 = (n: number) => String(n).padStart(2, '0')
 
     // ---- Sticky stacked legend (see IMPACT_LEGEND.md) ----
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -114,6 +128,13 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
     const awardsHeaderRef = useRef<HTMLDivElement>(null)
     const fadeRef = useRef<HTMLDivElement>(null)
     const spacerRef = useRef<HTMLDivElement>(null)
+
+    // ---- Gutter spine: static traced axon, sized to the rail's live height ----
+    const railRef = useRef<HTMLDivElement>(null)
+    const [spineH, setSpineH] = useState(0)
+    const [reducedMotion, setReducedMotion] = useState(false)
+    useEffect(() => setReducedMotion(prefersReduced()), [])
+    const spine = useMemo(() => buildSpine(spineH), [spineH])
 
     const updateSticky = useCallback(() => {
         const scroll = scrollRef.current
@@ -149,6 +170,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
         const scroll = scrollRef.current
         const anchor = anchorRef.current
         const spacer = spacerRef.current
+        const rail = railRef.current
         if (!scroll || !anchor || !spacer) return
         spacer.style.height = '0px'
         const y = anchor.offsetTop
@@ -156,6 +178,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
         const need = Math.max(0, desired - scroll.scrollHeight)
         spacer.style.height = `${need}px`
         updateSticky()
+        if (rail) setSpineH(rail.offsetHeight)
     }, [updateSticky])
 
     useEffect(() => {
@@ -197,7 +220,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
     return (
         <div className={styles.page}>
             {/* Left rail: intro + sticky stacked legend */}
-            <aside className={styles.rail}>
+            <aside className={styles.rail} ref={railRef}>
                 <h1 className={styles.heading}>Impact</h1>
                 <div className={styles.eyebrow}>
                     SCIENCE IN ACTION.
@@ -278,6 +301,44 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                         <span className={styles.cueDot} />
                     </span>
                 </button>
+
+                {/* Gutter spine: a traced axon down the gutter, redrawn to the
+                    rail's live height — purely decorative, no active-row wiring */}
+                <div className={styles.spine} aria-hidden>
+                    {spineH > 0 && (
+                        <svg
+                            className={styles.spineSvg}
+                            viewBox={`0 0 ${SPINE_W} ${spineH}`}
+                            preserveAspectRatio="none"
+                            width="100%"
+                            height="100%"
+                        >
+                            <path className={styles.spineTrace} d={spine.d} />
+                            {!reducedMotion && (
+                                <path
+                                    className={styles.spineSignalPath}
+                                    d={spine.d}
+                                    style={
+                                        {
+                                            '--spine-dash-from': spineH + 314,
+                                        } as CSSProperties
+                                    }
+                                />
+                            )}
+                            <circle className={styles.spineDot} cx={SPINE_C} cy={0} r={4.5} />
+                            <circle className={styles.spineDot} cx={SPINE_C} cy={spineH} r={4.5} />
+                            {spine.bends.map((b, i) => (
+                                <circle
+                                    key={i}
+                                    className={styles.spineDot}
+                                    cx={SPINE_C + b.dx}
+                                    cy={b.y}
+                                    r={3}
+                                />
+                            ))}
+                        </svg>
+                    )}
+                </div>
             </aside>
 
             {/* Center: featured detail text */}
@@ -302,8 +363,8 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                 )}
             </div>
 
-            {/* Right: hero media + asset gallery */}
-            <div className={`${styles.media} ${assets.length > 1 ? '' : styles.mediaSolo}`}>
+            {/* Right: hero media + in-image counter bar */}
+            <div className={styles.media}>
                 <div className={styles.hero}>
                     {isVideo && playing ? (
                         <iframe
@@ -330,6 +391,49 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
 
                     {!(isVideo && playing) && <span className={styles.heroShade} aria-hidden />}
 
+                    {assets.length > 1 && !(isVideo && playing) && (
+                        <div className={styles.bar}>
+                            <button
+                                className={styles.barBtn}
+                                onClick={prevAsset}
+                                aria-label="Previous asset"
+                            >
+                                <svg
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                >
+                                    <path d="M19 12H5M11 6l-6 6 6 6" />
+                                </svg>
+                            </button>
+                            <span className={styles.count} aria-live="polite">
+                                {pad2(activeAsset + 1)} / {pad2(assets.length)}
+                            </span>
+                            <button
+                                className={styles.barBtn}
+                                onClick={nextAsset}
+                                aria-label="Next asset"
+                            >
+                                <svg
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.8"
+                                >
+                                    <path d="M5 12h14M13 6l6 6-6 6" />
+                                </svg>
+                            </button>
+                            <span className={`${styles.kind} ${isVideo ? styles.kindVideo : ''}`}>
+                                {isVideo ? 'VIDEO' : 'IMAGE'}
+                            </span>
+                        </div>
+                    )}
+
                     {isVideo && !playing && (
                         <button
                             className={styles.play}
@@ -343,66 +447,6 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                         </button>
                     )}
                 </div>
-
-                {assets.length > 1 && (
-                    <div className={styles.gallery}>
-                        <button
-                            className={styles.galArrow}
-                            onClick={prevThumb}
-                            disabled={thumbStart === 0}
-                            aria-label="Previous"
-                        >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                                <path d="M15 6l-6 6 6 6" />
-                            </svg>
-                        </button>
-                        <div className={styles.galViewport}>
-                            <div
-                                className={styles.galTrack}
-                                style={{ transform: `translateX(-${thumbStart * THUMB_STEP}px)` }}
-                            >
-                                {assets.map((a, i) => (
-                                    <button
-                                        key={i}
-                                        className={`${styles.thumb} ${i === activeAsset ? styles.thumbActive : ''}`}
-                                        onClick={() => setActiveAsset(i)}
-                                        aria-label={
-                                            a.type === 'video'
-                                                ? `Play video ${i + 1} of ${item.title}`
-                                                : a.alt || `${item.title} — image ${i + 1}`
-                                        }
-                                    >
-                                        {(() => {
-                                            const thumbSrc = a.type === 'image' ? a.src : item.image
-                                            return (
-                                                thumbSrc && (
-                                                    <Image
-                                                        src={thumbSrc}
-                                                        alt={a.type === 'image' ? a.alt || item.title : ''}
-                                                        fill
-                                                        sizes="90px"
-                                                        style={{ objectFit: 'cover' }}
-                                                    />
-                                                )
-                                            )
-                                        })()}
-                                        {a.type === 'video' && <span className={styles.thumbPlay} aria-hidden />}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                        <button
-                            className={styles.galArrow}
-                            onClick={nextThumb}
-                            disabled={thumbStart >= maxStart}
-                            aria-label="Next"
-                        >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
-                                <path d="M9 6l6 6-6 6" />
-                            </svg>
-                        </button>
-                    </div>
-                )}
             </div>
         </div>
     )
