@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import SkillsRedesign from '../../../views/SkillsRedesign/SkillsRedesign'
-import { getSkills } from '../../../sanity/lib/queries'
+import SkillsPage from '../../../views/SkillsMain/SkillsPage'
+import { getPageContent, getSkills } from '../../../sanity/lib/queries'
 
 export const metadata: Metadata = {
     title: 'Skills',
@@ -15,6 +15,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-    const skills = await getSkills()
-    return <SkillsRedesign skills={skills} />
+    const [skills, pageContent] = await Promise.all([getSkills(), getPageContent('skills')])
+    return <SkillsPage skills={skills} pageContent={pageContent} />
 }

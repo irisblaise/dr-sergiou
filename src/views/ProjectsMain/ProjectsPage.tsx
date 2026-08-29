@@ -3,7 +3,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Project } from '../../data/types'
-import styles from './ProjectsRedesign.module.scss'
+import type { PageContent } from '../../sanity/lib/queries'
+import styles from './ProjectsPage.module.scss'
 
 const MOBILE_QUERY = '(max-width: 900px)'
 
@@ -76,12 +77,24 @@ function clipPolyline(points: Point[], yMin: number, yMax: number): Point[] {
 
 type MobileMetrics = { tops: number[]; bottoms: number[] }
 
-export default function ProjectsRedesign({ projects }: { projects: Project[] }) {
+export default function ProjectsPage({
+    projects,
+    pageContent,
+}: {
+    projects: Project[]
+    pageContent?: PageContent | null
+}) {
     const railRef = useRef<SVGSVGElement>(null)
     const gridRef = useRef<HTMLDivElement>(null)
     const rowRefs = useRef<(HTMLDivElement | null)[]>([])
     const [isMobile, setIsMobile] = useState(false)
     const [mobileMetrics, setMobileMetrics] = useState<MobileMetrics | null>(null)
+    const heading = pageContent?.heading ?? 'Projects'
+    const eyebrow = pageContent?.eyebrow ?? 'TRACE THE JOURNEY'
+    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
+        'Ongoing and past research projects that connect neuroscience, behaviour, and technology to questions of justice and society.',
+        'Each line of work reflects a different thread in the same wider field of inquiry — from research design to public impact.',
+    ]
 
     useEffect(() => {
         const mq = window.matchMedia(MOBILE_QUERY)

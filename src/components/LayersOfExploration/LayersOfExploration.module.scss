@@ -539,9 +539,11 @@
 
     // Elegant prev/next, in their own row under the title line so they don't
     // crowd the eyebrow/readout text.
-    .headerArrows {
+        .headerArrows {
         display: flex;
+        align-items: center;
         justify-content: space-between;
+        gap: 10px;
         margin-top: 12px;
     }
 
@@ -553,6 +555,35 @@
         height: 26px;
         font-size: 18px;
         line-height: 1;
+        flex: 0 0 auto;
+    }
+
+    .headerArrows .rail {
+        flex: 1 1 auto;
+        min-width: 0;
+        order: 0;
+        padding-top: 0;
+        border-top: 0;
+        overflow-x: auto;
+    }
+
+    .headerArrows .railSpine {
+        display: none;
+    }
+
+    .headerArrows .rail ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 12px;
+        min-width: max-content;
+    }
+
+    .headerArrows .railBtn {
+        gap: 8px;
+    }
+
+    .headerArrows .railNav {
+        display: none;
     }
 
     .rail {

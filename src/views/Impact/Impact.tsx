@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
+import type { PageContent } from '../../sanity/lib/queries'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
 import styles from './Impact.module.scss'
 
@@ -59,7 +60,20 @@ function buildSpine(h: number) {
     return { d, bends }
 }
 
-export default function Impact({ awards, media }: { awards: Award[]; media: MediaItem[] }) {
+export default function Impact({
+    awards,
+    media,
+    pageContent,
+}: {
+    awards: Award[]
+    media: MediaItem[]
+    pageContent?: PageContent | null
+}) {
+    const heading = pageContent?.heading ?? 'Impact'
+    const eyebrow = pageContent?.eyebrow ?? 'IMPACT IN SOCIETY.'
+    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
+        'Media coverage, interviews, and awards reflecting the reach of Dr. Carmen-Silva Sergiou\'s research.',
+    ]
     const items = useMemo<ImpactItem[]>(() => {
         const mediaItems: ImpactItem[] = media.map((m, i) => ({
             id: `media-${i}`,
@@ -221,16 +235,13 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
         <div className={styles.page}>
             {/* Left rail: intro + sticky stacked legend */}
             <aside className={styles.rail} ref={railRef}>
-                <h1 className={styles.heading}>Impact</h1>
-                <div className={styles.eyebrow}>
-                    SCIENCE IN ACTION.
-                    <br />
-                    IMPACT IN SOCIETY.
-                </div>
-                <p className={styles.blurb}>
-                    A selection of media, interviews and awards that reflect the reach and relevance
-                    of my work.
-                </p>
+                <h1 className={styles.heading}>{heading}</h1>
+                <div className={styles.eyebrow}>{eyebrow}</div>
+                {introParagraphs.map((paragraph, index) => (
+                    <p key={index} className={styles.blurb}>
+                        {paragraph}
+                    </p>
+                ))}
 
                 {/* Mobile-only switcher: tabs + horizontal chip strip */}
                 <div className={styles.switcher}>

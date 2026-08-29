@@ -38,28 +38,4 @@
     }
 }
 
-.classicRow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    margin-top: 14px;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.16em;
-}
 
-.classicLabel {
-    color: var(--soft);
-}
-
-.classicLink {
-    color: var(--soft);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    transition: color 0.3s ease;
-
-    &:hover {
-        color: var(--accent-mid);
-    }
-}

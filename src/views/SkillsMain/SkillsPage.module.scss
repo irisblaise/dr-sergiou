@@ -384,6 +384,27 @@
         margin: 0 auto;
     }
 
+    .mHeader {
+        padding: 40px 22px 0;
+    }
+
+    .mHeading {
+        margin: 0;
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: 62px;
+        line-height: 0.92;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+    }
+
+    .mParagraph {
+        margin-top: 14px;
+        font-size: 13.5px;
+        line-height: 1.62;
+        color: var(--body);
+    }
+
     .timeline {
         position: relative;
         padding: 26px 22px 0;

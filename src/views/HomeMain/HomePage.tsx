@@ -5,7 +5,7 @@ import BrainAnimationSwitcher from '../../components/BrainAnimationSwitcher/Brai
 import BrainAnimationVersionToggle from '../../components/BrainAnimationSwitcher/BrainAnimationVersionToggle'
 import LayersOfExploration from '../../components/LayersOfExploration/LayersOfExploration'
 import type { HomeContent } from '../../sanity/lib/queries'
-import styles from './HomeRedesign.module.scss'
+import styles from './HomePage.module.scss'
 
 // Forces "the Brain" onto its own line regardless of viewport width, instead
 // of relying on the text wrapping naturally at whatever width happens to fit.
@@ -21,7 +21,7 @@ function renderHeadline(text: string) {
     )
 }
 
-export default function HomeRedesign({ home }: { home: HomeContent | null }) {
+export default function HomePage({ home }: { home: HomeContent | null }) {
     const heroHeadline = home?.heroHeadline ?? 'The Never Ending Exploration of the Brain.'
     const heroIntro = home?.heroIntro ?? []
 

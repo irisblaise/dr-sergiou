@@ -25,7 +25,9 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "sync:page-content": "node scripts/sync-page-content.mjs",
+        "sync:page-content:dry-run": "node scripts/sync-page-content.mjs --dry-run"
     },
     "devDependencies": {
         "@types/node": "^22.7.0",

@@ -113,12 +113,44 @@ export interface HomeContent {
     }
 }
 
+export interface PageContent {
+    page: string
+    heading?: string
+    eyebrow?: string
+    intro?: string[]
+    body?: string
+    contactDetails?: {
+        label?: string
+        value?: string
+        href?: string
+        note?: string
+    }[]
+    position?: string
+    institution?: string
+    socialLinks?: {
+        label?: string
+        href?: string
+    }[]
+}
+
 const homeQuery = groq`*[_type == "homePage"][0]{
   heroHeadline,
   heroIntro,
   passions[]{ number, title, description },
   fullBio,
   "seo": seo${seoProjection}
+}`
+
+const pageContentQuery = groq`*[_type == "pageContent" && page == $page][0]{
+  page,
+  heading,
+  eyebrow,
+  intro,
+  body,
+  contactDetails[]{ label, value, href, note },
+  position,
+  institution,
+  socialLinks[]{ label, href }
 }`
 
 // ISR: cache the fetch and revalidate on an interval so edits in the Studio
@@ -130,6 +162,9 @@ export const getSiteSettings = () =>
 
 export const getHome = () =>
     client.fetch<HomeContent | null>(homeQuery, {}, { next: { revalidate: REVALIDATE } })
+
+export const getPageContent = (page: string) =>
+    client.fetch<PageContent | null>(pageContentQuery, { page }, { next: { revalidate: REVALIDATE } })
 
 export const getSkills = () =>
     client.fetch<Skill[]>(skillsQuery, {}, { next: { revalidate: REVALIDATE } })

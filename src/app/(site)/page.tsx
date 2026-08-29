@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import HomeRedesign from '../../views/HomeRedesign/HomeRedesign'
+import HomePage from '../../views/HomeMain/HomePage'
 import { getHome, getSiteSettings } from '../../sanity/lib/queries'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,7 +42,7 @@ export default async function Page() {
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <HomeRedesign home={home} />
+            <HomePage home={home} />
         </>
     )
 }

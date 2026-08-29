@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Publications from '../../../views/Publications/Publications'
-import { getPublications } from '../../../sanity/lib/queries'
+import { getPageContent, getPublications } from '../../../sanity/lib/queries'
 
 export const metadata: Metadata = {
     title: 'Publications',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-    const publications = await getPublications()
+    const [publications, pageContent] = await Promise.all([getPublications(), getPageContent('publications')])
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -35,7 +35,7 @@ export default async function Page() {
     return (
         <>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <Publications publications={publications} />
+            <Publications publications={publications} pageContent={pageContent} />
         </>
     )
 }

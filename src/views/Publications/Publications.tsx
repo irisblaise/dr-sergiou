@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import type { PageContent } from '../../sanity/lib/queries'
 import { ALL_TOPICS, type Topic, type Publication } from '../../data/types'
 import BookSpine from '../../components/BookSpine/BookSpine'
 import { getSpineCover } from '../../components/BookSpine/spinePalette'
@@ -11,7 +12,18 @@ import styles from './Publications.module.scss'
 const CARD_WIDTH = 332
 const RAIL_DOTS = 16
 
-export default function Publications({ publications }: { publications: Publication[] }) {
+export default function Publications({
+    publications,
+    pageContent,
+}: {
+    publications: Publication[]
+    pageContent?: PageContent | null
+}) {
+    const heading = pageContent?.heading ?? 'Publications'
+    const eyebrow = pageContent?.eyebrow ?? 'RESEARCH THAT BUILDS UNDERSTANDING AND DRIVES CHANGE.'
+    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
+        'A collection of peer-reviewed articles, book chapters and reviews on neuroscience, behavior, and forensic science.',
+    ]
     // Stats derived from the publications themselves (via each entry's
     // `authorship`/`kind`), so they stay accurate as items are added/edited in the Studio.
     const countKind = (k: Publication['kind']) =>
@@ -174,15 +186,19 @@ export default function Publications({ publications }: { publications: Publicati
             {/* Intro panel */}
             <aside className={styles.intro}>
                 <h1 className={styles.heading}>
-                    Scientific
-                    <br />
-                    Publications
+                    {heading.split('\n').map((line, index) => (
+                        <span key={index}>
+                            {line}
+                            {index < heading.split('\n').length - 1 && <br />}
+                        </span>
+                    ))}
                 </h1>
-                <div className={styles.eyebrow}>RESEARCH THAT BUILDS UNDERSTANDING AND DRIVES CHANGE.</div>
-                <p className={styles.blurb}>
-                    A collection of peer-reviewed articles, book chapters and reviews on
-                    neuroscience, behavior, and forensic science.
-                </p>
+                <div className={styles.eyebrow}>{eyebrow}</div>
+                {introParagraphs.map((paragraph, index) => (
+                    <p key={index} className={styles.blurb}>
+                        {paragraph}
+                    </p>
+                ))}
 
                 <div className={styles.stats}>
                     {stats.map((s) => (

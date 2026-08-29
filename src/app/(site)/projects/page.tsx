@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import ProjectsRedesign from '../../../views/ProjectsRedesign/ProjectsRedesign'
-import { getProjects } from '../../../sanity/lib/queries'
+import ProjectsPage from '../../../views/ProjectsMain/ProjectsPage'
+import { getPageContent, getProjects } from '../../../sanity/lib/queries'
 
 export const metadata: Metadata = {
     title: 'Projects',
@@ -15,6 +15,6 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-    const projects = await getProjects()
-    return <ProjectsRedesign projects={projects} />
+    const [projects, pageContent] = await Promise.all([getProjects(), getPageContent('projects')])
+    return <ProjectsPage projects={projects} pageContent={pageContent} />
 }

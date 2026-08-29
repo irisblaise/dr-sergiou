@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Contact from '../../../views/Contact/Contact'
+import { getPageContent } from '../../../sanity/lib/queries'
 
 export const metadata: Metadata = {
     title: 'Contact',
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
     },
 }
 
-export default function Page() {
-    return <Contact />
+export default async function Page() {
+    const pageContent = await getPageContent('contact')
+    return <Contact pageContent={pageContent} />
 }

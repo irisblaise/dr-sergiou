@@ -196,7 +196,7 @@ export default function LayersOfExploration() {
                         </div>
                     </div>
 
-                    {/* mobile-only prev/next, directly under the title line */}
+                    {/* mobile-only prev/next + compact rail, directly under the title line */}
                     <div className={styles.headerArrows}>
                         <button
                             type="button"
@@ -207,6 +207,29 @@ export default function LayersOfExploration() {
                         >
                             <span aria-hidden="true">←</span>
                         </button>
+
+                        <nav className={styles.rail} aria-label="Layers">
+                            <span className={styles.railSpine} aria-hidden />
+                            <ul>
+                                {LAYERS.map((l, i) => (
+                                    <li key={l.number}>
+                                        <button
+                                            type="button"
+                                            className={`${styles.railBtn} ${i === active ? styles.railBtnActive : ''}`}
+                                            aria-current={i === active ? 'true' : undefined}
+                                            onClick={() => goTo(i)}
+                                        >
+                                            <span className={styles.railDot} aria-hidden />
+                                            <span className={styles.railText}>
+                                                <span className={styles.railNum}>{l.number}</span>
+                                                <span className={styles.railNav}>{l.heading}</span>
+                                            </span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+
                         <button
                             type="button"
                             className={styles.headerArrow}
@@ -279,29 +302,6 @@ export default function LayersOfExploration() {
                                 </div>
                             ))}
                         </div>
-
-                        {/* vertical rail — the section's only navigation */}
-                        <nav className={styles.rail} aria-label="Layers">
-                            <span className={styles.railSpine} aria-hidden />
-                            <ul>
-                                {LAYERS.map((l, i) => (
-                                    <li key={l.number}>
-                                        <button
-                                            type="button"
-                                            className={`${styles.railBtn} ${i === active ? styles.railBtnActive : ''}`}
-                                            aria-current={i === active ? 'true' : undefined}
-                                            onClick={() => goTo(i)}
-                                        >
-                                            <span className={styles.railDot} aria-hidden />
-                                            <span className={styles.railText}>
-                                                <span className={styles.railNum}>{l.number}</span>
-                                                <span className={styles.railNav}>{l.heading}</span>
-                                            </span>
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
 
                         <div className={styles.closingLine}>The exploration never ends.</div>
                     </div>

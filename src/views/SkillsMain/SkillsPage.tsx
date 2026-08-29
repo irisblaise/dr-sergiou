@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Skill, SkillKey } from '../../data/types'
-import styles from './SkillsRedesign.module.scss'
+import type { PageContent } from '../../sanity/lib/queries'
+import styles from './SkillsPage.module.scss'
 
 // Design-space stage — matches Skills · Map the Network.dc.html (design handoff).
 const STAGE_W = 1600
@@ -164,10 +165,21 @@ const MEDALLION_FRAME: Record<SkillKey, { size: number; x: number; y: number }> 
     music: { size: 130, x: 0, y: -4 },
 }
 
-export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
+export default function SkillsPage({
+    skills,
+    pageContent,
+}: {
+    skills: Skill[]
+    pageContent?: PageContent | null
+}) {
     const [active, setActive] = useState<SkillKey | null>(null)
     const wrapRef = useRef<HTMLDivElement>(null)
     const stageRef = useRef<HTMLDivElement>(null)
+    const heading = pageContent?.heading ?? 'Skills'
+    const eyebrow = pageContent?.eyebrow ?? 'MAP THE NETWORK'
+    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
+        'Expertise across neuroscience, technology, and human behavior — branches of one connected network, applied to questions of justice and society.',
+    ]
 
     const byKey = new Map(skills.map((s) => [s.key, s]))
 
@@ -218,12 +230,13 @@ export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
     return (
         <div className={styles.page}>
             <div className={styles.intro}>
-                <h1 className={styles.heading}>Skills</h1>
-                <div className={styles.eyebrow}>MAP THE NETWORK</div>
-                <p className={styles.paragraph}>
-                    Expertise across neuroscience, technology, and human behavior — branches of one
-                    connected network, applied to questions of justice and society.
-                </p>
+                <h1 className={styles.heading}>{heading}</h1>
+                <div className={styles.eyebrow}>{eyebrow}</div>
+                {introParagraphs.map((paragraph, index) => (
+                    <p key={index} className={styles.paragraph}>
+                        {paragraph}
+                    </p>
+                ))}
             </div>
 
             {/* ---------- Desktop: neuron network stage ---------- */}
@@ -335,10 +348,20 @@ export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
                 </div>
             </div>
 
-            {/* ---------- Mobile: vertical list ----------
+            {/* ---------- Mobile: intro + vertical list ----------
                 Not specced by the handoff (network diagrams don't reflow); this
                 reuses the live Skills page's stacked-timeline treatment. */}
             <div className={styles.mobile}>
+                <header className={styles.mHeader}>
+                    <h1 className={styles.mHeading}>{heading}</h1>
+                    <div className={styles.eyebrow}>{eyebrow}</div>
+                    {introParagraphs.map((paragraph, index) => (
+                        <p key={index} className={styles.mParagraph}>
+                            {paragraph}
+                        </p>
+                    ))}
+                </header>
+
                 <div className={styles.timeline}>
                     <span className={styles.timelineLine} aria-hidden />
                     {ARM_LAYOUT.map((arm, i) => {
