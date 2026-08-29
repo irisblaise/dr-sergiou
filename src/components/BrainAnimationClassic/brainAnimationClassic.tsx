@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import './brainAnimationClassic.scss'
-const brain = '/assets/brain/brain5.png'
+const brain = '/assets/brain/brain6.png'
 
 // Preserved exactly as it was before the pulse redesign, kept side by side
 // with the new BrainAnimation so the client can compare the two — see
