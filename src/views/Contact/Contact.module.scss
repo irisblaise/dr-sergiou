@@ -21,9 +21,9 @@
 .heading {
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: clamp(4.5rem, 8vw, 10rem);
-    line-height: 0.9;
-    letter-spacing: -0.06em;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
+    letter-spacing: -0.02em;
     color: var(--ink);
 }
 

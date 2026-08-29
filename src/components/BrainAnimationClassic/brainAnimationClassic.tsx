@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import './brainAnimationClassic.scss'
-const brain = '/assets/brain/Brain6.png'
+import brain from '../../../public/assets/brain/Brain6.png'
 
 // Preserved exactly as it was before the pulse redesign, kept side by side
 // with the new BrainAnimation so the client can compare the two — see
@@ -1926,7 +1926,7 @@ const BrainAnimationClassic = () => {
                                 height="1972"
                                 overflow="visible"
                                 transform="matrix(-0.1805 0 0 -0.1772 451.9308 736.6599)"
-                                href={brain}
+                                href={brain.src}
                             ></image>
                         </g>
                     </svg>

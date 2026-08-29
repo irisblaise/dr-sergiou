@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import type { PageContent } from '../../sanity/lib/queries'
+import portrait from '../../../public/assets/contact/carmen.png'
 import styles from './Contact.module.scss'
-
-const portrait = '/assets/contact/carmen.png'
 
 const CONTACTS = [
     {
