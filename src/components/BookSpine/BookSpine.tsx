@@ -3,6 +3,7 @@
 import { forwardRef } from 'react'
 import type { Publication } from '../../data/types'
 import AccoladeIcon from '../AccoladeIcon/AccoladeIcon'
+import { getSpineCover } from './spinePalette'
 import styles from './BookSpine.module.scss'
 
 interface Props {
@@ -17,7 +18,8 @@ const BookSpine = forwardRef<HTMLButtonElement, Props>(function BookSpine(
     { publication, index, selected, dimmed, onSelect },
     ref,
 ) {
-    const { title, year, journal, cover, accolade } = publication
+    const { title, year, journal, accolade } = publication
+    const cover = getSpineCover(index)
     return (
         <button
             ref={ref}
@@ -28,9 +30,8 @@ const BookSpine = forwardRef<HTMLButtonElement, Props>(function BookSpine(
                 styles.spine,
                 selected ? styles.selected : '',
                 dimmed ? styles.dimmed : '',
-                cover.text === 'light' ? styles.light : styles.dark,
             ].join(' ')}
-            style={{ ['--cover' as string]: cover.bg }}
+            style={{ ['--cover' as string]: cover.bg, ['--ink-on' as string]: cover.text }}
         >
             <span className={styles.topbar} aria-hidden />
             <span className={styles.year}>{year}</span>

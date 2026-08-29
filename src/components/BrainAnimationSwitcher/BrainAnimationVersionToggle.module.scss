@@ -1,0 +1,62 @@
+// Temporary review control — see BrainAnimationVersionToggle.tsx. Absolutely
+// positioned against .header (HomeRedesign.module.scss), which is
+// `position: relative` and spans a full viewport height, so this sits in
+// that section's bottom-right corner and scrolls away with it. Needs its own
+// pointer-events since .header has `pointer-events: none`.
+.toggle {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 18px;
+    z-index: 5;
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--canvas);
+    border: 1px solid var(--rule);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    pointer-events: auto;
+}
+
+.option {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition:
+        background 200ms ease,
+        color 200ms ease;
+
+    &:hover {
+        color: var(--ink);
+    }
+}
+
+.active {
+    background: var(--ink);
+    color: var(--canvas);
+
+    &:hover {
+        color: var(--canvas);
+    }
+}
+
+// .header switches to `position: static` at this breakpoint (see
+// HomeRedesign.module.scss), which would otherwise push this absolute-
+// positioned toggle up to the next positioned ancestor — the whole page —
+// landing it near the footer instead of the header. Pin it to the viewport
+// instead so it stays put and reachable.
+@media (max-width: 900px) {
+    .toggle {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+    }
+}

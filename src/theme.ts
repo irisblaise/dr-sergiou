@@ -11,7 +11,7 @@ export const color = {
     navInk: '#3c382f', // nav links (inactive)
     sage: '#7aab96', // anatomical brain green
     sageMid: '#5d8a74',
-    sageDeep: '#3f5e50',
+    sageDeep: '#003D20',
 } as const
 
 export interface Palette {

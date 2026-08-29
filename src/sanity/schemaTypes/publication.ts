@@ -1,7 +1,8 @@
 import { defineField, defineType } from 'sanity'
 
 // Mirrors the `Publication` interface in src/data/types.ts, including the
-// `cover` (spine) object and the optional `accolade` (PhD / award badge).
+// optional `accolade` (PhD / award badge). Spine cover colours are derived
+// in code (BookSpine/spinePalette.ts), not stored per-document.
 export const publication = defineType({
     name: 'publication',
     title: 'Publication',
@@ -38,22 +39,6 @@ export const publication = defineType({
         }),
         defineField({ name: 'link', title: 'DOI / external link', type: 'url' }),
         defineField({ name: 'pdf', title: 'PDF', type: 'file', options: { accept: '.pdf' } }),
-        defineField({
-            name: 'cover',
-            title: 'Cover (spine)',
-            type: 'object',
-            options: { columns: 2 },
-            fields: [
-                defineField({ name: 'bg', title: 'Background colour', type: 'string' }),
-                defineField({
-                    name: 'text',
-                    title: 'Text colour',
-                    type: 'string',
-                    options: { list: ['light', 'dark'] },
-                    initialValue: 'dark',
-                }),
-            ],
-        }),
         defineField({
             name: 'accolade',
             title: 'Accolade (optional)',

@@ -1,7 +1,7 @@
-// Brain hero animation — ported from the old repo. Neuron strokes draw on a loop
-// over brain4.png; stroke colour shifted from the old bright green to the design's sage.
-$neuron: #5d8a74;
-$neuron-deep: #3f5e50;
+// Brain hero animation — ported from the old repo. Neuron strokes sketch
+// themselves in once on load (not a perpetual loop) over brain5.png; colours
+// are the shared --sage / --accent tokens so this matches the projects
+// timeline and the classic homepage spine (ProjectsRedesign.tsx / Home.tsx).
 
 .brainAnimation,
 .brainAnimation-wrapper {
@@ -32,21 +32,28 @@ $neuron-deep: #3f5e50;
     z-index: -1;
 }
 
-// Colours match the design's recolor(): brain keeps its green focus, the page
-// accent only touches the .st5 edge strokes. Greens: light #7aab96, mid #5d8a74,
-// deep #3f5e50; dots use warm ink rgba(38,36,31,..).
+// Colours: brain keeps its green (--sage) focus, the page accent only touches
+// the .st5 edge strokes — same split as the projects timeline's G1/G2/SAGE/ACC
+// palette. Dots use warm ink rgba(38,36,31,..), close to but a touch warmer
+// than --ink.
+//
+// Every class below draws in once (no infinite/alternate) with a short,
+// class-specific duration — the brain sketches itself in on load and then
+// holds still, instead of every one of its ~300 strokes looping forever. The
+// per-element stagger comes from an inline animation-delay (brainAnimation.tsx).
 .st0 {
-    animation: neuronLineDraw 3.5s ease infinite alternate;
+    animation: neuronLineDraw 900ms ease forwards;
     fill: none;
-    stroke: #7aab96;
-    stroke-width: 1;
+    stroke: var(--sage);
+    stroke-width: 0.8;
     stroke-miterlimit: 10;
 }
 .st1 {
     fill: rgba(38, 36, 31, 0.82);
     stroke: none;
+    stroke-width: 0.8;
     stroke-miterlimit: 10;
-    animation: neuronLineDraw 3.5s ease infinite alternate;
+    animation: neuronLineDraw 900ms ease forwards;
 }
 
 .st2 {
@@ -54,37 +61,47 @@ $neuron-deep: #3f5e50;
     stroke: rgba(38, 36, 31, 0.5);
     stroke-width: 0.8;
     stroke-miterlimit: 10;
+    // Unlike every other class here, these small lines keep the original
+    // perpetual draw-in/draw-out loop instead of settling once and holding.
     animation: neuronLineDraw 3s ease infinite alternate;
 }
+
 .st3 {
-    fill: #5d8a74;
-    stroke: #7aab96;
-    stroke-width: 0.3;
+    // fill: var(--sage-mid);
+        stroke: var(--accent);
+
+        fill: rgba(205, 184, 206);
+
+    // stroke: var(--sage);
+    stroke-width: 0.5;
     stroke-miterlimit: 10;
-    animation: neuronLineDraw 4s ease infinite alternate;
+    animation: neuronLineDraw 1100ms ease forwards;
 }
 
 .st4 {
     fill: rgba(38, 36, 31, 0.7);
-    animation: neuronLineDraw 2s ease infinite alternate;
+    stroke-width: 0.8;
+    animation: neuronLineDraw 600ms ease forwards;
 }
 
 .st5 {
-    fill: rgba(184, 206, 197, 0.32);
+    fill: rgba(205, 184, 206);
     stroke: var(--accent);
     stroke-miterlimit: 10;
-    stroke-width: 1.2;
-    // Pink (accent) edge strokes — slowed from 2s so they don't outpace the
-    // green neuron lines (st0 3.5s / st2 3s).
-    animation: neuronLineDraw 3s ease infinite alternate;
+    stroke-width:0.8;
+    // The trunk lines — slowest of the one-time reveal, since these are the
+    // ones a travelling light pulse rides afterwards (see brainAnimation.tsx).
+    animation: neuronLineDraw 1400ms ease forwards;
 }
 
 .st6 {
-    fill: #3f5e50;
-    stroke: #7aab96;
-    stroke-width: 0.5;
+    fill: var(--sage-deep);
+        // fill: rgba(205, 184, 206);
+
+    stroke: var(--sage);
+    stroke-width: 0.3;
     stroke-miterlimit: 10;
-    animation: neuronLineDraw 4s ease infinite alternate;
+    animation: neuronLineDraw 1100ms ease forwards;
 }
 
 /* Keyframes */

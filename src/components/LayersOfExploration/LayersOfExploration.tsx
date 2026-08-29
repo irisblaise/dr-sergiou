@@ -103,12 +103,12 @@ const OVERLAY_REGISTRATION_CLASS: (string | undefined)[] = [
 ]
 
 export default function LayersOfExploration() {
-    // Default active layer on load is index 1 (02 · Decision-making) per the handoff.
-    const [active, setActive] = useState(1)
+    const [active, setActive] = useState(0)
     const cur = LAYERS[active]
 
     const scrollerRef = useRef<HTMLDivElement>(null)
     const reducedMotionRef = useRef(false)
+    const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
     useEffect(() => {
         reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -150,14 +150,38 @@ export default function LayersOfExploration() {
     }, [])
 
     const goTo = (i: number) => {
-        setActive(i)
+        const clamped = Math.min(COUNT - 1, Math.max(0, i))
+        setActive(clamped)
         const el = scrollerRef.current
         if (!el || !window.matchMedia(DESKTOP_QUERY).matches) return
         const rect = el.getBoundingClientRect()
         const scrollable = rect.height - window.innerHeight
         if (scrollable <= 0) return
-        const top = window.scrollY + rect.top + ((i + 0.5) / COUNT) * scrollable
+        const top = window.scrollY + rect.top + ((clamped + 0.5) / COUNT) * scrollable
         window.scrollTo({ top, behavior: reducedMotionRef.current ? 'auto' : 'smooth' })
+    }
+
+    // Mobile only: ScrollTrigger doesn't run below the desktop breakpoint (see
+    // the matchMedia gate above), so a horizontal swipe over the visual/copy
+    // area is this layout's only gesture-based way to change chapters — a
+    // vertical swipe is left alone so the page can still scroll normally.
+    const SWIPE_THRESHOLD = 40
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (window.matchMedia(DESKTOP_QUERY).matches) return
+        const t = e.touches[0]
+        touchStartRef.current = { x: t.clientX, y: t.clientY }
+    }
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        const start = touchStartRef.current
+        touchStartRef.current = null
+        if (!start || window.matchMedia(DESKTOP_QUERY).matches) return
+        const t = e.changedTouches[0]
+        const dx = t.clientX - start.x
+        const dy = t.clientY - start.y
+        if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return
+        goTo(active + (dx < 0 ? 1 : -1))
     }
 
     return (
@@ -172,7 +196,29 @@ export default function LayersOfExploration() {
                         </div>
                     </div>
 
-                    <div className={styles.grid}>
+                    {/* mobile-only prev/next, directly under the title line */}
+                    <div className={styles.headerArrows}>
+                        <button
+                            type="button"
+                            className={styles.headerArrow}
+                            onClick={() => goTo(active - 1)}
+                            disabled={active === 0}
+                            aria-label="Previous layer"
+                        >
+                            <span aria-hidden="true">←</span>
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.headerArrow}
+                            onClick={() => goTo(active + 1)}
+                            disabled={active === COUNT - 1}
+                            aria-label="Next layer"
+                        >
+                            <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+
+                    <div className={styles.grid} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
                         {/* brain stack */}
                         <div className={styles.visual}>
                             <div className={styles.stack}>
@@ -213,20 +259,6 @@ export default function LayersOfExploration() {
                                 </div>
                             ))}
 
-                            <div className={styles.scaleBar}>
-                                <div className={styles.scaleTicks}>
-                                    {Array.from({ length: 5 }).map((_, i) => (
-                                        <span key={i} className={styles.scaleTick} />
-                                    ))}
-                                </div>
-                                <div className={styles.scaleLabels}>
-                                    {['0', '25', '50', '75', '100 mm'].map((t) => (
-                                        <span key={t}>{t}</span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className={styles.closingLine}>The exploration never ends.</div>
                         </div>
 
                         {/* copy — all six states share one grid cell; only the active
@@ -270,6 +302,8 @@ export default function LayersOfExploration() {
                                 ))}
                             </ul>
                         </nav>
+
+                        <div className={styles.closingLine}>The exploration never ends.</div>
                     </div>
                 </div>
             </div>

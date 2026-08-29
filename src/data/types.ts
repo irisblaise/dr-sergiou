@@ -38,7 +38,7 @@ export interface ImpactAsset {
 export interface Award {
     mediaType: string
     subject: string
-    peopleInvolved: string
+    peopleInvolved?: string
     description: string
     date: string
     image?: string
@@ -49,7 +49,7 @@ export interface Award {
 export interface MediaItem {
     mediaType: string
     subject: string
-    peopleInvolved: string
+    peopleInvolved?: string
     description: string
     link: string
     date: string
@@ -81,13 +81,6 @@ export const ALL_TOPICS: Topic[] = [
     'Technology',
 ]
 
-export interface SpineCover {
-    /** Cloth base colour for the book spine. */
-    bg: string
-    /** Whether title/meta text on the spine should be light or dark. */
-    text: 'light' | 'dark'
-}
-
 /** A notable distinction shown on the spine (icon) and in the detail card. */
 export type AccoladeType = 'phd' | 'award'
 export interface Accolade {
@@ -109,7 +102,6 @@ export interface Publication {
     link: string
     /** Bundled PDF (imported asset). */
     pdf?: string
-    cover: SpineCover
     /** Optional distinction (PhD dissertation / award) shown on the spine + card. */
     accolade?: Accolade
 }

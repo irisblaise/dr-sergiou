@@ -56,13 +56,13 @@ const ARMS: ArmDef[] = [
         key: 'behavior',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
-        d: 'M247.2 662.7 L 238 671.9 L 227.1 704.9 L 199.1 733 L 162.7 751.6 L 145.1 756 L 115.1 786 L 111.6 795.9 L 111.3 824.6 L 102.5 863.2',
+        d: 'M478.5 530.3 L 438.6 550.2 L 378.8 578.2 L 299 617.9 L 247.2 662.7 L 238 671.9 L 227.1 704.9 L 199.1 733 L 162.7 751.6 L 145.1 756 L 115.1 786 L 111.6 795.9 L 111.3 824.6 L 102.5 863.2',
     },
     {
         key: 'forensic',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
-        d: 'M199.4 464.1 L 188.2 464.1 L 172.1 480.2 L 155.9 480.2 L 135.6 487.6 L 124.4 487.6 L 110.5 479.5 L 90.1 482.5 L 66.2 482.5 L 44.7 474.5',
+        d: 'M438.6 450.6 L 398.7 460.5 L 338.9 464.6 L 199.4 464.1 L 188.2 464.1 L 172.1 480.2 L 155.9 480.2 L 135.6 487.6 L 124.4 487.6 L 110.5 479.5 L 90.1 482.5 L 66.2 482.5 L 44.7 474.5',
     },
 ]
 
@@ -106,6 +106,7 @@ function pointAtFraction(pts: Pt[], f: number): Pt {
 type ArmLayout = ArmDef & {
     viaPoints: Pt[]
     end: Pt
+    length: number
     medallion: { left: number; top: number }
     caption: { left: number; top: number; align: 'left' | 'right' }
 }
@@ -138,6 +139,7 @@ function layoutArm(arm: ArmDef): ArmLayout {
         ...arm,
         viaPoints: arm.vias.map((f) => pointAtFraction(pts, f)),
         end: [end[0], end[1]],
+        length: polylineLength(pts),
         medallion: { left: ex + ux * 50, top: ey + uy * 50 },
         caption,
     }
@@ -147,6 +149,20 @@ const ARM_LAYOUT: ArmLayout[] = ARMS.map(layoutArm)
 
 // Introduces its own behaviour on load, per the handoff.
 const DEFAULT_ACTIVE: SkillKey = 'vr'
+
+// The source illustrations (300×300) aren't drawn centred within their own
+// canvas — each has a hand-sketched circle + subject sitting a few px off
+// from the frame centre, with a soft margin around it. Zooming in slightly
+// (130px source rendered into the 108px slot) crops that margin away, and
+// the per-key nudge re-centres the subject within the medallion.
+const MEDALLION_FRAME: Record<SkillKey, { size: number; x: number; y: number }> = {
+    neuro: { size: 130, x: -4, y: 1 },
+    coding: { size: 130, x: -2, y: -1 },
+    forensic: { size: 130, x: -8, y: 3 },
+    vr: { size: 130, x: -1, y: 2 },
+    behavior: { size: 130, x: -2, y: -2 },
+    music: { size: 130, x: 0, y: -4 },
+}
 
 export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
     const [active, setActive] = useState<SkillKey | null>(null)
@@ -249,8 +265,16 @@ export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
                                             <circle cx={ex} cy={ey} r={12.4} className={styles.ringO} />
                                             <circle cx={ex} cy={ey} r={5.4} className={styles.ringI} />
                                         </g>
-                                        <path d={arm.d} pathLength={1} className={cls(styles.live)} />
-                                        <path d={arm.d} pathLength={1} className={cls(styles.spark)} />
+                                        <path
+                                            d={arm.d}
+                                            className={cls(styles.live)}
+                                            style={{ '--len': arm.length } as React.CSSProperties}
+                                        />
+                                        <path
+                                            d={arm.d}
+                                            className={cls(styles.spark)}
+                                            style={{ '--len': arm.length } as React.CSSProperties}
+                                        />
                                         <path d={arm.d} className={styles.hit} />
                                         <circle cx={ex} cy={ey} r={26} className={styles.dot} />
                                     </g>
@@ -263,6 +287,7 @@ export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
                         const skill = byKey.get(arm.key)
                         if (!skill) return null
                         const on = arm.key === active
+                        const frame = MEDALLION_FRAME[arm.key]
                         return (
                             <button
                                 key={arm.key}
@@ -276,9 +301,14 @@ export default function SkillsRedesign({ skills }: { skills: Skill[] }) {
                                 <Image
                                     src={skill.image}
                                     alt=""
-                                    fill
-                                    sizes="108px"
+                                    width={frame.size}
+                                    height={frame.size}
+                                    sizes={`${frame.size}px`}
                                     className={styles.medImg}
+                                    style={{
+                                        left: `calc(50% + ${frame.x}px)`,
+                                        top: `calc(50% + ${frame.y}px)`,
+                                    }}
                                 />
                             </button>
                         )

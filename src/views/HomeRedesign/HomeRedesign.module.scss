@@ -6,6 +6,12 @@
 
 .page {
     position: relative;
+    // Matches every other page's container (Projects, Skills, Impact, ...) —
+    // without this, .page stretched to the full browser width, so the
+    // brain's position below (originally a percentage of that ever-changing
+    // width) drifted differently at every viewport instead of settling.
+    max-width: var(--content-max);
+    margin: 0 auto;
 }
 
 /* 1) fixed page wash behind everything */
@@ -25,10 +31,13 @@
 /* 2) brain stage (hero visual) */
 .stage {
     position: absolute;
-    right: -29%;
+    right: -24%;
     top: 49vh;
-    width: 994px;
-    height: 936px;
+    // Shrinks on narrower desktop windows instead of staying a fixed 994px
+    // wide and eating further into the text column as .page narrows.
+    width: clamp(620px, 60vw, 994px);
+    height: auto;
+    aspect-ratio: 994 / 936;
     transform: translate(-50%, -50%) scale(1.1) rotate3d(0, 0, 1, 90deg);
     transform-origin: center center;
     /* above the spine svg (wrap z-index 5) so the brain image stays on top */
@@ -69,7 +78,7 @@
     left: clamp(20px, 4vw, 52px);
     top: 23vh;
     // Scales down with the viewport instead of a fixed width.
-    max-width: clamp(571px, 28vw, 860px);
+    max-width: clamp(400px, 48vw, 550px);
     pointer-events: auto;
 }
 
@@ -149,6 +158,31 @@
     }
 }
 
+/* ---------- Narrower wide-desktop: same horizontal brain, just nudged up ---------- */
+@media (max-width: 1245px) and (min-width: 1046px) {
+    .stage {
+        top: 43vh;
+    }
+}
+
+/* ---------- Medium desktop: brain reverts to its natural vertical
+   orientation, still beside the text ----------
+   At this width there's no longer room for the horizontal (90°-rotated)
+   brain plus its intentional bleed off the content column's right edge —
+   sitewide `overflow-x: hidden` (global.scss) has no scrollbar to fall back
+   on, so that bleed was getting clipped outright instead of just crowding
+   the text. Dropping the rotation and going back to the artwork's own
+   portrait proportions needs much less horizontal room. */
+@media (max-width: 1045px) {
+    .stage {
+        right: 8%;
+        width: clamp(222px, 48vw, 470px);
+        height: auto;
+        aspect-ratio: 595.28 / 841.89;
+        transform: translateY(-50%) scale(1.05);
+    }
+}
+
 /* ---------- Mobile: brain in flow, copy below ----------
    Matches Hero Mobile.dc.html: nothing absolutely positioned. */
 @media (max-width: 900px) {
@@ -160,6 +194,7 @@
     .stage {
         position: relative;
         left: auto;
+        right: auto;
         top: auto;
         width: min(330px, 82vw);
         height: auto;
@@ -167,12 +202,15 @@
         margin: 0 auto;
         transform: none;
         -webkit-mask-image: linear-gradient(to top, transparent 2%, #000 18%);
-        mask-image: linear-gradient(to top, transparent 2%, #000 18%);
+        mask-image: linear-gradient(to top, transparent 2%, #000 35%);
     }
 
     .header {
         position: static;
         min-height: 0;
+        // Pulls the text up into the brain's soft bottom fade (the
+        // mask-image above) instead of sitting in the full gap below it.
+        margin-top: -70px;
     }
 
     .heroInner {

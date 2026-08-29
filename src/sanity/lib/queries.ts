@@ -67,7 +67,6 @@ const publicationsQuery = groq`*[_type == "publication"] | order(year desc){
   abstract,
   link,
   "pdf": pdf.asset->url,
-  cover,
   accolade
 }`
 

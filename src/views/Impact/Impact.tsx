@@ -11,7 +11,7 @@ interface ImpactItem {
     category: Category
     eyebrow: string
     title: string
-    people: string
+    people?: string
     description: string
     date: string
     link?: string
@@ -48,7 +48,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
             category: 'MEDIA',
             eyebrow: m.mediaType,
             title: m.subject,
-            people: m.peopleInvolved,
+            people: m.peopleInvolved || undefined,
             description: m.description,
             date: m.date,
             link: m.link || undefined,
@@ -62,7 +62,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
             category: 'AWARD',
             eyebrow: a.mediaType,
             title: a.subject,
-            people: a.peopleInvolved,
+            people: a.peopleInvolved || undefined,
             description: a.description,
             date: a.date,
             image: a.image,
@@ -287,7 +287,7 @@ export default function Impact({ awards, media }: { awards: Award[]; media: Medi
                 </div>
                 <div className={styles.featureDate}>{fmtDate(item.date)}</div>
                 <h2 className={styles.featureTitle}>{item.title}</h2>
-                <div className={styles.featurePeople}>{item.people}</div>
+                {item.people && <div className={styles.featurePeople}>{item.people}</div>}
                 <div className={styles.rule} />
                 <p className={styles.featureDesc}>{item.description}</p>
                 {item.link && (

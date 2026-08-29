@@ -1,0 +1,111 @@
+// Snapshot of the brain hero animation as it was before the pulse redesign —
+// kept for a client comparison toggle (see BrainAnimationClassic.tsx and
+// wherever it's rendered alongside the new BrainAnimation). Everything below
+// is nested under .brainAnimationClassic so its class names (.st0, .st1, ...)
+// and its `neuronLineDrawClassic` keyframe never collide with the current
+// BrainAnimation's identically-named globals, even though both stylesheets
+// are loaded on the same page for the toggle.
+$neuron: #5d8a74;
+$neuron-deep: #3f5e50;
+
+.brainAnimationClassic {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .brainAnimationClassic-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .brainClassic {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    .brainClassic__svg {
+        height: 100%;
+        width: 100%;
+        // Rotate the whole animation 180° so the brain sits upright on top and the
+        // circuit traces hang below — the page spine grows out of the base (see design).
+        transform: rotate(180deg) scale(1.08);
+    }
+
+    #overlay {
+        z-index: 1;
+    }
+
+    #underlay {
+        z-index: -1;
+    }
+
+    // Colours match the design's recolor(): brain keeps its green focus, the page
+    // accent only touches the .st5 edge strokes. Greens: light #7aab96, mid #5d8a74,
+    // deep #3f5e50; dots use warm ink rgba(38,36,31,..).
+    .st0 {
+        animation: neuronLineDrawClassic 3.5s ease infinite alternate;
+        fill: none;
+        stroke: #7aab96;
+        stroke-width: 1;
+        stroke-miterlimit: 10;
+    }
+    .st1 {
+        fill: rgba(38, 36, 31, 0.82);
+        stroke: none;
+        stroke-miterlimit: 10;
+        animation: neuronLineDrawClassic 3.5s ease infinite alternate;
+    }
+
+    .st2 {
+        fill: none;
+        stroke: rgba(38, 36, 31, 0.5);
+        stroke-width: 0.8;
+        stroke-miterlimit: 10;
+        animation: neuronLineDrawClassic 3s ease infinite alternate;
+    }
+    .st3 {
+        fill: #5d8a74;
+        stroke: #7aab96;
+        stroke-width: 0.3;
+        stroke-miterlimit: 10;
+        animation: neuronLineDrawClassic 4s ease infinite alternate;
+    }
+
+    .st4 {
+        fill: rgba(38, 36, 31, 0.7);
+        animation: neuronLineDrawClassic 2s ease infinite alternate;
+    }
+
+    .st5 {
+        fill: rgba(184, 206, 197, 0.32);
+        stroke: var(--accent);
+        stroke-miterlimit: 10;
+        stroke-width: 1.2;
+        // Pink (accent) edge strokes — slowed from 2s so they don't outpace the
+        // green neuron lines (st0 3.5s / st2 3s).
+        animation: neuronLineDrawClassic 3s ease infinite alternate;
+    }
+
+    .st6 {
+        fill: #3f5e50;
+        stroke: #7aab96;
+        stroke-width: 0.5;
+        stroke-miterlimit: 10;
+        animation: neuronLineDrawClassic 4s ease infinite alternate;
+    }
+}
+
+/* Keyframes */
+@keyframes neuronLineDrawClassic {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes neuronLineFillClassic {
+    100% {
+        fill: rgba(#d8c0c0, 0.8);
+    }
+}

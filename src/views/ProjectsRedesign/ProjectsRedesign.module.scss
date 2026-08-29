@@ -177,23 +177,34 @@
     padding-left: 16px;
 }
 
-/* ---------- Mobile: stacked, spine hidden ---------- */
+/* ---------- Mobile: spine kept on the left, content stacked to its right ----------
+   Matches the old homepage's mobile layout: a narrow winding conductor
+   hugging the left edge, with each project's text and image stacked in a
+   single column beside it instead of alternating either side of a centred
+   gutter. Unlike desktop's fixed-height rows, row height here varies a lot
+   with content (a longer abstract, an optional image), so the grid is
+   dropped in favour of plain block flow — each row just sizes to its own
+   content — and the conductor SVG (an absolute overlay, not a grid item) is
+   drawn in the .tsx from each row's actual measured position. */
 @media (max-width: 900px) {
     .grid {
         display: block;
-        height: auto !important;
         margin-top: 32px;
     }
 
     .rail {
-        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 100%;
     }
 
     .row {
         display: flex;
         flex-direction: column;
-        padding: 26px 0;
-        border-top: 1px solid var(--rule);
+        margin-left: 88px;
+        padding-bottom: 26px;
     }
 
     .article {

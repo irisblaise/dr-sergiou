@@ -1,195 +1,52 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import './brainAnimation.scss'
-const brain = '/assets/brain/brain6.png'
+import './brainAnimationClassic.scss'
+const brain = '/assets/brain/brain5.png'
 
-// How long the one-time ink reveal (below) takes to settle, across the
-// slowest-staggered element group — the trunk pulse waits for this before
-// it starts travelling, so the two effects never fight for attention.
-const REVEAL_SETTLE_MS = 2400
-
-const BrainAnimation = () => {
+// Preserved exactly as it was before the pulse redesign, kept side by side
+// with the new BrainAnimation so the client can compare the two — see
+// BrainAnimation/brainAnimation.tsx for the current version. The only change
+// from the original is scoping querySelectorAll to this component's own SVG
+// (it originally queried the whole document, which would also reach into
+// unrelated icons elsewhere on the page now that both versions' code is
+// bundled together for the toggle).
+const BrainAnimationClassic = () => {
     const svgRef = useRef<SVGSVGElement>(null)
 
     useEffect(() => {
         const svg = svgRef.current
         if (!svg) return
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-        // One-time ink reveal: every stroke draws itself in once (not a
-        // perpetual back-and-forth loop — see brainAnimation.scss) with a
-        // small stagger per element so the brain appears to sketch itself in.
-        function animationNeurolize(svgElements: NodeListOf<SVGGeometryElement>, stepSeconds: number) {
-            svgElements.forEach((svgElement, index) => {
-                if (reduced) {
-                    svgElement.style.strokeDasharray = 'none'
-                    return
-                }
+        function animationNeurolize(svgElements: any, animationDelay: number) {
+            svgElements.forEach((svgElement: any, index: number) => {
                 const totalLength = svgElement.getTotalLength()
                 svgElement.style.strokeDasharray = String(totalLength)
                 svgElement.style.strokeDashoffset = String(totalLength)
-                svgElement.style.animationDelay = `${stepSeconds * index}s`
+                svgElement.style.animationDelay = `${animationDelay * index}s`
             })
         }
 
-        // Scoped to this component's own SVG — other pages (Projects timeline,
-        // Layers of Exploration) build their own <path>/<circle> elements, and
-        // querying the whole document would animate those too.
-        const paths = svg.querySelectorAll<SVGGeometryElement>('path')
-        const polylines = svg.querySelectorAll<SVGGeometryElement>('polyline')
-        const circles = svg.querySelectorAll<SVGGeometryElement>('circle')
-        const ellipses = svg.querySelectorAll<SVGGeometryElement>('ellipse')
-        const lines = svg.querySelectorAll<SVGGeometryElement>('line')
+        const paths = svg.querySelectorAll('path')
+        const polylines = svg.querySelectorAll('polyline')
+        const circles = svg.querySelectorAll('circle')
+        const ellipses = svg.querySelectorAll('ellipse')
+        const lines = svg.querySelectorAll('line')
 
-        animationNeurolize(paths, 0.02)
-        animationNeurolize(polylines, 0.008)
-        animationNeurolize(circles, 0.006)
-        animationNeurolize(ellipses, 0.014)
-        animationNeurolize(lines, 0.01)
-
-        if (reduced) return
-
-        // Travelling dots of light ride a handful of the brain's own strokes,
-        // the same technique as the projects timeline and the classic
-        // homepage spine (see ProjectsRedesign.tsx / Home.tsx) — most of the
-        // brain stays a static line drawing; only these selected strokes stay
-        // alive, instead of every one of the ~300 of them looping forever.
-        // Cloning (rather than rebuilding a <path>) works for the source
-        // element whatever its tag — .st5 is all <path>, .st0 is a mix of
-        // <path>/<polyline>/<line>.
-        // Dash length is derived from each element's own real length (rather
-        // than a fixed fraction of a normalized pathLength) so the dot stays
-        // genuinely round on every stroke — a fixed ratio looks fine on most
-        // paths but stretches into an oval on the unusually long ones.
-        const addPulseAlong = (
-            source: SVGGeometryElement,
-            size: number,
-            color: string,
-            duration: number,
-            delay: number,
-            glow: boolean,
-        ) => {
-            const totalLength = source.getTotalLength() || 1
-            const dotLength = Math.min(size * 0.6, totalLength * 0.4)
-            const pulse = source.cloneNode(false) as SVGGeometryElement
-            pulse.removeAttribute('class')
-            pulse.style.fill = 'none'
-            pulse.style.stroke = color
-            pulse.style.strokeWidth = String(size)
-            pulse.style.strokeLinecap = 'round'
-            pulse.style.strokeDasharray = `${dotLength} ${totalLength}`
-            pulse.style.strokeDashoffset = '0'
-            pulse.style.animation = 'none'
-            // Every dot gets some glow so it reads as a point of light rather
-            // than a flat mark; "glow" just makes it a bigger, brighter bloom.
-            pulse.style.filter = `drop-shadow(0 0 ${glow ? size * 2.2 : size * 0.9}px ${color})`
-            source.parentNode?.appendChild(pulse)
-            pulse.animate(
-                [{ strokeDashoffset: 0 }, { strokeDashoffset: -(totalLength + dotLength) }],
-                { duration, iterations: Infinity, easing: 'linear', delay },
-            )
-        }
-
-        // Accent trunks — every .st5 tendril, longest first.
-        const trunks = Array.from(svg.querySelectorAll<SVGGeometryElement>('.st5')).sort(
-            (a, b) => b.getTotalLength() - a.getTotalLength(),
-        )
-
-        // Picking simply the longest strokes of a class overall tends to
-        // cluster the pulses wherever the artwork happens to have its
-        // longest run of lines, leaving whole regions with no pulse at all —
-        // so instead, bucket every matching element into a grid across the
-        // artwork and take the longest one per cell, spreading pulses evenly
-        // over the whole brain.
-        const GRID_COLS = 6
-        const GRID_ROWS = 7
-        const vb = svg.viewBox.baseVal
-        const cellW = (vb.width || 595.28) / GRID_COLS
-        const cellH = (vb.height || 841.89) / GRID_ROWS
-        const pickGridSpread = (selector: string, count: number) => {
-            const byCell = new Map<string, { el: SVGGeometryElement; length: number }>()
-            svg.querySelectorAll<SVGGraphicsElement & SVGGeometryElement>(selector).forEach((el) => {
-                const box = el.getBBox()
-                const col = Math.min(GRID_COLS - 1, Math.floor((box.x + box.width / 2) / cellW))
-                const row = Math.min(GRID_ROWS - 1, Math.floor((box.y + box.height / 2) / cellH))
-                const key = `${col}:${row}`
-                const length = el.getTotalLength()
-                const existing = byCell.get(key)
-                if (!existing || length > existing.length) byCell.set(key, { el, length })
-            })
-            return Array.from(byCell.values())
-                .sort((a, b) => b.length - a.length)
-                .slice(0, count)
-                .map(({ el }) => el)
-        }
-
-        // A handful of the green (--sage) neuron lines.
-        const greens = pickGridSpread('.st0', 22)
-
-        // A handful of the muted ink (.st2) lines — the same idea, but
-        // slower and dimmer since these are the background detail work,
-        // not a focal colour.
-        const inks = pickGridSpread('.st2', 18)
-
-        if (!trunks.length && !greens.length && !inks.length) return
-
-        const pulseTimer = window.setTimeout(() => {
-            // Every pulse below uses a near-zero dash length — with round
-            // linecaps, a dash shorter than its own stroke-width collapses
-            // into a little travelling circle instead of a streak; the
-            // "size" of each dot is entirely the stroke-width argument.
-            trunks.forEach((el, i) => {
-                if (i === 0) {
-                    // Main trunk (the longest tendril) — the original two-colour pair.
-                    addPulseAlong(el, 5, 'var(--accent)', 10600, 0, true)
-                    addPulseAlong(el, 4, 'var(--sage)', 6900, 0, false)
-                } else {
-                    // Secondary tendrils — one lighter dot each, staggered
-                    // and alternating colour so they don't all move in lockstep.
-                    const accentTurn = i % 2 !== 0
-                    addPulseAlong(
-                        el,
-                        3.4,
-                        accentTurn ? 'var(--accent)' : 'var(--sage)',
-                        5800 + i * 650,
-                        i * 900,
-                        accentTurn,
-                    )
-                }
-            })
-
-            // The first third of the green lines get the slow, readable dot —
-            // big and bright enough (plus a soft glow) to stand out against
-            // the fine sage line-work. The rest get a smaller, quicker dot
-            // each, scattered across more of the green network for a livelier
-            // background hum without competing with the trunk's accent pulses.
-            greens.forEach((el, i) => {
-                if (i < 6) {
-                    addPulseAlong(el, 3.6, 'var(--sage-mid)', 10500 + i * 1400, i * 1100, true)
-                } else {
-                    addPulseAlong(el, 2.4, 'var(--sage)', 6800 + i * 750, i * 500, false)
-                }
-            })
-
-            // Ink lines get a slow, dim dot each — no glow, longer than
-            // either the accent or green pulses, so they read as a barely-
-            // there drift in the background rather than drawing the eye.
-            inks.forEach((el, i) => {
-                addPulseAlong(el, 2, 'rgba(38, 36, 31, 0.55)', 13000 + i * 1300, i * 900, false)
-            })
-        }, REVEAL_SETTLE_MS)
-
-        return () => window.clearTimeout(pulseTimer)
+        animationNeurolize(paths, -0.2)
+        animationNeurolize(polylines, -0.4)
+        animationNeurolize(circles, -0.6)
+        animationNeurolize(ellipses, -0.1)
+        animationNeurolize(lines, -0.8)
     }, [])
 
     return (
-        <div className="brainAnimation">
-            <div className="brainAnimation-wrapper">
-                <div className="brain">
+        <div className="brainAnimationClassic">
+            <div className="brainAnimationClassic-wrapper">
+                <div className="brainClassic">
                     <svg
                         ref={svgRef}
-                        className="brain__svg"
+                        className="brainClassic__svg"
                         version="1.1"
                         x="0px"
                         y="0px"
@@ -2078,4 +1935,4 @@ const BrainAnimation = () => {
         </div>
     )
 }
-export default BrainAnimation
+export default BrainAnimationClassic

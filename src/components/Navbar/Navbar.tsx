@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.scss'
@@ -15,15 +16,17 @@ const LINKS = [
 function Logo({ onClick }: { onClick?: () => void }) {
     return (
         <Link href="/" className={styles.logo} onClick={onClick} aria-label="Carmen Sergiou — home">
-            <span className={styles.glyph}>
-                cs
-                {/* Brain-mark alternative for client preview — comment out "cs" above and
-                    uncomment this <img> to swap it in. */}
-                {/* <img className={styles.glyphImg} src="/assets/brain/CS-selected-brain-letters-200-percent.png" alt="Carmen Sergiou" /> */}
-            </span>
+            <Image
+                className={styles.glyphImg}
+                src="/assets/brain/brain-logo-horizontal-pink-transparent.png"
+                alt="Carmen Sergiou"
+                width={1200}
+                height={871}
+                priority
+            />
             <span className={styles.lockup}>
-                <span className={styles.name}>CARMEN&nbsp;SERGIOU</span>
-                <span className={styles.role}>FORENSIC&nbsp;NEUROSCIENCE</span>
+                <span className={styles.name}>DR.&nbsp;SERGIOU</span>
+                <span className={styles.role}>FORENSIC&nbsp;NEUROSCIENCTIST</span>
             </span>
         </Link>
     )

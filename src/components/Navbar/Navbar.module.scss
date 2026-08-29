@@ -30,24 +30,10 @@
     gap: 13px;
 }
 
-.glyph {
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
-    border: 1px solid var(--accent-mid);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-mid);
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 15px;
-}
-
 .glyphImg {
-    width: 40px;
+    width: 45px;
     height: 40px;
+    flex: 0 0 auto;
     object-fit: contain;
 }
 

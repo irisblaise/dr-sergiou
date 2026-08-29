@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ALL_TOPICS, type Topic, type Publication } from '../../data/types'
 import BookSpine from '../../components/BookSpine/BookSpine'
+import { getSpineCover } from '../../components/BookSpine/spinePalette'
 import DetailCard from '../../components/DetailCard/DetailCard'
 import AccoladeIcon from '../../components/AccoladeIcon/AccoladeIcon'
 import styles from './Publications.module.scss'
@@ -11,14 +12,16 @@ const CARD_WIDTH = 332
 const RAIL_DOTS = 16
 
 export default function Publications({ publications }: { publications: Publication[] }) {
-    // Stats derived from the publications themselves (via each entry's `kind`),
-    // so they stay accurate as items are added/edited in the Studio.
+    // Stats derived from the publications themselves (via each entry's
+    // `authorship`/`kind`), so they stay accurate as items are added/edited in the Studio.
     const countKind = (k: Publication['kind']) =>
         publications.filter((p) => p.kind === k).length
     const stats = [
         { value: String(publications.length), label: 'PUBLICATIONS' },
-        { value: String(countKind('RESEARCH ARTICLE')), label: 'PEER-REVIEWED ARTICLES' },
-        { value: String(countKind('REVIEW')), label: 'REVIEWS' },
+        {
+            value: String(publications.filter((p) => p.authorship === 'First author').length),
+            label: 'FIRST AUTHOR',
+        },
         { value: String(countKind('BOOK CHAPTER')), label: 'BOOK CHAPTERS' },
     ]
 
@@ -268,15 +271,16 @@ export default function Publications({ publications }: { publications: Publicati
 
             {/* Mobile: vertical card list (shelf is replaced below the breakpoint) */}
             <div className={styles.mobileList}>
-                {publications.map((p, i) =>
-                    isVisible(i) ? (
+                {publications.map((p, i) => {
+                    const cover = getSpineCover(i)
+                    return isVisible(i) ? (
                         <div
                             key={i}
                             className={`${styles.mCard} ${selected === i ? styles.mCardOpen : ''}`}
                         >
                             <span
-                                className={`${styles.mSpine} ${p.cover.text === 'light' ? styles.mLight : styles.mDark}`}
-                                style={{ ['--cover' as string]: p.cover.bg }}
+                                className={styles.mSpine}
+                                style={{ ['--cover' as string]: cover.bg, ['--ink-on' as string]: cover.text }}
                             >
                                 <span className={styles.mYear}>{p.year}</span>
                                 <span className={styles.mRule} aria-hidden />
@@ -330,8 +334,8 @@ export default function Publications({ publications }: { publications: Publicati
                                 )}
                             </div>
                         </div>
-                    ) : null,
-                )}
+                    ) : null
+                })}
             </div>
         </div>
     )
