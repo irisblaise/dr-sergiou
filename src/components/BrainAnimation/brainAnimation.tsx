@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import './brainAnimation.scss'
-const brain = '/assets/brain/brain6.png'
+const brain = '/assets/brain/Brain6.png'
 
 // How long the one-time ink reveal (below) takes to settle, across the
 // slowest-staggered element group — the trunk pulse waits for this before
