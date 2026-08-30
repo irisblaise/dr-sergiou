@@ -123,12 +123,23 @@
     width: 100%;
     height: 100%;
     z-index: 4;
+    /* The <svg> root covers the whole stage; left at the pointer-events:auto
+       default, its own empty box intercepts hover everywhere — including
+       over .med below — regardless of whether any child shape is painted at
+       that point. .hit opts itself back in with pointer-events: stroke;
+       everything else (including .med underneath) passes through. */
+    pointer-events: none;
 }
 
 /* ---------- SVG network (per-arm) ---------- */
 .ringHalo {
     fill: rgba(var(--accent-glow), 0.18);
     opacity: 0;
+    /* Purely decorative — sits right where .med is anchored, and being
+       visiblePainted it would otherwise steal hover from the medallion
+       image underneath it. .hit below is the real hover target for the
+       line itself. */
+    pointer-events: none;
     transition: opacity 0.75s var(--ease);
 
     &.on {
@@ -139,9 +150,14 @@
 .nodePad {
     fill: var(--canvas);
     opacity: 0.88;
+    pointer-events: none;
 }
 
 .term {
+    /* Same reasoning as .ringHalo/.nodePad above — decorative rings around
+       the terminal node, not a hover target. */
+    pointer-events: none;
+
     .ringP {
         fill: none;
         stroke: var(--accent);
@@ -194,7 +210,7 @@
     stroke-dasharray: var(--len);
     stroke-dashoffset: var(--len);
     opacity: 0;
-    filter: drop-shadow(0 0 6px rgba(var(--accent-glow), 0.55));
+    filter: url(#skills-live-glow);
     transition:
         stroke-dashoffset 1.1s var(--ease),
         opacity 0.3s ease;
@@ -249,7 +265,7 @@
         fill: var(--accent);
         stroke: var(--accent);
         opacity: 1;
-        filter: drop-shadow(0 0 5px rgba(var(--accent-glow), 0.6));
+        filter: url(#skills-via-glow);
     }
 }
 
@@ -263,7 +279,12 @@
 
 .dot {
     fill: transparent;
-    pointer-events: all;
+    /* Was pointer-events: all to widen the hit target at the terminal node,
+       but it sits right where .med is anchored and would steal hover from
+       the medallion image underneath it. .hit covers the line itself, and
+       .med now covers the node/image — this decorative circle doesn't need
+       its own hit target. */
+    pointer-events: none;
     cursor: pointer;
 }
 
@@ -279,6 +300,11 @@
     background: var(--canvas);
     padding: 0;
     appearance: none;
+    /* Below .cell (z-index 2) so the neuron artwork's branches draw over the
+       medallion, tucking it in behind the branch tip as designed. The SVG's
+       terminal-node hit circles (.dot, .nodePad, .ringHalo, .term) that used
+       to sit on top of this and steal hover are pointer-events: none now, so
+       this can stay low without losing hover on the medallion image. */
     z-index: 1;
     cursor: pointer;
     transition:

@@ -140,6 +140,46 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
 
         svg.setAttribute('viewBox', `0 0 ${mr.width} ${mr.height}`)
 
+        // Explicit SVG <filter> defs rather than CSS blur()/drop-shadow() —
+        // see ProjectsPage.tsx's identical comment: Safari clips the CSS
+        // filter shorthand to a filter region sized off the shape's own
+        // tiny bounding box, so the glow silently vanishes there (Chrome
+        // doesn't clip the same way).
+        const defs = document.createElementNS(SVG_NS, 'defs')
+        svg.appendChild(defs)
+        const blurFilter = (id: string, stdDeviation: number) => {
+            const filter = document.createElementNS(SVG_NS, 'filter')
+            filter.setAttribute('id', id)
+            filter.setAttribute('color-interpolation-filters', 'sRGB')
+            filter.setAttribute('x', '-500%')
+            filter.setAttribute('y', '-500%')
+            filter.setAttribute('width', '1100%')
+            filter.setAttribute('height', '1100%')
+            const blur = document.createElementNS(SVG_NS, 'feGaussianBlur')
+            blur.setAttribute('stdDeviation', String(stdDeviation))
+            filter.appendChild(blur)
+            defs.appendChild(filter)
+        }
+        const dropShadowFilter = (id: string, color: string, stdDeviation: number) => {
+            const filter = document.createElementNS(SVG_NS, 'filter')
+            filter.setAttribute('id', id)
+            filter.setAttribute('color-interpolation-filters', 'sRGB')
+            filter.setAttribute('x', '-300%')
+            filter.setAttribute('y', '-300%')
+            filter.setAttribute('width', '700%')
+            filter.setAttribute('height', '700%')
+            const shadow = document.createElementNS(SVG_NS, 'feDropShadow')
+            shadow.setAttribute('dx', '0')
+            shadow.setAttribute('dy', '0')
+            shadow.setAttribute('stdDeviation', String(stdDeviation))
+            shadow.setAttribute('flood-color', color)
+            filter.appendChild(shadow)
+            defs.appendChild(filter)
+        }
+        blurFilter('contact-blur-7', 7)
+        blurFilter('contact-blur-4', 4)
+        dropShadowFilter('contact-glow-accent', ACC, 6)
+
         const path = (d: string, w: number, col: string, op?: number) => {
             const p = document.createElementNS(SVG_NS, 'path')
             p.setAttribute('d', d)
@@ -164,7 +204,7 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
 
         const pinkNode = (x: number, y: number, s = 1) => {
             const h = circ(x, y, 13 * s, { fill: ACC, 'fill-opacity': 0.45 })
-            h.style.filter = 'blur(7px)'
+            h.setAttribute('filter', 'url(#contact-blur-7)')
             circ(x, y, 7.5 * s, { fill: 'none', stroke: PINK, 'stroke-width': 1.2, 'stroke-opacity': 0.8 })
             circ(x, y, 3.2 * s, { fill: PINK })
         }
@@ -174,7 +214,7 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
         }
         const terminal = (x: number, y: number) => {
             const h = circ(x, y, 11, { fill: SAGE, 'fill-opacity': 0.12 })
-            h.style.filter = 'blur(4px)'
+            h.setAttribute('filter', 'url(#contact-blur-4)')
             circ(x, y, 3.4, { fill: CANVAS, stroke: SAGE, 'stroke-width': 1.6 })
         }
         const ghost = (points: Point[], dx: number, dy: number) =>
@@ -195,7 +235,7 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
             const q = path(d, 1.6, col, 0.9)
             q.setAttribute('pathLength', '2000')
             q.style.strokeDasharray = '60 2000'
-            q.style.filter = `drop-shadow(0 0 6px ${col})`
+            q.setAttribute('filter', 'url(#contact-glow-accent)')
             q.animate([{ strokeDashoffset: 0 }, { strokeDashoffset: -2060 }], {
                 duration: HOVER_PULSE_MS,
                 iterations: Infinity,
@@ -219,7 +259,7 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
             const q = path(d, w, col, op)
             const L = q.getTotalLength() || 1
             q.style.strokeDasharray = `${len} ${L}`
-            if (glow) q.style.filter = `drop-shadow(0 0 6px ${col})`
+            if (glow) q.setAttribute('filter', 'url(#contact-glow-accent)')
             q.animate([{ strokeDashoffset: len }, { strokeDashoffset: -L }], {
                 duration: (L + len) / speed,
                 iterations: Infinity,

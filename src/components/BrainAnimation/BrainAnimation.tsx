@@ -51,6 +51,43 @@ const BrainAnimation = () => {
 
         if (reduced) return
 
+        // Each pulse gets its own SVG <filter> (rather than a CSS
+        // drop-shadow() set via .style.filter) with a region computed from
+        // the pulse's own geometry, in absolute user-space units rather
+        // than percentages of its bounding box. Safari otherwise clips a
+        // CSS filter's default region to roughly the shape's own bbox +
+        // 10%, so the glow silently disappears there (Chrome doesn't clip
+        // the same way) — and since some of the strokes a pulse can ride
+        // are perfectly horizontal or vertical, a bbox-percentage region
+        // (as used on ProjectsPage's/Contact's circular halos) would
+        // collapse to zero width or height for those regardless of the
+        // percentage, so this needs an absolute margin instead.
+        const NS = 'http://www.w3.org/2000/svg'
+        const defs = document.createElementNS(NS, 'defs')
+        svg.appendChild(defs)
+        let glowFilterCount = 0
+        const glowFilterFor = (source: SVGGeometryElement, color: string, stdDeviation: number) => {
+            const bbox = source.getBBox()
+            const margin = stdDeviation * 4 + 10
+            const filter = document.createElementNS(NS, 'filter')
+            const id = `brain-pulse-glow-${glowFilterCount++}`
+            filter.setAttribute('id', id)
+            filter.setAttribute('filterUnits', 'userSpaceOnUse')
+            filter.setAttribute('color-interpolation-filters', 'sRGB')
+            filter.setAttribute('x', String(bbox.x - margin))
+            filter.setAttribute('y', String(bbox.y - margin))
+            filter.setAttribute('width', String(bbox.width + margin * 2))
+            filter.setAttribute('height', String(bbox.height + margin * 2))
+            const shadow = document.createElementNS(NS, 'feDropShadow')
+            shadow.setAttribute('dx', '0')
+            shadow.setAttribute('dy', '0')
+            shadow.setAttribute('stdDeviation', String(stdDeviation))
+            shadow.setAttribute('flood-color', color)
+            filter.appendChild(shadow)
+            defs.appendChild(filter)
+            return id
+        }
+
         // Travelling dots of light ride a handful of the brain's own strokes,
         // the same technique as the projects timeline and the classic
         // homepage spine (see ProjectsRedesign.tsx / Home.tsx) — most of the
@@ -84,7 +121,8 @@ const BrainAnimation = () => {
             pulse.style.animation = 'none'
             // Every dot gets some glow so it reads as a point of light rather
             // than a flat mark; "glow" just makes it a bigger, brighter bloom.
-            pulse.style.filter = `drop-shadow(0 0 ${glow ? size * 2.2 : size * 0.9}px ${color})`
+            const glowId = glowFilterFor(source, color, glow ? size * 2.2 : size * 0.9)
+            pulse.setAttribute('filter', `url(#${glowId})`)
             source.parentNode?.appendChild(pulse)
             pulse.animate(
                 [{ strokeDashoffset: 0 }, { strokeDashoffset: -(totalLength + dotLength) }],

@@ -35,37 +35,37 @@ const ARMS: ArmDef[] = [
         key: 'neuro',
         captionSide: 'c',
         vias: [0.3, 0.56, 0.8],
-        d: 'M346.1 336.5 L 340 330.4 L 340 301 L 335 296 L 288 249.5 L 269 249.5 L 257 237.5 L 232 237.5 L 201 206.5 L 191 206.5 L 184.5 200 L 177.5 200 L 174 196.6 L 108.5 196.6',
+        d: 'M343.7 333.3 L339.3 297 L318.2 281.9 L314.2 272.3 L289.1 252.8 L272.3 250.8 L264.8 242.4 L250.4 238.4 L221.7 236.8 L204.9 222.5 L194.2 203.7 L176.2 196.2 L108.5 196.6',
     },
     {
         key: 'coding',
         captionSide: 'r',
         vias: [0.3, 0.56, 0.8],
-        d: 'M649.9 338.1 L 659.6 332.5 L 662 327.5 L 662 305.4 L 668 295.6 L 675.8 287.7 L 695.5 277.6 L 715.2 257.9 L 726.6 255.2 L 748.9 255.2 L 764.5 248.7 L 781.2 248.7 L 796.9 233 L 802.6 220.1 L 830.9 193.4 L 899.9 193.4',
+        d: 'M653.5 333.7 L661.9 296.7 L715.7 254 L734.1 252.4 L749.6 246 L778.3 244.4 L795.1 229.3 L807.4 205.3 L820.6 199 L875.6 196.6 L899.9 193.4',
     },
     {
         key: 'vr',
         captionSide: 'r',
         vias: [0.3, 0.8],
-        d: 'M782.3 472.2 L 790 472.2 L 798 480 L 864 480 L 875.4 468.6 L 898 468.6 L 906 476.6 L 959.5 476.6',
+        d: 'M795.1 480.5 L801.8 476.5 L812.6 484.4 L858.1 482.1 L876 469.3 L897.5 469.3 L911.9 476.5 L959.5 476.6',
     },
     {
         key: 'music',
         captionSide: 'r',
         vias: [0.3, 0.56, 0.8],
-        d: 'M768.7 661.9 L 774.9 665.4 L 777.9 671.5 L 777.9 698.6 L 784.4 709.7 L 817 742.3 L 831.7 751.7 L 850.9 756 L 876.7 781.8 L 881.8 791.1 L 883.2 826.2 L 895.9 863.6',
+        d: 'M773.5 662.7 L777.9 707.7 L796.3 731.3 L818.2 744.4 L826.6 756.4 L848.5 758.8 L870 775.1 L876.4 790.7 L877.6 823.4 L888 840.1 L895.9 863.6',
     },
     {
         key: 'behavior',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
-        d: 'M478.5 530.3 L 438.6 550.2 L 378.8 578.2 L 299 617.9 L 247.2 662.7 L 238 671.9 L 227.1 704.9 L 199.1 733 L 162.7 751.6 L 145.1 756 L 115.1 786 L 111.6 795.9 L 111.3 824.6 L 102.5 863.2',
+        d: 'M240.4 670.3 L240.4 686.2 L234.4 703.3 L218.5 725.7 L171.9 756.4 L151.9 757.6 L127.6 773.9 L118 793.5 L116.8 824.6 L102.5 863.2',
     },
     {
         key: 'forensic',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
-        d: 'M438.6 450.6 L 398.7 460.5 L 338.9 464.6 L 199.4 464.1 L 188.2 464.1 L 172.1 480.2 L 155.9 480.2 L 135.6 487.6 L 124.4 487.6 L 110.5 479.5 L 90.1 482.5 L 66.2 482.5 L 44.7 474.5',
+        d: 'M195.4 464.1 L186.6 460.5 L172.2 474.9 L146.3 476.5 L138.4 471.7 L124 471.3 L118.4 477.7 L44.7 474.5',
     },
 ]
 
@@ -85,6 +85,14 @@ function polylineLength(pts: Pt[]): number {
         len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])
     }
     return len
+}
+
+// SVG geometry only needs sub-pixel precision, and rounding here makes the
+// server- and client-rendered markup byte-identical — Math.hypot's last bit
+// isn't guaranteed to match across JS engines, so an unrounded value can
+// differ between SSR and the browser and trip a hydration mismatch.
+function round(n: number): number {
+    return Math.round(n * 10000) / 10000
 }
 
 // Reproduces SVGPathElement.getPointAtLength for a plain polyline, without
@@ -133,17 +141,17 @@ function layoutArm(arm: ArmDef): ArmLayout {
 
     const caption: ArmLayout['caption'] =
         arm.captionSide === 'r'
-            ? { left: cx0 + 76, top: cy0 - 40, align: 'left' }
+            ? { left: round(cx0 + 76), top: round(cy0 - 40), align: 'left' }
             : arm.captionSide === 'l'
-              ? { left: cx0 - 76 - 200, top: cy0 - 40, align: 'right' }
-              : { left: ex + 28, top: ey - 92, align: 'left' }
+              ? { left: round(cx0 - 76 - 200), top: round(cy0 - 40), align: 'right' }
+              : { left: round(ex + 28), top: round(ey - 92), align: 'left' }
 
     return {
         ...arm,
-        viaPoints: arm.vias.map((f) => pointAtFraction(pts, f)),
-        end: [end[0], end[1]],
-        length: polylineLength(pts),
-        medallion: { left: ex + ux * 50, top: ey + uy * 50 },
+        viaPoints: arm.vias.map((f) => pointAtFraction(pts, f).map(round) as Pt),
+        end: [round(end[0]), round(end[1])],
+        length: round(polylineLength(pts)),
+        medallion: { left: round(ex + ux * 50), top: round(ey + uy * 50) },
         caption,
     }
 }
@@ -278,6 +286,35 @@ export default function SkillsPage({
                     </div>
 
                     <svg className={styles.net} viewBox={`0 0 ${STAGE_W} ${STAGE_H}`} aria-hidden>
+                        {/* Explicit SVG <filter>s, not the CSS drop-shadow()
+                            in SkillsPage.module.scss's .live/.via.on rules —
+                            Safari clips a CSS filter's default region to
+                            roughly the shape's own bounding box + 10%, so a
+                            6px glow on these thin/small shapes silently
+                            disappears there (Chrome doesn't clip the same
+                            way). See ProjectsPage.tsx for the fuller writeup. */}
+                        <defs>
+                            <filter
+                                id="skills-live-glow"
+                                colorInterpolationFilters="sRGB"
+                                x="-300%"
+                                y="-300%"
+                                width="700%"
+                                height="700%"
+                            >
+                                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="rgba(var(--accent-glow), 0.55)" />
+                            </filter>
+                            <filter
+                                id="skills-via-glow"
+                                colorInterpolationFilters="sRGB"
+                                x="-500%"
+                                y="-500%"
+                                width="1100%"
+                                height="1100%"
+                            >
+                                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="rgba(var(--accent-glow), 0.6)" />
+                            </filter>
+                        </defs>
                         <g transform={`translate(${OX},${OY}) scale(${SC})`}>
                             {ARM_LAYOUT.map((arm) => {
                                 const on = arm.key === active

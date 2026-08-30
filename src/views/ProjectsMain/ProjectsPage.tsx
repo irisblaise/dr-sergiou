@@ -172,6 +172,57 @@ export default function ProjectsPage({
         svg.setAttribute('viewBox', `0 0 ${GUTTER_W} ${H}`)
         while (svg.firstChild) svg.removeChild(svg.firstChild)
 
+        // Every glow below is drawn as an explicit SVG <filter> — with a
+        // filter region declared far bigger than the shape it applies to —
+        // rather than a `blur()`/`drop-shadow()` CSS filter function. Safari
+        // computes the CSS-filter shorthand's default filter region from
+        // the shape's own tiny bounding box (roughly object bbox + 10%), so
+        // on a 10-unit circle a 16px blur radius has nowhere near enough
+        // room and gets clipped away entirely — the glow silently vanishes
+        // and only the flat fill paints, in both real iOS Safari and
+        // desktop Safari (Chrome doesn't clip the same way, which is why
+        // this only ever showed up in Safari). Declaring the region
+        // ourselves via an SVG filter sidesteps that; `sRGB` interpolation
+        // matches the color space `blur()`/`drop-shadow()` use, since the
+        // SVG filter default (linearRGB) would otherwise dull/shift ACC.
+        const defs = document.createElementNS(NS, 'defs')
+        svg.appendChild(defs)
+        const blurFilter = (id: string, stdDeviation: number) => {
+            const filter = document.createElementNS(NS, 'filter')
+            filter.setAttribute('id', id)
+            filter.setAttribute('color-interpolation-filters', 'sRGB')
+            filter.setAttribute('x', '-500%')
+            filter.setAttribute('y', '-500%')
+            filter.setAttribute('width', '1100%')
+            filter.setAttribute('height', '1100%')
+            const blur = document.createElementNS(NS, 'feGaussianBlur')
+            blur.setAttribute('stdDeviation', String(stdDeviation))
+            filter.appendChild(blur)
+            defs.appendChild(filter)
+        }
+        const dropShadowFilter = (id: string, color: string, stdDeviations: number[]) => {
+            const filter = document.createElementNS(NS, 'filter')
+            filter.setAttribute('id', id)
+            filter.setAttribute('color-interpolation-filters', 'sRGB')
+            filter.setAttribute('x', '-500%')
+            filter.setAttribute('y', '-500%')
+            filter.setAttribute('width', '1100%')
+            filter.setAttribute('height', '1100%')
+            for (const stdDeviation of stdDeviations) {
+                const shadow = document.createElementNS(NS, 'feDropShadow')
+                shadow.setAttribute('dx', '0')
+                shadow.setAttribute('dy', '0')
+                shadow.setAttribute('stdDeviation', String(stdDeviation))
+                shadow.setAttribute('flood-color', color)
+                filter.appendChild(shadow)
+            }
+            defs.appendChild(filter)
+        }
+        blurFilter('proj-blur-7', 7)
+        blurFilter('proj-blur-8', 8)
+        blurFilter('proj-blur-4', 4)
+        dropShadowFilter('proj-dot-glow', ACC, [8, 16])
+
         const path = (d: string, w: number, col: string, op?: number) => {
             const p = document.createElementNS(NS, 'path')
             p.setAttribute('d', d)
@@ -291,14 +342,14 @@ export default function ProjectsPage({
 
             const op = Math.max(0.3, 0.55 - i * 0.05)
             const halo = circ(AXIS, y, 13, { fill: ACC, 'fill-opacity': op })
-            halo.style.filter = 'blur(7px)'
+            halo.setAttribute('filter', 'url(#proj-blur-7)')
             circ(AXIS, y, 7.5, { fill: 'none', stroke: PINK, 'stroke-width': 1.2, 'stroke-opacity': 0.8 })
             circ(AXIS, y, 3.2, { fill: PINK })
         })
 
         // Tail terminal, at the very bottom of the conductor.
         const tailHalo = circ(AXIS, bottom, 11, { fill: SAGE, 'fill-opacity': 0.12 })
-        tailHalo.style.filter = 'blur(4px)'
+        tailHalo.setAttribute('filter', 'url(#proj-blur-4)')
         circ(AXIS, bottom, 3.4, { fill: CANVAS, stroke: SAGE, 'stroke-width': 1.6 })
 
         // Pink pulse — a glowing dot that rides the conductor in step with
@@ -314,23 +365,22 @@ export default function ProjectsPage({
         if (!reduced) {
             // The halo/dot pair moves every scroll frame, so it's positioned
             // by translating a wrapping <g> rather than rewriting cx/cy on
-            // the filtered circles directly — real iOS Safari doesn't
-            // reliably repaint a blur()/drop-shadow() filter when the
-            // filtered element's own geometry attributes are mutated in
-            // place, so the glow silently stopped rendering on-device even
-            // though it looked fine in every desktop/simulator check.
+            // the filtered circles directly — cheaper than touching two
+            // filtered elements' geometry every frame. (The glow itself
+            // disappearing in Safari was a separate, since-fixed bug — see
+            // the filter-region comment above.)
             const dotGroup = document.createElementNS(NS, 'g')
             dotGroup.setAttribute('transform', `translate(${AXIS} ${top})`)
             svg.appendChild(dotGroup)
             const haloDot = document.createElementNS(NS, 'circle')
             haloDot.setAttribute('r', '15')
             haloDot.setAttribute('fill', ACC)
-            haloDot.style.filter = 'blur(8px)'
+            haloDot.setAttribute('filter', 'url(#proj-blur-8)')
             dotGroup.appendChild(haloDot)
             const scrollDot = document.createElementNS(NS, 'circle')
             scrollDot.setAttribute('r', '5')
             scrollDot.setAttribute('fill', ACC)
-            scrollDot.style.filter = `drop-shadow(0 0 8px ${ACC}) drop-shadow(0 0 16px ${ACC})`
+            scrollDot.setAttribute('filter', 'url(#proj-dot-glow)')
             dotGroup.appendChild(scrollDot)
             const totalLen = mainPath.getTotalLength()
             const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
