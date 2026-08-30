@@ -10,7 +10,7 @@ import { useMatchMedia } from '../../lib/useMatchMedia'
 import ArrowLink from '../ui/ArrowLink/ArrowLink'
 import styles from './LayersOfExploration.module.scss'
 
-const BASE_IMAGE = '/assets/homepage/head-brain-transparent.png'
+const BASE_IMAGE = '/assets/homepage/head-brain-transparent.webp'
 
 type Layer = {
     number: string
@@ -34,7 +34,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: '(Forensic) Neuroscience',
         description:
             "Oh the brain, what a majestic piece of art. It all started when I was very young and saw \"One flew over the cuckoo's nest\", to see the neurodiversity for the first time. Later on my fascination guided me towards the criminal brain. To examine how the neural correlates can shape decision-making into making criminal decisions. The crossroads of Neuroscience and the Forensic Field is where it all came together during my PhD. To unravel the neural underpinnings of aggression, emotion regulation and empathy are my main regions of fascination.",
-        overlaySrc: '/assets/homepage/pink-layer-01-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-01-transparent.webp',
     },
     {
         number: '02',
@@ -42,7 +42,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Criminal Decision-making',
         description:
             'Since I started this journey as a young puppet, I have studied the brain of forensic samples, using different tools, in different age groups and severity, but all with one aim: understanding criminal decision-making. Previously I worked as a post-doctoral researcher within the Virtual Burglary Project at the Max Planck Institute for Crime, Security, and Law (MPI) and Leiden University, where we used Virtual Reality (VR) to study criminal decision-making in incarcerated burglars. Currently, I work within the Growing up Together in Society (GUTS) team where we investigate the biopsychosocial development of high-risk youth using functional Magnetic Resonance Imaging (fMRI).',
-        overlaySrc: '/assets/homepage/pink-layer-02-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-02-transparent.webp',
     },
     {
         number: '03',
@@ -50,7 +50,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Innovative Technologies',
         description:
             'My fascination with innovative technologies that can improve therapy in forensic care is the common thread throughout my research trajectory. Technologies like virtual reality (VR), neuromodulation, functional Near-Infrared Spectroscopy (fNIRS), Electroencephalography (EEG), Hyperscanning, fMRI and the power of multi-modal approaches fuel my passion. Being able to study brain responses in real-time in virtual environments is the future avenue to unraveling the neural underpinnings of behavior. Recently I initiated the FORNEUROTECH network to bring these fields together.',
-        overlaySrc: '/assets/homepage/pink-layer-03-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-03-transparent.webp',
     },
     {
         number: '04',
@@ -58,7 +58,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'The Future of Decentralized Science',
         description:
             "I'm on a mission to help revolutionize open science, to decentralize science (DeSci). Science should be available to everyone, regardless of a university affiliation. To this end, I've launched the Neuroscience NFT project, a collaboration with 3D artist Sytske Nijp and computer scientist Emanuel Boderash. Together, we're merging the digital world with the realms of science — using the brain scans of my own research studies, Sytske created 3D art.",
-        overlaySrc: '/assets/homepage/pink-layer-04-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-04-transparent.webp',
     },
     {
         number: '05',
@@ -66,7 +66,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Psychedelics in Mental Health Care',
         description:
             'I believe in the potential of using psychedelics in treatment, with a big emphasis on safe implementation in Dutch Mental Healthcare. When responsibly implemented, these treatments can be game-changers and keys to a better future. I co-created a report on using ketamine therapy in treatment-resistant depression (TRD) in collaboration with the Open Foundation.',
-        overlaySrc: '/assets/homepage/pink-layer-05-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-05-transparent.webp',
     },
     {
         number: '06',
@@ -74,7 +74,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Musical Synergy',
         description:
             'Next to all my scientific passions, music is a crucial factor in fueling my motivation and excitement. I combine this by DJ-ing (Ventromedial) and supporting the open-minded event organisation in Amsterdam, Kraft und Licht, with a homebase at Der Hintergarten. I believe dancing is a powerful tool to feel empowered and charged to continue as a devoted researcher.',
-        overlaySrc: '/assets/homepage/pink-layer-06-transparent.png',
+        overlaySrc: '/assets/homepage/pink-layer-06-transparent.webp',
     },
 ]
 

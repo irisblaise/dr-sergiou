@@ -18,7 +18,7 @@ function Logo({ onClick }: { onClick?: () => void }) {
         <Link href="/" className={styles.logo} onClick={onClick} aria-label="Carmen Sergiou — home">
             <Image
                 className={styles.glyphImg}
-                src="/assets/brain/brain-logo-horizontal-pink-transparent.png"
+                src="/assets/brain/brain-logo-horizontal-pink-transparent.webp"
                 alt="Carmen Sergiou"
                 width={1200}
                 height={871}

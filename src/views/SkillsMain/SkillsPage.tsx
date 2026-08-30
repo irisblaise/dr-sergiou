@@ -26,7 +26,7 @@ type ArmDef = {
     d: string
 }
 
-// Traced pixel-by-pixel from neuron-six-arms-transparent-highres.png (1000×1000
+// Traced pixel-by-pixel from neuron-six-arms-transparent-highres.webp (1000×1000
 // artwork space), soma-first so the live track always grows outward from the
 // cell body. Re-trace from the artwork if it's ever replaced — see arms.json
 // in the design handoff.
@@ -256,7 +256,7 @@ export default function SkillsPage({
 
                     <div className={styles.cell} aria-hidden>
                         <Image
-                            src="/assets/skills/neuron-six-arms-transparent-highres.png"
+                            src="/assets/skills/neuron-six-arms-transparent-highres.webp"
                             alt=""
                             width={1000}
                             height={1000}

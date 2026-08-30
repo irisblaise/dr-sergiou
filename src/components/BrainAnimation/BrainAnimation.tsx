@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import './BrainAnimation.scss'
-import brain from '../../../public/assets/brain/Brain6.png'
+import brain from '../../../public/assets/brain/Brain6.webp'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 
 // How long the one-time ink reveal (below) takes to settle, across the

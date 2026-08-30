@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import './BrainAnimationClassic.scss'
-import brain from '../../../public/assets/brain/Brain6.png'
+import brain from '../../../public/assets/brain/Brain6.webp'
 
 // Preserved exactly as it was before the pulse redesign, kept side by side
 // with the new BrainAnimation so the client can compare the two — see

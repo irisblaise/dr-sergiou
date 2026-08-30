@@ -312,10 +312,26 @@ export default function ProjectsPage({
         // on, rather than being hidden behind it.
         let cleanupScrollDot = () => {}
         if (!reduced) {
-            const haloDot = circ(AXIS, top, 15, { fill: ACC })
+            // The halo/dot pair moves every scroll frame, so it's positioned
+            // by translating a wrapping <g> rather than rewriting cx/cy on
+            // the filtered circles directly — real iOS Safari doesn't
+            // reliably repaint a blur()/drop-shadow() filter when the
+            // filtered element's own geometry attributes are mutated in
+            // place, so the glow silently stopped rendering on-device even
+            // though it looked fine in every desktop/simulator check.
+            const dotGroup = document.createElementNS(NS, 'g')
+            dotGroup.setAttribute('transform', `translate(${AXIS} ${top})`)
+            svg.appendChild(dotGroup)
+            const haloDot = document.createElementNS(NS, 'circle')
+            haloDot.setAttribute('r', '15')
+            haloDot.setAttribute('fill', ACC)
             haloDot.style.filter = 'blur(8px)'
-            const scrollDot = circ(AXIS, top, 5, { fill: ACC })
+            dotGroup.appendChild(haloDot)
+            const scrollDot = document.createElementNS(NS, 'circle')
+            scrollDot.setAttribute('r', '5')
+            scrollDot.setAttribute('fill', ACC)
             scrollDot.style.filter = `drop-shadow(0 0 8px ${ACC}) drop-shadow(0 0 16px ${ACC})`
+            dotGroup.appendChild(scrollDot)
             const totalLen = mainPath.getTotalLength()
             const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
             let raf = 0
@@ -323,10 +339,7 @@ export default function ProjectsPage({
                 raf = 0
                 const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll()))
                 const pt = mainPath.getPointAtLength(progress * totalLen)
-                haloDot.setAttribute('cx', pt.x.toFixed(1))
-                haloDot.setAttribute('cy', pt.y.toFixed(1))
-                scrollDot.setAttribute('cx', pt.x.toFixed(1))
-                scrollDot.setAttribute('cy', pt.y.toFixed(1))
+                dotGroup.setAttribute('transform', `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})`)
             }
             const onScroll = () => {
                 if (!raf) raf = requestAnimationFrame(positionDot)

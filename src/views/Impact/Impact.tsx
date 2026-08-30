@@ -115,10 +115,12 @@ export default function Impact({
 
     // ---- Mobile switcher: tabs (Media/Awards) + chip strip ----
     const [activeTab, setActiveTab] = useState<Category>('MEDIA')
+    const chipsRef = useRef<HTMLDivElement>(null)
     const selectTab = (tab: Category) => {
         setActiveTab(tab)
         const first = items.findIndex((it) => it.category === tab)
         if (first >= 0) setSelected(first)
+        chipsRef.current?.scrollTo({ left: 0, behavior: 'auto' })
     }
 
     // ---- Detail media: active asset ----
@@ -264,7 +266,18 @@ export default function Impact({
                         ))}
                     </div>
                     <div className={styles.chipsWrap}>
-                        <div className={styles.chips}>
+                        <div
+                            className={styles.chips}
+                            ref={chipsRef}
+                            onClick={(e) => {
+                                const btn = (e.target as HTMLElement).closest('button')
+                                btn?.scrollIntoView({
+                                    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+                                    inline: 'start',
+                                    block: 'nearest',
+                                })
+                            }}
+                        >
                             {items
                                 .filter((it) => it.category === activeTab)
                                 .map((it) => {
@@ -283,7 +296,13 @@ export default function Impact({
                                     )
                                 })}
                         </div>
-                        <div className={styles.chipsFade} aria-hidden />
+                    </div>
+
+                    <div className={styles.swipeHint}>
+                        SWIPE&nbsp;FOR&nbsp;MORE
+                        <span className={styles.swipeCueLine}>
+                            <span className={styles.swipeCueDot} />
+                        </span>
                     </div>
                 </div>
 
@@ -357,6 +376,9 @@ export default function Impact({
                     )}
                 </div>
             </aside>
+
+            {/* Mobile-only: title, shown above the hero image instead of below it */}
+            <h2 className={styles.featureTitleMobile}>{item.title}</h2>
 
             {/* Center: featured detail text */}
             <div className={styles.center}>

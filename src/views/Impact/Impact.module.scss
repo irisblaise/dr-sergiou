@@ -8,7 +8,7 @@
     padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
     display: grid;
     grid-template-columns: 300px minmax(340px, 1fr) 548px;
-    gap: clamp(24px, 4vw, 56px);
+    gap: 0;
     align-items: start;
 }
 
@@ -335,6 +335,13 @@
     color: var(--ink);
 }
 
+/* Mobile-only duplicate of .featureTitle, shown above the hero image instead
+   of below it — hidden on desktop, where .featureTitle (inside .center)
+   already renders it in place. */
+.featureTitleMobile {
+    display: none;
+}
+
 .featurePeople {
     margin-top: 16px;
     font-family: var(--font-serif);
@@ -602,25 +609,56 @@
 
     .tab {
         flex: 1;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 7px;
-        padding: 9px 0;
+        padding: 9px 0 12px;
+        background: none;
+        border: none;
         cursor: pointer;
-        @include pill.pill-toggle;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        color: var(--nav-ink);
+        transition: color 0.3s ease;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: var(--rule);
+            transition:
+                background 0.3s ease,
+                height 0.3s ease;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 3px;
+        }
     }
 
     .tabActive {
-        @include pill.pill-toggle-active;
+        color: var(--accent-mid);
+
+        &::after {
+            height: 2px;
+            background: var(--accent-mid);
+        }
     }
 
     .tabCount {
-        font-family: var(--font-sans);
+        font-family: var(--font-mono);
         font-weight: 400;
         font-size: 11px;
-        letter-spacing: 0;
-        opacity: 0.7;
+        letter-spacing: 0.06em;
+        color: var(--soft);
+        opacity: 0.85;
     }
 
     .chipsWrap {
@@ -634,6 +672,8 @@
         overflow-x: auto;
         padding: 2px 0 4px;
         scrollbar-width: none;
+        -webkit-mask-image: linear-gradient(to right, black calc(100% - 42px), transparent 100%);
+        mask-image: linear-gradient(to right, black calc(100% - 42px), transparent 100%);
 
         &::-webkit-scrollbar {
             display: none;
@@ -681,23 +721,25 @@
         color: var(--on-accent);
     }
 
-    .chipsFade {
-        position: absolute;
-        top: 12px;
-        bottom: 4px;
-        right: 0;
-        width: 42px;
-        pointer-events: none;
-        background: linear-gradient(to right, rgba(239, 234, 225, 0), var(--canvas) 78%);
+    .featureTitleMobile {
+        order: 1;
+        display: block;
+        margin: 18px 0 0;
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: 27px;
+        line-height: 1.14;
+        letter-spacing: -0.01em;
+        color: var(--ink);
     }
 
     .media {
-        order: 1;
-        margin-top: 26px;
+        order: 2;
+        margin-top: 14px;
     }
 
     .center {
-        order: 2;
+        order: 3;
         border-left: none;
         padding: 4px 0 0;
     }
@@ -710,10 +752,62 @@
     }
 
     .featureTitle {
-        font-size: 27px;
+        display: none;
     }
 
     .featurePeople {
         font-size: 19px;
+    }
+
+    .rule {
+        display: none;
+    }
+
+    .swipeHint {
+        margin-top: 10px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        color: var(--accent-mid);
+    }
+
+    .swipeCueLine {
+        position: relative;
+        display: inline-block;
+        width: 30px;
+        height: 1.5px;
+        border-radius: 1px;
+        background: rgba(var(--accent-glow), 0.3);
+    }
+
+    .swipeCueDot {
+        position: absolute;
+        top: -1.5px;
+        left: 0;
+        width: 4.5px;
+        height: 4.5px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: swipecuedot 1.9s ease-in-out infinite;
+    }
+}
+
+@keyframes swipecuedot {
+    0% {
+        transform: translateX(0);
+        opacity: 0;
+    }
+    18% {
+        opacity: 1;
+    }
+    82% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(20px);
+        opacity: 0;
     }
 }
