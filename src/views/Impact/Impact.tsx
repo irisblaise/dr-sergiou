@@ -6,6 +6,10 @@ import type { PageContent } from '../../sanity/lib/queries'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
+import { resolvePageIntro } from '../../lib/pageIntro'
+import PageIntro from '../../components/ui/PageIntro/PageIntro'
+import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
+import Chip from '../../components/ui/Chip/Chip'
 import styles from './Impact.module.scss'
 
 type Category = 'MEDIA' | 'AWARD'
@@ -67,11 +71,11 @@ export default function Impact({
     media: MediaItem[]
     pageContent?: PageContent | null
 }) {
-    const heading = pageContent?.heading ?? 'Impact'
-    const eyebrow = pageContent?.eyebrow ?? 'IMPACT IN SOCIETY.'
-    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
-        'Media coverage, interviews, and awards reflecting the reach of Dr. Carmen-Silva Sergiou\'s research.',
-    ]
+    const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
+        heading: 'Impact',
+        eyebrow: 'IMPACT IN SOCIETY.',
+        intro: ['Media coverage, interviews, and awards reflecting the reach of Dr. Carmen-Silva Sergiou\'s research.'],
+    })
     const items = useMemo<ImpactItem[]>(() => {
         const mediaItems: ImpactItem[] = media.map((m, i) => ({
             id: `media-${i}`,
@@ -220,28 +224,31 @@ export default function Impact({
         <div className={styles.page}>
             {/* Left rail: intro + sticky stacked legend */}
             <aside className={styles.rail} ref={railRef}>
-                <h1 className={styles.heading}>{heading}</h1>
-                <div className={styles.eyebrow}>{eyebrow}</div>
-                {introParagraphs.map((paragraph, index) => (
-                    <p key={index} className={styles.blurb}>
-                        {paragraph}
-                    </p>
-                ))}
+                <PageIntro
+                    heading={heading}
+                    eyebrow={eyebrow}
+                    paragraphs={introParagraphs}
+                    headingClassName={styles.heading}
+                    eyebrowClassName={styles.eyebrow}
+                    paragraphClassName={styles.blurb}
+                />
 
                 {/* Mobile-only switcher: tabs + horizontal chip strip */}
                 <div className={styles.switcher}>
                     <div className={styles.tabs}>
                         {(['MEDIA', 'AWARD'] as Category[]).map((tab) => (
-                            <button
+                            <Chip
                                 key={tab}
-                                className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
+                                className={styles.tab}
+                                activeClassName={styles.tabActive}
+                                active={activeTab === tab}
                                 onClick={() => selectTab(tab)}
                             >
                                 {tab === 'MEDIA' ? 'MEDIA' : 'AWARDS'}
                                 <span className={styles.tabCount}>
                                     {tab === 'MEDIA' ? mediaCount : awardCount}
                                 </span>
-                            </button>
+                            </Chip>
                         ))}
                     </div>
                     <div className={styles.chipsWrap}>
@@ -251,14 +258,16 @@ export default function Impact({
                                 .map((it) => {
                                     const idx = items.indexOf(it)
                                     return (
-                                        <button
+                                        <Chip
                                             key={it.id}
-                                            className={`${styles.chip} ${idx === selected ? styles.chipActive : ''}`}
+                                            className={styles.chip}
+                                            activeClassName={styles.chipActive}
+                                            active={idx === selected}
                                             onClick={() => setSelected(idx)}
                                         >
                                             <span className={styles.chipDate}>{fmtDate(it.date)}</span>
                                             <span className={styles.chipTitle}>{it.title}</span>
-                                        </button>
+                                        </Chip>
                                     )
                                 })}
                         </div>
@@ -348,14 +357,9 @@ export default function Impact({
                 <div className={styles.rule} />
                 <p className={styles.featureDesc}>{item.description}</p>
                 {item.link && (
-                    <a
-                        className={styles.cta}
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {item.category === 'MEDIA' ? 'READ MORE' : 'VIEW'} <span aria-hidden>→</span>
-                    </a>
+                    <ArrowLink className={styles.cta} href={item.link} external>
+                        {item.category === 'MEDIA' ? 'READ MORE' : 'VIEW'}
+                    </ArrowLink>
                 )}
             </div>
 

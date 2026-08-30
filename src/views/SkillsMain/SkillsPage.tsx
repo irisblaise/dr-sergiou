@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Skill, SkillKey } from '../../data/types'
 import type { PageContent } from '../../sanity/lib/queries'
+import { resolvePageIntro } from '../../lib/pageIntro'
+import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import styles from './SkillsPage.module.scss'
 
 // Design-space stage — matches Skills · Map the Network.dc.html (design handoff).
@@ -175,11 +177,13 @@ export default function SkillsPage({
     const [active, setActive] = useState<SkillKey | null>(null)
     const wrapRef = useRef<HTMLDivElement>(null)
     const stageRef = useRef<HTMLDivElement>(null)
-    const heading = pageContent?.heading ?? 'Skills'
-    const eyebrow = pageContent?.eyebrow ?? 'MAP THE NETWORK'
-    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
-        'Expertise across neuroscience, technology, and human behavior — branches of one connected network, applied to questions of justice and society.',
-    ]
+    const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
+        heading: 'Skills',
+        eyebrow: 'MAP THE NETWORK',
+        intro: [
+            'Expertise across neuroscience, technology, and human behavior — branches of one connected network, applied to questions of justice and society.',
+        ],
+    })
 
     const byKey = new Map(skills.map((s) => [s.key, s]))
 
@@ -230,13 +234,14 @@ export default function SkillsPage({
     return (
         <div className={styles.page}>
             <div className={styles.intro}>
-                <h1 className={styles.heading}>{heading}</h1>
-                <div className={styles.eyebrow}>{eyebrow}</div>
-                {introParagraphs.map((paragraph, index) => (
-                    <p key={index} className={styles.paragraph}>
-                        {paragraph}
-                    </p>
-                ))}
+                <PageIntro
+                    heading={heading}
+                    eyebrow={eyebrow}
+                    paragraphs={introParagraphs}
+                    headingClassName={styles.heading}
+                    eyebrowClassName={styles.eyebrow}
+                    paragraphClassName={styles.paragraph}
+                />
             </div>
 
             {/* ---------- Desktop: neuron network stage ---------- */}
@@ -353,13 +358,14 @@ export default function SkillsPage({
                 reuses the live Skills page's stacked-timeline treatment. */}
             <div className={styles.mobile}>
                 <header className={styles.mHeader}>
-                    <h1 className={styles.mHeading}>{heading}</h1>
-                    <div className={styles.eyebrow}>{eyebrow}</div>
-                    {introParagraphs.map((paragraph, index) => (
-                        <p key={index} className={styles.mParagraph}>
-                            {paragraph}
-                        </p>
-                    ))}
+                    <PageIntro
+                        heading={heading}
+                        eyebrow={eyebrow}
+                        paragraphs={introParagraphs}
+                        headingClassName={styles.mHeading}
+                        eyebrowClassName={styles.eyebrow}
+                        paragraphClassName={styles.mParagraph}
+                    />
                 </header>
 
                 <div className={styles.timeline}>

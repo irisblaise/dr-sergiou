@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import type { PageContent } from '../../sanity/lib/queries'
+import { resolvePageIntro } from '../../lib/pageIntro'
+import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import portrait from '../../../public/assets/contact/carmen.png'
 import styles from './Contact.module.scss'
 
@@ -25,11 +27,13 @@ const SOCIALS = [
 ] as const
 
 export default function Contact({ pageContent }: { pageContent?: PageContent | null }) {
-    const heading = pageContent?.heading ?? 'Get in touch'
-    const eyebrow = pageContent?.eyebrow ?? "LET'S CONNECT"
-    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
-        'Reach Dr. Carmen-Silva Sergiou for research collaborations, talks, interviews, or anything at the crossroads of neuroscience and technology.',
-    ]
+    const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
+        heading: 'Get in touch',
+        eyebrow: "LET'S CONNECT",
+        intro: [
+            'Reach Dr. Carmen-Silva Sergiou for research collaborations, talks, interviews, or anything at the crossroads of neuroscience and technology.',
+        ],
+    })
     const contactDetails = pageContent?.contactDetails?.length ? pageContent.contactDetails : CONTACTS
     const position = pageContent?.position ?? 'Postdoctoral researcher'
     const institution = pageContent?.institution ?? 'Amsterdam UMC — Youth at Risk'
@@ -38,13 +42,14 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
     return (
         <div className={styles.page}>
             <div className={styles.left}>
-                <h1 className={styles.heading}>{heading}</h1>
-                <div className={styles.eyebrow}>{eyebrow}</div>
-                {introParagraphs.map((paragraph, index) => (
-                    <p key={index} className={styles.blurb}>
-                        {paragraph}
-                    </p>
-                ))}
+                <PageIntro
+                    heading={heading}
+                    eyebrow={eyebrow}
+                    paragraphs={introParagraphs}
+                    headingClassName={styles.heading}
+                    eyebrowClassName={styles.eyebrow}
+                    paragraphClassName={styles.blurb}
+                />
                 <Image
                     className={styles.portrait}
                     src={portrait}

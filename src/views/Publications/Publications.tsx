@@ -8,6 +8,10 @@ import { getSpineCover } from '../../components/BookSpine/spinePalette'
 import DetailCard from '../../components/DetailCard/DetailCard'
 import AccoladeIcon from '../../components/AccoladeIcon/AccoladeIcon'
 import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
+import { resolvePageIntro } from '../../lib/pageIntro'
+import PageIntro from '../../components/ui/PageIntro/PageIntro'
+import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
+import Chip from '../../components/ui/Chip/Chip'
 import styles from './Publications.module.scss'
 
 const CARD_WIDTH = 332
@@ -20,11 +24,13 @@ export default function Publications({
     publications: Publication[]
     pageContent?: PageContent | null
 }) {
-    const heading = pageContent?.heading ?? 'Publications'
-    const eyebrow = pageContent?.eyebrow ?? 'RESEARCH THAT BUILDS UNDERSTANDING AND DRIVES CHANGE.'
-    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
-        'A collection of peer-reviewed articles, book chapters and reviews on neuroscience, behavior, and forensic science.',
-    ]
+    const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
+        heading: 'Publications',
+        eyebrow: 'RESEARCH THAT BUILDS UNDERSTANDING AND DRIVES CHANGE.',
+        intro: [
+            'A collection of peer-reviewed articles, book chapters and reviews on neuroscience, behavior, and forensic science.',
+        ],
+    })
     // Stats derived from the publications themselves (via each entry's
     // `authorship`/`kind`), so they stay accurate as items are added/edited in the Studio.
     const countKind = (k: Publication['kind']) =>
@@ -170,20 +176,19 @@ export default function Publications({
         <div className={styles.page}>
             {/* Intro panel */}
             <aside className={styles.intro}>
-                <h1 className={styles.heading}>
-                    {heading.split('\n').map((line, index) => (
+                <PageIntro
+                    heading={heading.split('\n').map((line, index) => (
                         <span key={index}>
                             {line}
                             {index < heading.split('\n').length - 1 && <br />}
                         </span>
                     ))}
-                </h1>
-                <div className={styles.eyebrow}>{eyebrow}</div>
-                {introParagraphs.map((paragraph, index) => (
-                    <p key={index} className={styles.blurb}>
-                        {paragraph}
-                    </p>
-                ))}
+                    eyebrow={eyebrow}
+                    paragraphs={introParagraphs}
+                    headingClassName={styles.heading}
+                    eyebrowClassName={styles.eyebrow}
+                    paragraphClassName={styles.blurb}
+                />
 
                 <div className={styles.stats}>
                     {stats.map((s) => (
@@ -200,23 +205,27 @@ export default function Publications({
                 </div>
 
                 <div className={styles.chips}>
-                    <button
-                        className={`${styles.chip} ${filters.size === 0 ? styles.chipActive : ''}`}
+                    <Chip
+                        className={styles.chip}
+                        activeClassName={styles.chipActive}
+                        active={filters.size === 0}
                         onClick={() => {
                             setFilters(new Set())
                             setSelected(-1)
                         }}
                     >
                         All
-                    </button>
+                    </Chip>
                     {ALL_TOPICS.map((t) => (
-                        <button
+                        <Chip
                             key={t}
-                            className={`${styles.chip} ${filters.has(t) ? styles.chipActive : ''}`}
+                            className={styles.chip}
+                            activeClassName={styles.chipActive}
+                            active={filters.has(t)}
                             onClick={() => toggleTopic(t)}
                         >
                             {t}
-                        </button>
+                        </Chip>
                     ))}
                 </div>
             </aside>
@@ -323,15 +332,9 @@ export default function Publications({
                                     )}
                                 </button>
                                 {selected === i && (p.pdf || p.link) && (
-                                    <a
-                                        className={styles.mRead}
-                                        href={p.pdf || p.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        READ&nbsp;{p.pdf ? 'PAPER' : 'ABSTRACT'}{' '}
-                                        <span aria-hidden>→</span>
-                                    </a>
+                                    <ArrowLink className={styles.mRead} href={p.pdf || p.link} external>
+                                        READ&nbsp;{p.pdf ? 'PAPER' : 'ABSTRACT'}
+                                    </ArrowLink>
                                 )}
                             </div>
                         </div>

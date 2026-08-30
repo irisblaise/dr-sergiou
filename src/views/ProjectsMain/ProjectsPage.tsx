@@ -6,6 +6,10 @@ import type { Project } from '../../data/types'
 import type { PageContent } from '../../sanity/lib/queries'
 import { MOBILE_QUERY } from '../../styles/breakpoints'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
+import { useMatchMedia } from '../../lib/useMatchMedia'
+import { resolvePageIntro } from '../../lib/pageIntro'
+import PageIntro from '../../components/ui/PageIntro/PageIntro'
+import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import styles from './ProjectsPage.module.scss'
 
 // Circuit-timeline geometry — see ProjectsTimeline.dc.html (design handoff).
@@ -87,22 +91,16 @@ export default function ProjectsPage({
     const railRef = useRef<SVGSVGElement>(null)
     const gridRef = useRef<HTMLDivElement>(null)
     const rowRefs = useRef<(HTMLDivElement | null)[]>([])
-    const [isMobile, setIsMobile] = useState(false)
+    const isMobile = useMatchMedia(MOBILE_QUERY)
     const [mobileMetrics, setMobileMetrics] = useState<MobileMetrics | null>(null)
-    const heading = pageContent?.heading ?? 'Projects'
-    const eyebrow = pageContent?.eyebrow ?? 'TRACE THE JOURNEY'
-    const introParagraphs = pageContent?.intro?.length ? pageContent.intro : [
-        'Ongoing and past research projects that connect neuroscience, behaviour, and technology to questions of justice and society.',
-        'Each line of work reflects a different thread in the same wider field of inquiry — from research design to public impact.',
-    ]
-
-    useEffect(() => {
-        const mq = window.matchMedia(MOBILE_QUERY)
-        const update = () => setIsMobile(mq.matches)
-        update()
-        mq.addEventListener('change', update)
-        return () => mq.removeEventListener('change', update)
-    }, [])
+    const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
+        heading: 'Projects',
+        eyebrow: 'TRACE THE JOURNEY',
+        intro: [
+            'Ongoing and past research projects that connect neuroscience, behaviour, and technology to questions of justice and society.',
+            'Each line of work reflects a different thread in the same wider field of inquiry — from research design to public impact.',
+        ],
+    })
 
     // Re-measure whenever the grid's own size changes (a resize, a row
     // reflowing because its text wrapped differently) and once more after
@@ -349,13 +347,14 @@ export default function ProjectsPage({
     return (
         <div className={styles.page}>
             <header className={styles.header}>
-                <h1 className={styles.heading}>{heading}</h1>
-                <div className={styles.eyebrow}>{eyebrow}</div>
-                {introParagraphs.map((paragraph, index) => (
-                    <p key={index} className={styles.blurb}>
-                        {paragraph}
-                    </p>
-                ))}
+                <PageIntro
+                    heading={heading}
+                    eyebrow={eyebrow}
+                    paragraphs={introParagraphs}
+                    headingClassName={styles.heading}
+                    eyebrowClassName={styles.eyebrow}
+                    paragraphClassName={styles.blurb}
+                />
             </header>
 
             <div
@@ -408,9 +407,9 @@ export default function ProjectsPage({
                             <div className={styles.year}>{p.year}</div>
                             <h2 className={styles.title}>{p.title}</h2>
                             <p className={styles.desc}>{p.description}</p>
-                            <a className={styles.cta} href={p.link} target="_blank" rel="noopener noreferrer">
-                                EXPLORE&nbsp;PROJECT <span aria-hidden>→</span>
-                            </a>
+                            <ArrowLink className={styles.cta} href={p.link} external>
+                                EXPLORE&nbsp;PROJECT
+                            </ArrowLink>
                         </article>
                     )
 

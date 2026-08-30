@@ -6,6 +6,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DESKTOP_QUERY } from '../../styles/breakpoints'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
+import { useMatchMedia } from '../../lib/useMatchMedia'
+import ArrowLink from '../ui/ArrowLink/ArrowLink'
 import styles from './LayersOfExploration.module.scss'
 
 const BASE_IMAGE = '/assets/homepage/head-brain-transparent.png'
@@ -126,6 +128,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
     const scrollerRef = useRef<HTMLDivElement>(null)
     const reducedMotionRef = useRef(false)
     const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+    const isDesktop = useMatchMedia(DESKTOP_QUERY)
 
     useEffect(() => {
         reducedMotionRef.current = prefersReducedMotion()
@@ -170,7 +173,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
         const clamped = Math.min(COUNT - 1, Math.max(0, i))
         setActive(clamped)
         const el = scrollerRef.current
-        if (!el || !window.matchMedia(DESKTOP_QUERY).matches) return
+        if (!el || !isDesktop) return
         const rect = el.getBoundingClientRect()
         const scrollable = rect.height - window.innerHeight
         if (scrollable <= 0) return
@@ -185,7 +188,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
     const SWIPE_THRESHOLD = 40
 
     const handleTouchStart = (e: React.TouchEvent) => {
-        if (window.matchMedia(DESKTOP_QUERY).matches) return
+        if (isDesktop) return
         const t = e.touches[0]
         touchStartRef.current = { x: t.clientX, y: t.clientY }
     }
@@ -193,7 +196,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
     const handleTouchEnd = (e: React.TouchEvent) => {
         const start = touchStartRef.current
         touchStartRef.current = null
-        if (!start || window.matchMedia(DESKTOP_QUERY).matches) return
+        if (!start || isDesktop) return
         const t = e.changedTouches[0]
         const dx = t.clientX - start.x
         const dy = t.clientY - start.y
@@ -316,9 +319,9 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                     <div className={styles.label}>{l.nav}</div>
                                     <h2 className={styles.heading}>{l.heading}</h2>
                                     <p className={styles.description}>{l.description}</p>
-                                    <a className={styles.cta} href="/projects">
-                                        EXPLORE&nbsp;THIS&nbsp;FIELD <span aria-hidden="true">→</span>
-                                    </a>
+                                    <ArrowLink className={styles.cta} href="/projects">
+                                        EXPLORE&nbsp;THIS&nbsp;FIELD
+                                    </ArrowLink>
                                 </div>
                             ))}
                         </div>
