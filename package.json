@@ -20,7 +20,9 @@
         "start": "next start",
         "lint": "eslint .",
         "sync:page-content": "node scripts/sync-page-content.mjs",
-        "sync:page-content:dry-run": "node scripts/sync-page-content.mjs --dry-run"
+        "sync:page-content:dry-run": "node scripts/sync-page-content.mjs --dry-run",
+        "images:migrate-webp:dry-run": "node --env-file=.env.local scripts/migrate-images-to-webp.mjs",
+        "images:migrate-webp": "node --env-file=.env.local scripts/migrate-images-to-webp.mjs --apply"
     },
     "devDependencies": {
         "@next/bundle-analyzer": "^16.3.3",

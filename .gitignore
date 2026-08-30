@@ -17,6 +17,9 @@
 next-env.d.ts
 .vercel
 
+# scripts
+/scripts/backups
+
 # misc
 .DS_Store
 .env.local
