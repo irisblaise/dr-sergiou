@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties }
 import Image from 'next/image'
 import type { PageContent } from '../../sanity/lib/queries'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
+import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
+import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
 import styles from './Impact.module.scss'
 
 type Category = 'MEDIA' | 'AWARD'
@@ -38,10 +40,6 @@ function ytEmbed(url: string): string {
     const m = url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{6,})/)
     return m ? `https://www.youtube.com/embed/${m[1]}?autoplay=1` : url
 }
-const prefersReduced = () =>
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
 // ---- Gutter spine geometry: a static trace stepping sideways at three bends ----
 const SPINE_W = 56
 const SPINE_C = SPINE_W / 2
@@ -147,7 +145,7 @@ export default function Impact({
     const railRef = useRef<HTMLDivElement>(null)
     const [spineH, setSpineH] = useState(0)
     const [reducedMotion, setReducedMotion] = useState(false)
-    useEffect(() => setReducedMotion(prefersReduced()), [])
+    useEffect(() => setReducedMotion(prefersReducedMotion()), [])
     const spine = useMemo(() => buildSpine(spineH), [spineH])
 
     const updateSticky = useCallback(() => {
@@ -195,23 +193,10 @@ export default function Impact({
         if (rail) setSpineH(rail.offsetHeight)
     }, [updateSticky])
 
-    useEffect(() => {
-        const raf = requestAnimationFrame(fit)
-        const onResize = () => fit()
-        window.addEventListener('resize', onResize)
-        let cancelled = false
-        document.fonts?.ready?.then(() => {
-            if (!cancelled) fit()
-        })
-        return () => {
-            cancelAnimationFrame(raf)
-            cancelled = true
-            window.removeEventListener('resize', onResize)
-        }
-    }, [fit])
+    useRecomputeOnResize(fit)
 
     const scrollLegendTop = () => {
-        scrollRef.current?.scrollTo({ top: 0, behavior: prefersReduced() ? 'auto' : 'smooth' })
+        scrollRef.current?.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
     }
 
     const renderRow = (it: ImpactItem) => {

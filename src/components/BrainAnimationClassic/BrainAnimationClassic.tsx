@@ -1,12 +1,12 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import './brainAnimationClassic.scss'
+import './BrainAnimationClassic.scss'
 import brain from '../../../public/assets/brain/Brain6.png'
 
 // Preserved exactly as it was before the pulse redesign, kept side by side
 // with the new BrainAnimation so the client can compare the two — see
-// BrainAnimation/brainAnimation.tsx for the current version. The only change
+// BrainAnimation/BrainAnimation.tsx for the current version. The only change
 // from the original is scoping querySelectorAll to this component's own SVG
 // (it originally queried the whole document, which would also reach into
 // unrelated icons elsewhere on the page now that both versions' code is

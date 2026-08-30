@@ -1,15 +1,6 @@
 // types.ts — the data↔component contract for the rebuilt site.
 // Every data collection has an interface here; component props derive from these.
 
-/* ---------- Home ---------- */
-export interface HomeItem {
-    section: string
-    /** Passion number, e.g. "No.1" — present on the six passion sections only. */
-    number?: string
-    title: string
-    description: string
-}
-
 /* ---------- Projects ---------- */
 export interface Project {
     title: string

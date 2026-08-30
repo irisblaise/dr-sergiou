@@ -4,9 +4,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { Project } from '../../data/types'
 import type { PageContent } from '../../sanity/lib/queries'
+import { MOBILE_QUERY } from '../../styles/breakpoints'
+import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import styles from './ProjectsPage.module.scss'
-
-const MOBILE_QUERY = '(max-width: 900px)'
 
 // Circuit-timeline geometry — see ProjectsTimeline.dc.html (design handoff).
 // Desktop rows sit two content columns either side of a centred gutter, each
@@ -169,7 +169,7 @@ export default function ProjectsPage({
         const SAGE = read('--sage', '#7aab96')
         const ACC = read('--accent', '#ed4c92')
         const PINK = read('--accent-mid', '#c8326f')
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const reduced = prefersReducedMotion()
 
         svg.setAttribute('viewBox', `0 0 ${GUTTER_W} ${H}`)
         while (svg.firstChild) svg.removeChild(svg.firstChild)
@@ -349,12 +349,13 @@ export default function ProjectsPage({
     return (
         <div className={styles.page}>
             <header className={styles.header}>
-                <h1 className={styles.heading}>Projects</h1>
-                <div className={styles.eyebrow}>TRACE&nbsp;THE&nbsp;JOURNEY</div>
-                <p className={styles.blurb}>
-                    A selection of milestones along the path of research, discovery, and real-world
-                    impact.
-                </p>
+                <h1 className={styles.heading}>{heading}</h1>
+                <div className={styles.eyebrow}>{eyebrow}</div>
+                {introParagraphs.map((paragraph, index) => (
+                    <p key={index} className={styles.blurb}>
+                        {paragraph}
+                    </p>
+                ))}
             </header>
 
             <div

@@ -477,7 +477,7 @@
    tappable row. Not covered by the design handoff yet ("confirm with the
    designer"); this is a reasonable stopgap. */
 @media (max-width: bp.$bp-standard) {
-    // Parent .page (HomeRedesign) already supplies the gutter on mobile —
+    // Parent .page (HomeMain) already supplies the gutter on mobile —
     // without this, the section doubles up on left/right padding and drifts
     // out of alignment with the hero copy above it.
     .section {

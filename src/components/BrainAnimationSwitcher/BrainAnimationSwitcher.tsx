@@ -6,8 +6,8 @@ import { useBrainAnimationVersion } from './BrainAnimationVersionContext'
 // Each variant is ~2000 lines of hand-traced SVG; dynamic() keeps them in
 // separate chunks so a visitor only downloads the one actually rendered,
 // instead of both being bundled together for this comparison toggle.
-const BrainAnimation = dynamic(() => import('../BrainAnimation/brainAnimation'))
-const BrainAnimationClassic = dynamic(() => import('../BrainAnimationClassic/brainAnimationClassic'))
+const BrainAnimation = dynamic(() => import('../BrainAnimation/BrainAnimation'))
+const BrainAnimationClassic = dynamic(() => import('../BrainAnimationClassic/BrainAnimationClassic'))
 
 // Temporary: renders whichever brain animation the client is currently
 // comparing — see BrainAnimationVersionToggle.tsx for the control that picks

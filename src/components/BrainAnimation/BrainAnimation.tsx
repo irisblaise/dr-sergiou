@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import './brainAnimation.scss'
+import './BrainAnimation.scss'
 import brain from '../../../public/assets/brain/Brain6.png'
+import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 
 // How long the one-time ink reveal (below) takes to settle, across the
 // slowest-staggered element group — the trunk pulse waits for this before
@@ -15,10 +16,10 @@ const BrainAnimation = () => {
     useEffect(() => {
         const svg = svgRef.current
         if (!svg) return
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const reduced = prefersReducedMotion()
 
         // One-time ink reveal: every stroke draws itself in once (not a
-        // perpetual back-and-forth loop — see brainAnimation.scss) with a
+        // perpetual back-and-forth loop — see BrainAnimation.scss) with a
         // small stagger per element so the brain appears to sketch itself in.
         function animationNeurolize(svgElements: NodeListOf<SVGGeometryElement>, stepSeconds: number) {
             svgElements.forEach((svgElement, index) => {

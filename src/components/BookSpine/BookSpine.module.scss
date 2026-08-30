@@ -1,5 +1,4 @@
 .spine {
-    --ink-on: #5c4f37;
     position: relative;
     flex: 0 0 114px;
     width: 114px;
@@ -18,7 +17,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--ink-on);
+    color: var(--spine-ink);
     cursor: pointer;
     transition:
         transform 0.4s var(--ease),

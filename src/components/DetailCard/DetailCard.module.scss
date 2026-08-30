@@ -50,7 +50,7 @@
 
     &:hover {
         background: var(--accent-mid);
-        color: #fff;
+        color: var(--on-accent);
     }
 
     &:focus-visible {

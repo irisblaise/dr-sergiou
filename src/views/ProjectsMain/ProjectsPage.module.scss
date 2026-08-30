@@ -184,6 +184,11 @@
    content — and the conductor SVG (an absolute overlay, not a grid item) is
    drawn in the .tsx from each row's actual measured position. */
 @media (max-width: bp.$bp-standard) {
+    .blurb,
+    .desc {
+        text-align: left;
+    }
+
     .grid {
         display: block;
         margin-top: 32px;

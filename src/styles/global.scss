@@ -3,6 +3,8 @@
    shared motion keyframes. All motion is gated behind prefers-reduced-motion.
    (fonts.css is imported in index.tsx so webpack resolves the woff2 urls.) */
 
+@use 'styles/breakpoints' as bp;
+
 :root {
     /* Foundation */
     --canvas: #efeae1;
@@ -65,6 +67,15 @@
     --rule: rgba(43, 43, 43, 0.14);
     --rule-strong: rgba(43, 43, 43, 0.16);
     --list-rule: rgba(94, 89, 77, 0.22);
+
+    /* Book-spine ink — text color on the leather/paper spine backgrounds
+       (BookSpine, Publications' mobile card spine). Its own token since it's
+       tuned for contrast on --cover, not on --canvas like --body/--muted. */
+    --spine-ink: #5c4f37;
+
+    /* Text/icon color on a solid --accent-mid fill or dark photo overlay
+       (active pills, hover states on dark controls). */
+    --on-accent: #fff;
 
     --ease: cubic-bezier(0.2, 0.85, 0.25, 1);
 }
@@ -130,7 +141,7 @@ button {
 
 /* The nav is shorter on mobile. Keep --nav-height in sync so each page's
    top padding clears the (fixed) nav exactly once — no double offset. */
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     :root {
         --nav-height: 60px;
     }

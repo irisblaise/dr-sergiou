@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { DESKTOP_QUERY } from '../../styles/breakpoints'
+import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import styles from './LayersOfExploration.module.scss'
-
-const DESKTOP_QUERY = '(min-width: 901px)'
 
 const BASE_IMAGE = '/assets/homepage/head-brain-transparent.png'
 
@@ -18,11 +18,14 @@ type Layer = {
     overlaySrc: string
 }
 
-// Verbatim copy from the real homepage content (Sanity homePage.passions) —
-// `heading` is the original passion title, `description` its full original
-// paragraph, unshortened. `nav` is this component's own category tag, used
-// for the rail/eyebrow/readout, not part of the original CMS content.
-const LAYERS: Layer[] = [
+type Passion = { number?: string; title: string; description: string }
+
+// Fallback content, and the source of each slot's `nav` tag and `overlaySrc`
+// artwork — those aren't editorial copy Sanity manages, they're bound to
+// this component's fixed six hand-drawn overlays. `heading`/`description`
+// are overridden per slot by Sanity's homePage.passions when present (see
+// buildLayers below), so this doubles as the offline/CMS-empty fallback.
+const DEFAULT_LAYERS: Layer[] = [
     {
         number: '01',
         nav: 'NEUROSCIENCE',
@@ -88,7 +91,19 @@ const MARKERS: Array<{
     { top: '72%', left: '69%', markerKey: 'AMY', sub: 'EMOTIONAL SIGNALING' },
 ]
 
-const COUNT = LAYERS.length
+const COUNT = DEFAULT_LAYERS.length
+
+// Overrides each slot's heading/description with the matching Sanity
+// passion (by position) when the CMS document has one, falling back to the
+// hand-written default otherwise — same `?? fallback` pattern used on every
+// other page's Sanity-backed copy.
+function buildLayers(passions?: Passion[]): Layer[] {
+    return DEFAULT_LAYERS.map((defaults, i) => {
+        const passion = passions?.[i]
+        if (!passion) return defaults
+        return { ...defaults, heading: passion.title, description: passion.description }
+    })
+}
 
 // Per-overlay registration nudges — a few of the pink-layer PNGs aren't
 // aligned to the base image out of the box, so each misaligned one gets its
@@ -103,7 +118,8 @@ const OVERLAY_REGISTRATION_CLASS: (string | undefined)[] = [
     styles.overlayRegistration06,
 ]
 
-export default function LayersOfExploration() {
+export default function LayersOfExploration({ passions }: { passions?: Passion[] }) {
+    const LAYERS = useMemo(() => buildLayers(passions), [passions])
     const [active, setActive] = useState(0)
     const cur = LAYERS[active]
 
@@ -112,7 +128,7 @@ export default function LayersOfExploration() {
     const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
     useEffect(() => {
-        reducedMotionRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        reducedMotionRef.current = prefersReducedMotion()
     }, [])
 
     // Desktop: scroll progress through the tall .scroller drives the active

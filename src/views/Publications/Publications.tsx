@@ -7,6 +7,7 @@ import BookSpine from '../../components/BookSpine/BookSpine'
 import { getSpineCover } from '../../components/BookSpine/spinePalette'
 import DetailCard from '../../components/DetailCard/DetailCard'
 import AccoladeIcon from '../../components/AccoladeIcon/AccoladeIcon'
+import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
 import styles from './Publications.module.scss'
 
 const CARD_WIDTH = 332
@@ -144,23 +145,7 @@ export default function Publications({
     }, [])
 
     // Recompute rail on mount, resize, and font load.
-    useEffect(() => {
-        const raf = requestAnimationFrame(updateRail)
-        const onResize = () => {
-            updateRail()
-            positionCard()
-        }
-        window.addEventListener('resize', onResize)
-        let cancelled = false
-        document.fonts?.ready?.then(() => {
-            if (!cancelled) updateRail()
-        })
-        return () => {
-            cancelAnimationFrame(raf)
-            cancelled = true
-            window.removeEventListener('resize', onResize)
-        }
-    }, [updateRail, positionCard])
+    useRecomputeOnResize(updateRail, positionCard)
 
     // Filtering collapses spines → reset scroll and re-measure after the transition.
     useEffect(() => {

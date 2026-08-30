@@ -1,6 +1,7 @@
 @use 'styles/breakpoints' as bp;
 @use 'styles/typography' as ty;
 @use 'styles/layout' as ly;
+@use 'styles/pill';
 
 .page {
     @include ly.content-container;
@@ -110,7 +111,7 @@
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.1em;
-    color: #9a9486;
+    color: var(--soft);
 }
 
 .awardsAnchor {
@@ -366,9 +367,15 @@
     font-size: 11px;
     letter-spacing: 0.18em;
     color: var(--accent-mid);
+    transition: color 0.3s ease;
 
     &:hover {
         color: var(--accent-deep);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
     }
 }
 
@@ -475,7 +482,7 @@
     margin-left: 4px;
     border-style: solid;
     border-width: 11px 0 11px 18px;
-    border-color: transparent transparent transparent #fff;
+    border-color: transparent transparent transparent var(--on-accent);
 }
 
 /* ---------- Counter bar (in-image asset nav) ---------- */
@@ -513,7 +520,7 @@
 
     &:hover {
         background: rgba(255, 255, 255, 0.16);
-        color: #fff;
+        color: var(--on-accent);
     }
 
     &:focus-visible {
@@ -544,7 +551,7 @@
 }
 
 .kindVideo {
-    color: #fff;
+    color: var(--on-accent);
 
     &::before {
         content: '';
@@ -600,33 +607,12 @@
         justify-content: center;
         gap: 7px;
         padding: 9px 0;
-        border-radius: 999px;
         cursor: pointer;
-        border: 1px solid var(--rule);
-        background: transparent;
-        color: var(--nav-ink);
-        font-family: var(--font-mono);
-        font-size: 10.5px;
-        letter-spacing: 0.12em;
-        transition:
-            background 0.3s ease,
-            color 0.3s ease,
-            border-color 0.3s ease;
-
-        &:hover {
-            border-color: var(--accent-mid);
-        }
-
-        &:focus-visible {
-            outline: 2px solid var(--accent-mid);
-            outline-offset: 3px;
-        }
+        @include pill.pill-toggle;
     }
 
     .tabActive {
-        background: var(--accent-mid);
-        border-color: var(--accent-mid);
-        color: #fff;
+        @include pill.pill-toggle-active;
     }
 
     .tabCount {
@@ -707,7 +693,7 @@
     }
 
     .chipActive .chipTitle {
-        color: #fff;
+        color: var(--on-accent);
     }
 
     .chipsFade {

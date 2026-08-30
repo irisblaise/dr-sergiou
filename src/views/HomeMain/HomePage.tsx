@@ -61,7 +61,7 @@ export default function HomePage({ home }: { home: HomeContent | null }) {
                     <BrainAnimationVersionToggle />
                 </header>
 
-                <LayersOfExploration />
+                <LayersOfExploration passions={home?.passions} />
             </div>
         </BrainAnimationVersionProvider>
     )
