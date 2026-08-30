@@ -434,11 +434,13 @@
         background: var(--canvas);
         box-shadow: 0 4px 16px rgba(142, 33, 78, 0.14);
         z-index: 1;
+    }
 
-        img {
-            object-fit: cover;
-            mix-blend-mode: multiply;
-        }
+    .mImg {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+        mix-blend-mode: multiply;
     }
 
     .mText {

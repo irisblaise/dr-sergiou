@@ -167,6 +167,18 @@ const MEDALLION_FRAME: Record<SkillKey, { size: number; x: number; y: number }> 
     music: { size: 130, x: 0, y: -4 },
 }
 
+const DESKTOP_MEDALLION_SLOT = 108
+const MOBILE_NODE_SLOT = 56
+
+// The mobile timeline node is the same 56px circle for every skill, so the
+// desktop recentring above (tuned for the 108px medallion slot) is reused
+// here, scaled down proportionally to that smaller slot.
+function mobileMedallionFrame(key: SkillKey) {
+    const scale = MOBILE_NODE_SLOT / DESKTOP_MEDALLION_SLOT
+    const frame = MEDALLION_FRAME[key]
+    return { size: frame.size * scale, x: frame.x * scale, y: frame.y * scale }
+}
+
 export default function SkillsPage({
     skills,
     pageContent,
@@ -373,13 +385,25 @@ export default function SkillsPage({
                     {ARM_LAYOUT.map((arm, i) => {
                         const skill = byKey.get(arm.key)
                         if (!skill) return null
+                        const frame = mobileMedallionFrame(arm.key)
                         return (
                             <div
                                 key={arm.key}
                                 className={`${styles.row} ${i === ARM_LAYOUT.length - 1 ? styles.rowLast : ''}`}
                             >
                                 <span className={styles.mNode}>
-                                    <Image src={skill.image} alt="" fill sizes="56px" />
+                                    <Image
+                                        src={skill.image}
+                                        alt=""
+                                        width={frame.size}
+                                        height={frame.size}
+                                        sizes={`${frame.size}px`}
+                                        className={styles.mImg}
+                                        style={{
+                                            left: `calc(50% + ${frame.x}px)`,
+                                            top: `calc(50% + ${frame.y}px)`,
+                                        }}
+                                    />
                                 </span>
                                 <span className={styles.mText}>
                                     <span className={styles.mLabel}>{skill.label}</span>
