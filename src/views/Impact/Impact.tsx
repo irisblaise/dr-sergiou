@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { useCallback, useMemo, useRef, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
 import type { PageContent } from '../../sanity/lib/queries'
 import type { Award, ImpactAsset, MediaItem } from '../../data/types'
-import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
+import { prefersReducedMotion, REDUCED_MOTION_QUERY } from '../../lib/prefersReducedMotion'
 import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
+import { useMatchMedia } from '../../lib/useMatchMedia'
 import { resolvePageIntro } from '../../lib/pageIntro'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
@@ -122,11 +123,23 @@ export default function Impact({
 
     // ---- Detail media: active asset ----
     const [activeAsset, setActiveAsset] = useState(0)
-    useEffect(() => {
-        setActiveAsset(0)
-    }, [selected])
     const [playing, setPlaying] = useState(false)
-    useEffect(() => setPlaying(false), [activeAsset, selected])
+
+    // Reset the active asset whenever a different item is selected, and stop
+    // any playing video whenever either the item or its active asset changes
+    // — adjusted during render rather than in an effect, since this is pure
+    // React-state synchronization with no external system involved (see
+    // https://react.dev/learn/you-might-not-need-an-effect).
+    const [prevSelected, setPrevSelected] = useState(selected)
+    if (selected !== prevSelected) {
+        setPrevSelected(selected)
+        setActiveAsset(0)
+    }
+    const [prevPlaybackKey, setPrevPlaybackKey] = useState([selected, activeAsset])
+    if (prevPlaybackKey[0] !== selected || prevPlaybackKey[1] !== activeAsset) {
+        setPrevPlaybackKey([selected, activeAsset])
+        setPlaying(false)
+    }
 
     const assets = item.assets ?? []
     // The hero reflects the active asset — which may be an image OR a video.
@@ -148,8 +161,7 @@ export default function Impact({
     // ---- Gutter spine: static traced axon, sized to the rail's live height ----
     const railRef = useRef<HTMLDivElement>(null)
     const [spineH, setSpineH] = useState(0)
-    const [reducedMotion, setReducedMotion] = useState(false)
-    useEffect(() => setReducedMotion(prefersReducedMotion()), [])
+    const reducedMotion = useMatchMedia(REDUCED_MOTION_QUERY)
     const spine = useMemo(() => buildSpine(spineH), [spineH])
 
     const updateSticky = useCallback(() => {
