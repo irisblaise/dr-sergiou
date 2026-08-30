@@ -363,6 +363,23 @@
     color: var(--body);
 }
 
+.mExpandable {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s ease;
+}
+
+.mExpandableOpen {
+    grid-template-rows: 1fr;
+}
+
+.mExpandableInner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
 .mAuthors {
     margin-top: 4px;
     font-size: 12.5px;
@@ -383,10 +400,26 @@
     font-size: 10px;
     letter-spacing: 0.18em;
     color: var(--soft);
+    transition: color 0.32s ease;
 }
 
 .mCardOpen .mExpand {
     color: var(--accent-mid);
+}
+
+.mReadWrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s ease;
+}
+
+.mReadWrapOpen {
+    grid-template-rows: 1fr;
+}
+
+.mReadWrapInner {
+    overflow: hidden;
+    min-height: 0;
 }
 
 .mRead {

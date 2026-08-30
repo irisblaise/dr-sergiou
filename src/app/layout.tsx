@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import ReactDOM from 'react-dom'
 import '../fonts/fonts.css'
 import '../styles/global.scss'
 import { getSiteSettings } from '../sanity/lib/queries'
@@ -53,6 +54,10 @@ export default function RootLayout({
 }: {
     children: React.ReactNode
 }) {
+    // Every page's images come from the Sanity CDN — start the connection
+    // early instead of waiting for the first <Image> to be discovered.
+    ReactDOM.preconnect('https://cdn.sanity.io')
+
     return (
         <html lang="en">
             <body>{children}</body>

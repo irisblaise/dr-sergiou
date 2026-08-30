@@ -318,23 +318,39 @@ export default function Publications({
                                     )}
                                     <span className={styles.mTitle}>{p.title}</span>
                                     <span className={styles.mJournal}>{p.journal}</span>
-                                    {selected === i && (
-                                        <>
+                                    <span
+                                        className={`${styles.mExpandable} ${
+                                            selected === i ? styles.mExpandableOpen : ''
+                                        }`}
+                                    >
+                                        <span className={styles.mExpandableInner}>
                                             <span className={styles.mAuthors}>{p.authors}</span>
                                             <span className={styles.mAbstract}>
                                                 {p.abstract ||
                                                     'Abstract available in the full publication.'}
                                             </span>
-                                        </>
-                                    )}
-                                    {selected !== i && (
-                                        <span className={styles.mExpand}>TAP TO EXPAND</span>
-                                    )}
+                                        </span>
+                                    </span>
+                                    <span className={styles.mExpand}>
+                                        {selected === i ? 'TAP TO COLLAPSE' : 'TAP TO EXPAND'}
+                                    </span>
                                 </button>
-                                {selected === i && (p.pdf || p.link) && (
-                                    <ArrowLink className={styles.mRead} href={p.pdf || p.link} external>
-                                        READ&nbsp;{p.pdf ? 'PAPER' : 'ABSTRACT'}
-                                    </ArrowLink>
+                                {(p.pdf || p.link) && (
+                                    <span
+                                        className={`${styles.mReadWrap} ${
+                                            selected === i ? styles.mReadWrapOpen : ''
+                                        }`}
+                                    >
+                                        <span className={styles.mReadWrapInner}>
+                                            <ArrowLink
+                                                className={styles.mRead}
+                                                href={p.pdf || p.link}
+                                                external
+                                            >
+                                                READ&nbsp;{p.pdf ? 'PAPER' : 'ABSTRACT'}
+                                            </ArrowLink>
+                                        </span>
+                                    </span>
                                 )}
                             </div>
                         </div>

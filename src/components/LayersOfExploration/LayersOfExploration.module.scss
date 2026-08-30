@@ -539,6 +539,23 @@
         max-width: none;
     }
 
+    // The rail below already conveys chapter position (dots + number), so
+    // the counter is redundant here — and with no room to shrink or wrap,
+    // it was colliding with the eyebrow title on narrow screens.
+    .readout {
+        display: none;
+    }
+
+    // With .readout hidden, the eyebrow title is the only child left in the
+    // space-between row — center it rather than leaving it stuck flush left.
+    .headerBand {
+        justify-content: center;
+    }
+
+    .eyebrowTitle {
+        text-align: center;
+    }
+
     // Elegant prev/next, in their own row under the title line so they don't
     // crowd the eyebrow/readout text.
         .headerArrows {
@@ -564,7 +581,10 @@
         flex: 1 1 auto;
         min-width: 0;
         order: 0;
-        padding-top: 0;
+        // overflow-x: auto forces overflow-y to auto too, so the active dot's
+        // --ring-dot box-shadow (4px spread) needs matching vertical padding
+        // or it gets clipped top/bottom instead of sitting inside the scroll box.
+        padding: 6px 0;
         border-top: 0;
         overflow-x: auto;
     }

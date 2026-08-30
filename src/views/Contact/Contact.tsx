@@ -436,6 +436,11 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
                     alt="Illustrated portrait of Carmen Sergiou"
                     width={1537}
                     height={1023}
+                    // .portrait's displayed width tops out well under the source
+                    // asset (min(906px, 74vw) desktop, clamp(220px, 66vw, 340px)
+                    // below bp-card/860px) — without `sizes` Next assumes the
+                    // full 1537px width on every viewport, including mobile.
+                    sizes="(max-width: 860px) 340px, min(906px, 74vw)"
                     priority
                 />
             </div>

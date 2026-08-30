@@ -20,8 +20,12 @@ function Logo({ onClick }: { onClick?: () => void }) {
                 className={styles.glyphImg}
                 src="/assets/brain/brain-logo-horizontal-pink-transparent.webp"
                 alt="Carmen Sergiou"
-                width={1200}
-                height={871}
+                // Displayed at 45x40 (see .glyphImg) — sized here at 2x for
+                // retina rather than the source asset's native 1200x871, so
+                // Next doesn't optimize toward a ~1200px-wide request on
+                // every single page load.
+                width={90}
+                height={80}
                 priority
             />
             <span className={styles.lockup}>
