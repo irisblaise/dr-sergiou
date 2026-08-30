@@ -1,6 +1,8 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/layout' as ly;
+
 .page {
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
 }
 
@@ -177,7 +179,7 @@
 }
 
 /* ---------- Mobile: stacked, spine hidden ---------- */
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .blurb,
     .desc {
         text-align: left;

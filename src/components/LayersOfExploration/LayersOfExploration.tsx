@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './LayersOfExploration.module.scss'
@@ -245,19 +246,22 @@ export default function LayersOfExploration() {
                         {/* brain stack */}
                         <div className={styles.visual}>
                             <div className={styles.stack}>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <Image
                                     src={BASE_IMAGE}
                                     alt="Anatomical illustration of the human head and brain"
                                     className={styles.base}
+                                    fill
+                                    sizes="500px"
+                                    priority
                                 />
                                 {LAYERS.map((l, i) => (
-                                    // eslint-disable-next-line @next/next/no-img-element
-                                    <img
+                                    <Image
                                         key={l.overlaySrc}
                                         src={l.overlaySrc}
                                         alt=""
                                         aria-hidden="true"
+                                        fill
+                                        sizes="500px"
                                         className={`${styles.overlay} ${i === active ? styles.overlayActive : ''} ${
                                             OVERLAY_REGISTRATION_CLASS[i] || ''
                                         }`}

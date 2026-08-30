@@ -1,3 +1,7 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+
 /* ============ Skills (redesign) — neuron network ============
    Matches Skills · Map the Network.dc.html (design handoff): one 1600×1040
    design-space stage, contain-fit + centred like the live Skills page's
@@ -7,8 +11,7 @@
 
 .page {
     position: relative;
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 0;
     min-height: 100svh;
     display: flex;
@@ -25,30 +28,19 @@
 }
 
 .heading {
+    @include ty.intro-heading;
     margin: 0;
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: var(--intro-title-size);
-    line-height: var(--intro-title-lh);
-    letter-spacing: -0.02em;
-    color: var(--ink);
 }
 
 .eyebrow {
+    @include ty.intro-eyebrow;
     margin-top: var(--intro-title-gap);
-    font-family: var(--font-mono);
-    font-size: var(--intro-eyebrow-size);
-    letter-spacing: var(--intro-eyebrow-tracking);
-    line-height: var(--intro-eyebrow-lh);
-    color: var(--science-line);
 }
 
 .paragraph {
+    @include ty.intro-body;
     margin-top: var(--intro-eyebrow-gap);
     max-width: var(--measure-intro);
-    font-size: var(--intro-body-size);
-    line-height: var(--intro-body-lh);
-    color: var(--body);
     text-wrap: pretty;
 }
 
@@ -365,7 +357,7 @@
     display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .page {
         position: static;
         padding: var(--nav-height) 0 80px;

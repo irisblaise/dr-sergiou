@@ -1,0 +1,9 @@
+// Shared layout primitives. `content-container` is the width-constraint
+// pattern repeated across most page-level `.page` rules — this gives it one
+// home instead of a copy in every view. Page-specific concerns (padding,
+// grid/flex layout, min-height) stay in each consuming file.
+
+@mixin content-container {
+    max-width: var(--content-max);
+    margin: 0 auto;
+}

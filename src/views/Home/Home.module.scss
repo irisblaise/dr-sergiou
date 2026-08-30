@@ -1,3 +1,5 @@
+@use 'styles/breakpoints' as bp;
+
 /* ============ Home / Hero ============
    Fixed brain stage at the top, fixed-feel hero copy top-left, then six
    alternating numbered sections stitched by a self-drawing neuron spine.
@@ -269,7 +271,7 @@
 
 /* ---------- Mobile: brain in flow, copy below, single-column sections ----------
    Matches Hero Mobile.dc.html: nothing absolutely positioned. */
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .page {
         overflow-x: clip;
         padding: calc(var(--nav-height) + 40px) var(--gutter) 0;

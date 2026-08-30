@@ -1,0 +1,16 @@
+// Central registry of responsive breakpoints. Each value below is preserved
+// exactly from where it previously lived as a magic number inline in its
+// component's stylesheet — this only gives those numbers one shared, named
+// home so they're not scattered/duplicated. Changing what a component's
+// layout does at a given width is a separate, deliberate decision — this
+// file is not the place to silently retune one.
+
+$bp-standard: 900px; // the dominant mobile/desktop split — Navbar, hero sections, most page layouts
+$bp-narrow-desktop-max: 1245px; // HomePage: upper bound of its narrow-desktop tier
+$bp-narrow-desktop-min: 1046px; // HomePage: lower bound of its narrow-desktop tier
+$bp-tablet: 1045px; // HomePage: tablet tier
+$bp-wide-list: 1080px; // Publications: shelf → vertical list layout
+$bp-card: 860px; // Contact: card layout switch
+$bp-compact: 760px; // Publications & Skills (classic): compact mobile tier
+$bp-narrow: 620px; // Footer: stacked layout
+$bp-small: 560px; // Publications: smallest tier

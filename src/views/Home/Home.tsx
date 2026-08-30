@@ -7,6 +7,20 @@ import styles from './Home.module.scss'
 
 const NS = 'http://www.w3.org/2000/svg'
 
+interface AnimatedSpinePath extends SVGPathElement {
+    __L?: number
+    __docY?: number
+    __h?: number
+}
+
+interface AnimatedSpineNode extends SVGCircleElement {
+    __glow?: boolean
+    __pulse?: boolean
+    __dur?: string
+    __docY?: number
+    __breathing?: boolean
+}
+
 export default function Home({ home }: { home: HomeContent | null }) {
     const wrapRef = useRef<HTMLDivElement>(null)
     const spineRef = useRef<SVGSVGElement>(null)
@@ -20,9 +34,9 @@ export default function Home({ home }: { home: HomeContent | null }) {
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
         // Mutable spine state shared between build + reveal.
-        let spinePaths: SVGPathElement[] = []
-        let spineNodes: SVGCircleElement[] = []
-        let spineMain: SVGPathElement | null = null
+        let spinePaths: AnimatedSpinePath[] = []
+        let spineNodes: AnimatedSpineNode[] = []
+        let spineMain: AnimatedSpinePath | null = null
         let spineClipRect: SVGRectElement | null = null
         let spineH = 0
         let spineTop = 0
@@ -112,27 +126,27 @@ export default function Home({ home }: { home: HomeContent | null }) {
             const clampC = (x: number) => Math.max(LO, Math.min(HI, x))
 
             const halo = (x: number, y: number, r: number, col?: string) => {
-                const c = document.createElementNS(NS, 'circle')
+                const c: AnimatedSpineNode = document.createElementNS(NS, 'circle')
                 c.setAttribute('cx', x.toFixed(1))
                 c.setAttribute('cy', y.toFixed(1))
                 c.setAttribute('r', r.toFixed(1))
                 c.setAttribute('fill', col || SAGE)
                 c.setAttribute('opacity', '0')
                 c.style.filter = 'blur(5px)'
-                ;(c as any).__glow = true
-                ;(c as any).__dur = (2.8 + rng() * 1.8).toFixed(2)
+                c.__glow = true
+                c.__dur = (2.8 + rng() * 1.8).toFixed(2)
                 svg.appendChild(c)
                 spineNodes.push(c)
                 return c
             }
             const pinkCore = (x: number, y: number, r: number) => {
-                const c = document.createElementNS(NS, 'circle')
+                const c: AnimatedSpineNode = document.createElementNS(NS, 'circle')
                 c.setAttribute('cx', x.toFixed(1))
                 c.setAttribute('cy', y.toFixed(1))
                 c.setAttribute('r', r.toFixed(1))
                 c.setAttribute('fill', ACC)
-                ;(c as any).__pulse = true
-                ;(c as any).__dur = (3 + rng() * 1.2).toFixed(2)
+                c.__pulse = true
+                c.__dur = (3 + rng() * 1.2).toFixed(2)
                 svg.appendChild(c)
                 spineNodes.push(c)
                 return c
@@ -442,21 +456,21 @@ export default function Home({ home }: { home: HomeContent | null }) {
             let botY = -Infinity
             spinePaths.forEach((p) => {
                 const L = p.getTotalLength() || 1
-                ;(p as any).__L = L
+                p.__L = L
                 p.style.strokeDasharray = String(L)
                 p.style.strokeDashoffset = reduced ? '0' : String(L)
                 const r = p.getBoundingClientRect()
-                ;(p as any).__docY = r.top + sY
-                ;(p as any).__h = r.height
-                if ((p as any).__docY < topY) topY = (p as any).__docY
-                if ((p as any).__docY + (p as any).__h > botY) botY = (p as any).__docY + (p as any).__h
+                p.__docY = r.top + sY
+                p.__h = r.height
+                if (p.__docY < topY) topY = p.__docY
+                if (p.__docY + p.__h > botY) botY = p.__docY + p.__h
             })
             spineNodes.forEach((c) => {
                 c.style.opacity = reduced ? '1' : '0'
                 c.style.transition = 'opacity .45s ease'
-                ;(c as any).__docY = c.getBoundingClientRect().top + sY
-                if ((c as any).__docY < topY) topY = (c as any).__docY
-                if ((c as any).__docY > botY) botY = (c as any).__docY
+                c.__docY = c.getBoundingClientRect().top + sY
+                if (c.__docY < topY) topY = c.__docY
+                if (c.__docY > botY) botY = c.__docY
             })
             spineTop = topY
             spineSpan = Math.max(1, botY - topY)
@@ -470,14 +484,14 @@ export default function Home({ home }: { home: HomeContent | null }) {
             const prog = Math.min(1, Math.max(0, (window.scrollY || 0) / maxScroll))
             const trig = spineTop + prog * (spineSpan * 1.05)
             for (let i = 0; i < spinePaths.length; i++) {
-                const p = spinePaths[i] as any
+                const p = spinePaths[i]
                 const denom = Math.max(70, (p.__h || 0) + 40)
-                const local = Math.max(0, Math.min(1, (trig - p.__docY) / denom))
-                p.style.strokeDashoffset = (p.__L * (1 - local)).toFixed(1)
+                const local = Math.max(0, Math.min(1, (trig - (p.__docY || 0)) / denom))
+                p.style.strokeDashoffset = ((p.__L || 0) * (1 - local)).toFixed(1)
             }
             for (let i = 0; i < spineNodes.length; i++) {
-                const c = spineNodes[i] as any
-                const on = c.__docY < trig
+                const c = spineNodes[i]
+                const on = (c.__docY || 0) < trig
                 if (c.__glow) {
                     if (on) {
                         if (!c.__breathing) {
@@ -505,8 +519,8 @@ export default function Home({ home }: { home: HomeContent | null }) {
                 }
             }
             if (spineClipRect && spineMain) {
-                const p = spineMain as any
-                const local = Math.max(0, Math.min(1, (trig - p.__docY) / Math.max(70, (p.__h || 0) + 40)))
+                const p = spineMain
+                const local = Math.max(0, Math.min(1, (trig - (p.__docY || 0)) / Math.max(70, (p.__h || 0) + 40)))
                 const SH = spineH || 0
                 const revealedBottom = local * SH + 6
                 const wrapRect = wrapRef.current ? wrapRef.current.getBoundingClientRect() : null

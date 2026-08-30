@@ -1,3 +1,5 @@
+@use 'styles/breakpoints' as bp;
+
 .nav {
     position: fixed;
     top: 0;
@@ -28,6 +30,11 @@
     display: flex;
     align-items: center;
     gap: 13px;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
 }
 
 .glyphImg {
@@ -74,6 +81,11 @@
         &:hover {
             color: var(--accent-mid);
         }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 3px;
+        }
     }
 
     .active {
@@ -103,6 +115,11 @@
     background: none;
     border: none;
 
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+
     span {
         display: block;
         height: 1.6px;
@@ -118,7 +135,7 @@
     display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     /* Nav stays fixed (out of flow); height comes from the responsive
        --nav-height token (60px on mobile). */
 
@@ -173,6 +190,11 @@
             color: var(--nav-ink);
             padding: 14px 0;
             border-bottom: 1px solid var(--list-rule);
+
+            &:focus-visible {
+                outline: 2px solid var(--accent-mid);
+                outline-offset: 3px;
+            }
         }
 
         .active {

@@ -1,3 +1,5 @@
+@use 'styles/breakpoints' as bp;
+
 // Temporary review control — see BrainAnimationVersionToggle.tsx. Absolutely
 // positioned against .header (HomeRedesign.module.scss), which is
 // `position: relative` and spans a full viewport height, so this sits in
@@ -53,7 +55,7 @@
 // positioned toggle up to the next positioned ancestor — the whole page —
 // landing it near the footer instead of the header. Pin it to the viewport
 // instead so it stays put and reachable.
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .toggle {
         position: fixed;
         right: 12px;

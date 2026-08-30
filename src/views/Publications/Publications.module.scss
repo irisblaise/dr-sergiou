@@ -1,6 +1,9 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+
 .page {
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 70px;
     display: grid;
     grid-template-columns: 540px minmax(0, 1fr);
@@ -11,30 +14,19 @@
 
 /* ---------- Intro ---------- */
 .heading {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: var(--intro-title-size);
-    line-height: var(--intro-title-lh);
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    @include ty.intro-heading;
 }
 
 .eyebrow {
+    @include ty.intro-eyebrow;
     margin-top: var(--intro-title-gap);
     max-width: 280px;
-    font-family: var(--font-mono);
-    font-size: var(--intro-eyebrow-size);
-    letter-spacing: var(--intro-eyebrow-tracking);
-    line-height: var(--intro-eyebrow-lh);
-    color: var(--science-line);
 }
 
 .blurb {
+    @include ty.intro-body;
     margin-top: var(--intro-eyebrow-gap);
     max-width: 320px;
-    font-size: var(--intro-body-size);
-    line-height: var(--intro-body-lh);
-    color: var(--body);
 }
 
 .stats {
@@ -101,6 +93,11 @@
 
     &:hover {
         border-color: var(--accent-mid);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
     }
 }
 
@@ -257,6 +254,11 @@
     border: none;
     padding: 18px 18px 16px 20px;
     cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
 }
 
 .mSpine {
@@ -422,7 +424,7 @@
     width: fit-content;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: bp.$bp-wide-list) {
     .page {
         grid-template-columns: minmax(0, 1fr);
         min-height: 0;
@@ -442,7 +444,7 @@
 }
 
 /* Switch from the horizontal shelf to the vertical card list */
-@media (max-width: 760px) {
+@media (max-width: bp.$bp-compact) {
     .shelfCol {
         display: none;
     }
@@ -480,7 +482,7 @@
     }
 }
 
-@media (max-width: 560px) {
+@media (max-width: bp.$bp-small) {
     .stats {
         gap: 10px;
     }

@@ -1,6 +1,9 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+
 .page {
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
     display: grid;
     grid-template-columns: 300px minmax(340px, 1fr) 548px;
@@ -14,28 +17,17 @@
 }
 
 .heading {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: var(--intro-title-size);
-    line-height: var(--intro-title-lh);
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    @include ty.intro-heading;
 }
 
 .eyebrow {
+    @include ty.intro-eyebrow;
     margin-top: var(--intro-title-gap);
-    font-family: var(--font-mono);
-    font-size: var(--intro-eyebrow-size);
-    letter-spacing: var(--intro-eyebrow-tracking);
-    line-height: var(--intro-eyebrow-lh);
-    color: var(--science-line);
 }
 
 .blurb {
+    @include ty.intro-body;
     margin-top: var(--intro-eyebrow-gap);
-    font-size: var(--intro-body-size);
-    line-height: var(--intro-body-lh);
-    color: var(--body);
 }
 
 /* ---------- Sticky stacked legend ---------- */
@@ -139,6 +131,11 @@
     background: none;
     border: none;
     border-bottom: 1px solid var(--list-rule);
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
 }
 
 .rowText {
@@ -198,6 +195,11 @@
     cursor: default;
     font-family: var(--font-mono);
     font-size: 11px;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
     letter-spacing: 0.24em;
     color: var(--accent-mid);
     transition: color 0.3s ease;
@@ -294,7 +296,7 @@
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .spine {
         display: none;
     }
@@ -337,7 +339,7 @@
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 21px;
-    color: #3c382f;
+    color: var(--nav-ink);
 }
 
 .rule {
@@ -438,6 +440,12 @@
     background: none;
     border: none;
     cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+        border-radius: 50%;
+    }
 }
 
 .playHalo {
@@ -508,6 +516,11 @@
         color: #fff;
     }
 
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+
     &:disabled {
         opacity: 0.32;
     }
@@ -551,7 +564,7 @@
     display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .page {
         /* minmax(0,…) prevents the chip strip's intrinsic width from blowing
            out the single grid track (horizontal overflow) */
@@ -603,6 +616,11 @@
         &:hover {
             border-color: var(--accent-mid);
         }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 3px;
+        }
     }
 
     .tabActive {
@@ -652,6 +670,11 @@
         &:hover {
             border-color: var(--accent-mid);
         }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 3px;
+        }
     }
 
     .chipActive {
@@ -694,7 +717,7 @@
         right: 0;
         width: 42px;
         pointer-events: none;
-        background: linear-gradient(to right, rgba(239, 234, 225, 0), #efeae1 78%);
+        background: linear-gradient(to right, rgba(239, 234, 225, 0), var(--canvas) 78%);
     }
 
     .media {

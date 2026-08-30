@@ -1,3 +1,9 @@
+import bundleAnalyzer from '@next/bundle-analyzer'
+
+const withBundleAnalyzer = bundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
@@ -17,7 +23,9 @@ const nextConfig = {
                 hostname: 'cdn.sanity.io',
             },
         ],
+        // Next only serves WebP by default; add AVIF (usually smaller for photos).
+        formats: ['image/avif', 'image/webp'],
     },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

@@ -18,8 +18,8 @@ const BrainAnimationClassic = () => {
         const svg = svgRef.current
         if (!svg) return
 
-        function animationNeurolize(svgElements: any, animationDelay: number) {
-            svgElements.forEach((svgElement: any, index: number) => {
+        function animationNeurolize(svgElements: NodeListOf<SVGGeometryElement>, animationDelay: number) {
+            svgElements.forEach((svgElement, index) => {
                 const totalLength = svgElement.getTotalLength()
                 svgElement.style.strokeDasharray = String(totalLength)
                 svgElement.style.strokeDashoffset = String(totalLength)

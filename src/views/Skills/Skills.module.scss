@@ -1,8 +1,10 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/layout' as ly;
+
 /* ---------- Desktop radial stage ---------- */
 .page {
     position: relative;
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     // Same top/side spacing as every other page's intro.
     padding: calc(var(--nav-height) + 40px) var(--gutter) 0;
     min-height: 100svh;
@@ -148,7 +150,7 @@
     display: none;
 }
 
-@media (max-width: 760px) {
+@media (max-width: bp.$bp-compact) {
     .page {
        padding: var(--nav-height) 0 80px;
        display: block;

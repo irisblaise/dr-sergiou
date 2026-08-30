@@ -1,3 +1,6 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+
 .page {
     position: relative;
     isolation: isolate;
@@ -19,21 +22,12 @@
 }
 
 .heading {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: var(--intro-title-size);
-    line-height: var(--intro-title-lh);
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    @include ty.intro-heading;
 }
 
 .eyebrow {
+    @include ty.intro-eyebrow;
     margin-top: 30px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.22em;
-    line-height: 1.7;
-    color: var(--sage-deep);
     text-transform: uppercase;
 }
 
@@ -228,7 +222,7 @@
     }
 }
 
-@media (max-width: 860px) {
+@media (max-width: bp.$bp-card) {
     .page {
         grid-template-columns: 1fr;
         gap: 24px;

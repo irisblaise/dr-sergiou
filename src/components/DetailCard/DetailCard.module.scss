@@ -52,6 +52,11 @@
         background: var(--accent-mid);
         color: #fff;
     }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
 }
 
 .year {
@@ -159,5 +164,10 @@
 
     &:hover {
         color: var(--accent-deep);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
     }
 }

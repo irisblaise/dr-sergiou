@@ -12,7 +12,15 @@
       "Bash(awk '{print $2, $11, $12, $13}')",
       "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/measure412.mjs)",
       "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/navshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/nav-open2.png\")",
-      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/navshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/nav-open3.png\")"
+      "Bash(node /private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/navshot.mjs \"/private/tmp/claude-501/-Users-irisvandijken-personal-projects-dr-sergiou/6fe313aa-9b0a-44ec-845a-8dd8d73f2871/scratchpad/shots/nav-open3.png\")",
+      "Bash(npm install *)",
+      "Bash(grep -n '\\\\$neuron' /Users/irisvandijken/personal-projects/dr-sergiou/src/components/BrainAnimationClassic/brainAnimationClassic.scss)",
+      "Bash(grep -rn 'neuron-deep\\\\|$neuron' /Users/irisvandijken/personal-projects/dr-sergiou/src/components/BrainAnimationClassic/)",
+      "Bash(grep -n '#[0-9a-fA-F]\\\\{3,6\\\\}' /Users/irisvandijken/personal-projects/dr-sergiou/src/views/Impact/Impact.module.scss)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
     ]
   }
 }

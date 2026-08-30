@@ -1,3 +1,7 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+
 /* ============ Projects (redesign) — circuit timeline ============
    Matches ProjectsTimeline.dc.html (design handoff): a real 3-column grid
    (content | 190px timeline gutter | content) with projects alternating
@@ -6,8 +10,7 @@
    arithmetic on the row height, so it always lines up with the grid. */
 
 .page {
-    max-width: var(--content-max);
-    margin: 0 auto;
+    @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
 }
 
@@ -18,29 +21,18 @@
 }
 
 .heading {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: var(--intro-title-size);
-    line-height: var(--intro-title-lh);
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    @include ty.intro-heading;
 }
 
 .eyebrow {
+    @include ty.intro-eyebrow;
     margin-top: var(--intro-title-gap);
-    font-family: var(--font-mono);
-    font-size: var(--intro-eyebrow-size);
-    letter-spacing: var(--intro-eyebrow-tracking);
-    line-height: var(--intro-eyebrow-lh);
-    color: var(--science-line);
 }
 
 .blurb {
+    @include ty.intro-body;
     margin-top: var(--intro-eyebrow-gap);
     max-width: 360px;
-    font-size: var(--intro-body-size);
-    line-height: var(--intro-body-lh);
-    color: var(--body);
 }
 
 /* ---------- Timeline grid ---------- */
@@ -154,6 +146,11 @@
     &:hover {
         color: var(--accent-deep);
     }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
 }
 
 /* ---------- Left / right placement ----------
@@ -186,7 +183,7 @@
    dropped in favour of plain block flow — each row just sizes to its own
    content — and the conductor SVG (an absolute overlay, not a grid item) is
    drawn in the .tsx from each row's actual measured position. */
-@media (max-width: 900px) {
+@media (max-width: bp.$bp-standard) {
     .grid {
         display: block;
         margin-top: 32px;

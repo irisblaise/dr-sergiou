@@ -5,9 +5,6 @@
 // and its `neuronLineDrawClassic` keyframe never collide with the current
 // BrainAnimation's identically-named globals, even though both stylesheets
 // are loaded on the same page for the toggle.
-$neuron: #5d8a74;
-$neuron-deep: #3f5e50;
-
 .brainAnimationClassic {
     width: 100%;
     height: 100%;
