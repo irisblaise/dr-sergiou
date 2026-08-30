@@ -201,7 +201,6 @@ export default function Publications({
 
                 <div className={styles.filterMeta}>
                     <span>FILTER&nbsp;BY&nbsp;TOPIC</span>
-                    <span className={styles.swipeHint}>SWIPE&nbsp;FOR&nbsp;MORE</span>
                 </div>
 
                 <div className={styles.chips}>

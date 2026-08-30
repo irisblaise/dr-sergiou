@@ -57,18 +57,12 @@
 /* ---------- Filter ---------- */
 .filterMeta {
     display: none; /* mobile only */
-    justify-content: space-between;
     align-items: baseline;
     margin-top: 36px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.18em;
     color: var(--text-label);
-}
-
-.swipeHint {
-    color: var(--soft);
-    font-size: 9.5px;
 }
 
 .chips {
@@ -468,18 +462,7 @@
     }
     .chips {
         margin-top: 14px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 4px;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
-    .chip {
-        flex: 0 0 auto;
+        flex-wrap: wrap;
     }
     .stats {
         grid-template-columns: repeat(3, 1fr);
