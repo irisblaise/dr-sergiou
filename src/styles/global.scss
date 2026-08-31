@@ -20,13 +20,16 @@
     --sage-deep: #3f5e50;
 
     /* Accent ramp — default theme: pink. Swapped at runtime by the palette switcher.
-       Four steps, one job each: --accent is glow/pulse/animated-energy only (never
-       type, never a border); --accent-mid is links, CTAs, active nav, selection
-       rings; --accent-label is small pink type (mono eyebrows, taglines, captions);
-       --accent-deep is the hover end of the ramp. */
+       --accent is glow/pulse/animated-energy, small pink type (mono eyebrows,
+       taglines, captions — via --accent-label), and matches --energy; --accent-mid
+       is links, CTAs, active nav, selection rings; --accent-deep is the hover end
+       of the ramp. Note: --accent only hits ~2.9:1 contrast on --canvas, below
+       WCAG AA (4.5:1) for text — chosen deliberately over the darker, higher-
+       contrast shade --accent-label used to be, so small pink type reads lighter
+       at the cost of AA contrast. */
     --accent: #ed4c92;
     --accent-mid: #c02d69; /* darkened from #c8326f — original was just under WCAG AA (4.23:1) on --canvas; this hits ~4.6:1 */
-    --accent-label: #a9255d;
+    --accent-label: var(--accent);
     --accent-deep: #8e214e;
     --accent-tint: #f8deea;
     --accent-glow: 237, 76, 146;
