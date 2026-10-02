@@ -24,6 +24,7 @@ type Props = {
     mobile: boolean
     onClose: () => void
     onSolved: () => void
+    onPulse?: () => void
 }
 
 // The popover never dismisses itself: no outside click, focus-out, scroll-away
@@ -32,7 +33,17 @@ type Props = {
 // owns which arm is open).
 const stay = (e: Event) => e.preventDefault()
 
-export default function TeaserPopover({ teaser, index, total, label, anchor, mobile, onClose, onSolved }: Props) {
+export default function TeaserPopover({
+    teaser,
+    index,
+    total,
+    label,
+    anchor,
+    mobile,
+    onClose,
+    onSolved,
+    onPulse,
+}: Props) {
     const open = !!teaser
     const panel = teaser && (
         <TeaserPanel
@@ -42,6 +53,7 @@ export default function TeaserPopover({ teaser, index, total, label, anchor, mob
             label={label}
             onClose={onClose}
             onSolved={onSolved}
+            onPulse={onPulse}
             titleAs={mobile ? Dialog.Title : undefined}
         />
     )
