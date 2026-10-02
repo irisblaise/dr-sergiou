@@ -67,18 +67,22 @@
     height: 0;
 }
 
-/* 3) hero header — absolutely placed top-left, holds a full viewport */
+/* 3) hero header — copy top-left, holds at least a full viewport */
 .header {
     position: relative;
     z-index: 10;
     min-height: 100vh;
+    // The copy sits in normal flow (not absolutely positioned), so on a short
+    // viewport the header grows to fit it and LayersOfExploration below is
+    // pushed down instead of sliding up over the intro text. The bottom
+    // padding keeps clear room for the absolutely-placed version toggle.
+    padding: calc(var(--nav-height) + 5vh) 0 80px;
     pointer-events: none;
 }
 
 .heroInner {
-    position: absolute;
-    left: clamp(20px, 4vw, 52px);
-    top: 23vh;
+    position: relative;
+    margin-left: clamp(20px, 4vw, 52px);
     // Scales down with the viewport instead of a fixed width.
     max-width: clamp(400px, 48vw, 550px);
     pointer-events: auto;
@@ -96,14 +100,16 @@
 
 .intro {
     margin-top: 34px;
-    max-width: 373px;
+    // Width, gap and type scale with the viewport alongside the headline's
+    // own clamp(), instead of staying a fixed 14px/373px block.
+    max-width: clamp(340px, 30vw, 480px);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: clamp(12px, 1.1vw, 18px);
 
     p {
         margin: 0;
-        font-size: 14px;
+        font-size: clamp(13px, 1.05vw, 17px);
         line-height: 1.62;
         color: var(--body);
     }
@@ -210,6 +216,7 @@
     .header {
         position: static;
         min-height: 0;
+        padding: 0;
         // Pulls the text up into the brain's soft bottom fade (the
         // mask-image above) instead of sitting in the full gap below it.
         margin-top: -70px;
@@ -217,8 +224,7 @@
 
     .heroInner {
         position: static;
-        left: auto;
-        top: auto;
+        margin-left: 0;
         max-width: none;
     }
 

@@ -262,49 +262,53 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                     </div>
 
                     <div className={styles.grid} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-                        {/* brain stack */}
-                        <div className={styles.visual}>
-                            <div className={styles.stack}>
-                                <Image
-                                    src={BASE_IMAGE}
-                                    alt="Anatomical illustration of the human head and brain"
-                                    className={styles.base}
-                                    fill
-                                    sizes="500px"
-                                    priority
-                                />
-                                {LAYERS.map((l, i) => (
+                        {/* brain stack + closing line, centered against the copy as one block */}
+                        <div className={styles.visualColumn}>
+                            <div className={styles.visual}>
+                                <div className={styles.stack}>
                                     <Image
-                                        key={l.overlaySrc}
-                                        src={l.overlaySrc}
-                                        alt=""
-                                        aria-hidden="true"
+                                        src={BASE_IMAGE}
+                                        alt="Anatomical illustration of the human head and brain"
+                                        className={styles.base}
                                         fill
                                         sizes="500px"
-                                        className={`${styles.overlay} ${i === active ? styles.overlayActive : ''} ${
-                                            OVERLAY_REGISTRATION_CLASS[i] || ''
-                                        }`}
+                                        priority
                                     />
+                                    {LAYERS.map((l, i) => (
+                                        <Image
+                                            key={l.overlaySrc}
+                                            src={l.overlaySrc}
+                                            alt=""
+                                            aria-hidden="true"
+                                            fill
+                                            sizes="500px"
+                                            className={`${styles.overlay} ${i === active ? styles.overlayActive : ''} ${
+                                                OVERLAY_REGISTRATION_CLASS[i] || ''
+                                            }`}
+                                        />
+                                    ))}
+                                </div>
+
+                                {MARKERS.map((m) => (
+                                    <div
+                                        key={m.markerKey}
+                                        className={styles.marker}
+                                        style={{ top: m.top, left: m.left }}
+                                    >
+                                        <div className={styles.markerKey}>{m.markerKey}</div>
+                                        <div className={styles.markerSub}>{m.sub}</div>
+                                        {m.lineHeight != null && (
+                                            <span
+                                                className={styles.markerLine}
+                                                style={{ left: m.lineX || 0, height: m.lineHeight }}
+                                            />
+                                        )}
+                                    </div>
                                 ))}
+
                             </div>
 
-                            {MARKERS.map((m) => (
-                                <div
-                                    key={m.markerKey}
-                                    className={styles.marker}
-                                    style={{ top: m.top, left: m.left }}
-                                >
-                                    <div className={styles.markerKey}>{m.markerKey}</div>
-                                    <div className={styles.markerSub}>{m.sub}</div>
-                                    {m.lineHeight != null && (
-                                        <span
-                                            className={styles.markerLine}
-                                            style={{ left: m.lineX || 0, height: m.lineHeight }}
-                                        />
-                                    )}
-                                </div>
-                            ))}
-
+                            <div className={styles.closingLine}>The exploration never ends.</div>
                         </div>
 
                         {/* copy — all six states share one grid cell; only the active
@@ -326,7 +330,6 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                             ))}
                         </div>
 
-                        <div className={styles.closingLine}>The exploration never ends.</div>
                     </div>
                 </div>
             </div>

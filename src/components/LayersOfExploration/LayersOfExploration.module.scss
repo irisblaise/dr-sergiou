@@ -136,15 +136,31 @@
 
 /* ---------- Body grid ---------- */
 
+// Two columns only (image, copy): the 01–06 rail lives in the mobile-only
+// .headerArrows row, so a third desktop column just sat empty and pushed the
+// pair off-center. The pair is centered as a whole, horizontally via
+// justify-content and vertically by filling the space under .headerBand.
 .grid {
+    flex: 1;
+    min-height: 0;
     margin-top: 24px;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr) 172px;
-    gap: clamp(24px, 4vw, 56px);
+    grid-template-columns: auto minmax(0, 460px);
+    justify-content: center;
+    align-content: center;
     align-items: center;
+    column-gap: clamp(40px, 7vw, 120px);
 }
 
 /* ---------- Column 1: brain stack ---------- */
+
+// Groups the image with its closing line so the copy column centers against
+// the two as one block, rather than the line sitting in its own grid row.
+.visualColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .visual {
     position: relative;
@@ -247,11 +263,9 @@
     opacity: 0.4;
 }
 
-// Lives outside .visual so it can be reordered independently on mobile
-// (flex `order`), but still needs to land back under the brain stack on
-// desktop — pin it to column 1, where it wraps into the next grid row.
+// Lives outside .visual (but inside .visualColumn) so it can still be
+// reordered independently on mobile, where .visualColumn is `display: contents`.
 .closingLine {
-    grid-column: 1;
     margin-top: 20px;
     text-align: center;
     font-family: var(--font-serif);
@@ -276,6 +290,9 @@
     grid-row: 1;
     display: flex;
     flex-direction: column;
+    // The shared cell is as tall as the longest chapter — center each one
+    // in it so shorter chapters don't sit top-aligned against the image.
+    justify-content: center;
     align-items: flex-start;
 }
 
@@ -499,6 +516,12 @@
         margin-top: 0;
         display: flex;
         flex-direction: column;
+    }
+
+    // Dissolve the wrapper so .visual and .closingLine take part in the
+    // mobile flex `order` sequence as direct children of .grid again.
+    .visualColumn {
+        display: contents;
     }
 
     .visual {

@@ -7,7 +7,7 @@
     @include ly.content-container;
     padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
     display: grid;
-    grid-template-columns: 300px minmax(340px, 1fr) 548px;
+    grid-template-columns: minmax(220px, 300px) minmax(300px, 1fr) minmax(280px, 548px);
     gap: 0;
     align-items: start;
 }
@@ -305,7 +305,7 @@
 
 /* ---------- Center: featured detail text ---------- */
 .center {
-    padding: clamp(40px, 11vw, 70px) clamp(16px, 2.4vw, 46px);
+    padding: clamp(40px, 11vw, 70px) clamp(16px, 2.4vw, 46px) clamp(40px, 11vw, 70px) clamp(32px, 4.4vw, 78px);
     height: 100%;
 }
 
