@@ -14,7 +14,6 @@ type Props = {
     label: string
     onClose: () => void
     onSolved: () => void
-    onPulse?: () => void
     /** Radix Dialog needs its own Title component for the sheet; the popover uses a plain h2. */
     titleAs?: ElementType
 }
@@ -23,7 +22,7 @@ const pad2 = (n: number) => String(n).padStart(2, '0')
 
 // The one content component shared by the desktop popover and the mobile
 // sheet: header readout, X button, title, and the lazily-loaded game.
-export default function TeaserPanel({ teaser, index, total, label, onClose, onSolved, onPulse, titleAs }: Props) {
+export default function TeaserPanel({ teaser, index, total, label, onClose, onSolved, titleAs }: Props) {
     const Title = titleAs ?? 'h2'
     const titleId = useId()
     const ref = useRef<HTMLDivElement>(null)
@@ -52,7 +51,7 @@ export default function TeaserPanel({ teaser, index, total, label, onClose, onSo
             </Title>
             <div className={styles.body}>
                 {/* Keyed by branch: switching arms resets the unsolved game. */}
-                <TeaserGame key={teaser.branch} teaser={teaser} onSolved={onSolved} onPulse={onPulse} />
+                <TeaserGame key={teaser.branch} teaser={teaser} onSolved={onSolved} />
             </div>
         </div>
     )

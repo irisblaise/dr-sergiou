@@ -43,47 +43,11 @@ export type TeaserOf<K extends TeaserKind> = Extract<Teaser, { kind: K }>
 /** Numbering used in the panel header (`TEASER 02 / 06 · CODING`). */
 export const TEASER_ORDER: SkillKey[] = ['neuro', 'coding', 'vr', 'music', 'behavior', 'forensic']
 
-// An arm with no entry here simply renders without a teaser.
+// Build steps 1–3 ship Spot the bug, Myth or Fact? and Don't. — Find the
+// signal (neuro), Case the joint (vr) and Wait for the drop (music) land in
+// steps 4–5, after the art/copy review. An arm with no entry here simply
+// renders without a teaser.
 export const teasers: Partial<Record<SkillKey, Teaser>> = {
-    neuro: {
-        branch: 'neuro',
-        kind: 'signal',
-        title: 'Find the signal',
-        prompt: 'My EEG is drowning in noise. Turn the filter until the signal shows.',
-        // Hz — the alpha band
-        targetBand: [8, 12],
-        // [CARMEN] placeholder — what alpha is and why filtering matters in her EEG work
-        reveal: 'That clean rhythm is alpha, 8–12 Hz: the brain idling with its eyes closed. Most of my EEG work starts exactly here, filtering away the noise until the signal shows.',
-        // [CARMEN] alpha is strongest over the occipital cortex
-        region: { code: 'OCC', label: 'VISUAL CORTEX' },
-    },
-    vr: {
-        branch: 'vr',
-        kind: 'glimpse',
-        title: 'Case the joint',
-        prompt: 'You’re a burglar. You get one look at the street. Which house?',
-        // What sets each house apart, in street order (house 1 → 4). The
-        // buttons say "HOUSE 1–4"; these name the visitor's pick in the result.
-        options: ['HEDGES', 'LIGHTS ON', 'OPEN WINDOW', 'CAR IN THE DRIVE'],
-        glimpseMs: 3000,
-        // [CARMEN] must add one or two real cues the Virtual Burglary study examined — do not invent findings
-        reveal: 'You just did what participants in the Virtual Burglary study did. [CARMEN: one or two real cues the study examined.]',
-        // [CARMEN] region not given in the spec
-        region: { code: 'DLPFC', label: 'STRATEGIC DECISION-MAKING' },
-    },
-    music: {
-        branch: 'music',
-        kind: 'beat',
-        title: 'Wait for the drop',
-        prompt: 'The build-up is coming. Tap exactly when the drop hits.',
-        // No audioSrc yet: the loop must be licensed or Carmen's own. Until
-        // then, opting into sound plays a short build-up synthesised in the
-        // browser (Web Audio), so no third-party audio ships.
-        dropAtMs: 6000,
-        // [CARMEN] draft from the spec (+ optionally the Ventromedial story)
-        reveal: 'That itch right before the drop? Your reward circuit anticipating.',
-        region: { code: 'VS', label: 'REWARD VALUATION' },
-    },
     coding: {
         branch: 'coding',
         kind: 'bug',

@@ -110,12 +110,10 @@ type Props = {
     /** Bumped when the last arm is solved — every arm fires outward at once. */
     fireCount: number
     allSolved: boolean
-    /** Bumped on each beat of Wait for the drop — flashes the cell body. */
-    beat?: number
     reduced: boolean
 }
 
-export default function NeuronFiring({ solved, pulses, fireCount, allSolved, beat = 0, reduced }: Props) {
+export default function NeuronFiring({ solved, pulses, fireCount, allSolved, reduced }: Props) {
     const gradId = `soma-glow-${useId().replace(/:/g, '')}`
     const draw = (delay = 0) =>
         reduced ? { duration: 0 } : { duration: 1.1, ease: [0.2, 0.85, 0.25, 1] as const, delay }
@@ -141,21 +139,6 @@ export default function NeuronFiring({ solved, pulses, fireCount, allSolved, bea
                 animate={{ opacity: allSolved ? 1 : 0 }}
                 transition={fade(reduced ? 0 : PULSE_S)}
             />
-
-            {/* Beat flash — a short swell of the same glow, keyed per beat. */}
-            {!reduced && beat > 0 && (
-                <motion.circle
-                    key={`beat-${beat}`}
-                    cx={SOMA[0]}
-                    cy={SOMA[1]}
-                    r={150}
-                    fill={`url(#${gradId})`}
-                    initial={{ opacity: 0.85, scale: 0.9 }}
-                    animate={{ opacity: 0, scale: 1.08 }}
-                    transition={{ duration: 0.42, ease: 'easeOut' }}
-                    style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
-                />
-            )}
 
             {ARM_ART.map((arm) => {
                 const on = solved.has(arm.key)
