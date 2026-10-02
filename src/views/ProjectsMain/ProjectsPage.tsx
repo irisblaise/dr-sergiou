@@ -8,6 +8,7 @@ import { MOBILE_QUERY } from '../../styles/breakpoints'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import { useMatchMedia } from '../../lib/useMatchMedia'
 import { resolvePageIntro } from '../../lib/pageIntro'
+import { sanityLoaderFor } from '../../lib/sanityImageLoader'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import styles from './ProjectsPage.module.scss'
@@ -449,6 +450,7 @@ export default function ProjectsPage({
                                 {p.image ? (
                                     <Image
                                         src={p.image}
+                                        loader={sanityLoaderFor(p.image)}
                                         alt={p.imageAlt || p.title}
                                         fill
                                         sizes="(max-width: 900px) 100vw, clamp(320px, 30vw, 520px)"

@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import neuron from '../../../public/assets/skills/neuron-six-arms-transparent-highres.webp'
 import type { Skill, SkillKey } from '../../data/types'
 import type { PageContent } from '../../sanity/lib/queries'
 import { resolvePageIntro } from '../../lib/pageIntro'
+import { sanityLoaderFor } from '../../lib/sanityImageLoader'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import styles from './SkillsPage.module.scss'
 
@@ -276,12 +278,14 @@ export default function SkillsPage({
 
                     <div className={styles.cell} aria-hidden>
                         <Image
-                            src="/assets/skills/neuron-six-arms-transparent-highres.webp"
+                            src={neuron}
                             alt=""
                             width={1000}
                             height={1000}
+                            // .cell renders it at 750px (before any stage scaling)
+                            sizes="750px"
                             className={styles.cellImg}
-                            priority
+                            preload
                         />
                     </div>
 
@@ -367,6 +371,7 @@ export default function SkillsPage({
                             >
                                 <Image
                                     src={skill.image}
+                                    loader={sanityLoaderFor(skill.image)}
                                     alt=""
                                     width={frame.size}
                                     height={frame.size}
@@ -431,6 +436,7 @@ export default function SkillsPage({
                                 <span className={styles.mNode}>
                                     <Image
                                         src={skill.image}
+                                        loader={sanityLoaderFor(skill.image)}
                                         alt=""
                                         width={frame.size}
                                         height={frame.size}

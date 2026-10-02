@@ -8,6 +8,7 @@ import { prefersReducedMotion, REDUCED_MOTION_QUERY } from '../../lib/prefersRed
 import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
 import { useMatchMedia } from '../../lib/useMatchMedia'
 import { resolvePageIntro } from '../../lib/pageIntro'
+import { sanityLoaderFor } from '../../lib/sanityImageLoader'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import Chip from '../../components/ui/Chip/Chip'
@@ -420,6 +421,7 @@ export default function Impact({
                         <Image
                             className={styles.heroImg}
                             src={heroSrc}
+                            loader={sanityLoaderFor(heroSrc)}
                             alt={item.imageAlt || item.title}
                             fill
                             sizes="(max-width: 900px) 100vw, 40vw"
@@ -507,6 +509,7 @@ export default function Impact({
                                         <Image
                                             className={styles.thumbImg}
                                             src={thumbSrc}
+                                            loader={sanityLoaderFor(thumbSrc)}
                                             alt=""
                                             fill
                                             sizes="72px"

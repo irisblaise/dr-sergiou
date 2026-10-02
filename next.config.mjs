@@ -28,8 +28,15 @@ const nextConfig = {
                 hostname: 'img.youtube.com',
             },
         ],
-        // Next only serves WebP by default; add AVIF (usually smaller for photos).
-        formats: ['image/avif', 'image/webp'],
+        // WebP only: AVIF encodes ~50% slower, and that cost lands on whoever
+        // first requests each size — the "images take a while on first visit"
+        // delay. Sources are already WebP, so AVIF's size win here was small.
+        // (Sanity images bypass this optimizer — see lib/sanityImageLoader.ts.)
+        formats: ['image/webp'],
+        // Local images are static imports with content-hashed URLs, so a long
+        // TTL can't serve a stale file; it just stops variants going cold
+        // every 4 hours (the default).
+        minimumCacheTTL: 2678400, // 31 days
     },
 }
 

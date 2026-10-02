@@ -516,7 +516,7 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
                     // `sizes` Next assumes the full 1536px width on every
                     // viewport, including mobile.
                     sizes="(max-width: 1024px) 340px, min(906px, 62vw)"
-                    priority
+                    preload
                 />
             </div>
 

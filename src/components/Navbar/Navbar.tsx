@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import logo from '../../../public/assets/brain/brain-logo-horizontal-pink-transparent.webp'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.scss'
@@ -18,7 +19,7 @@ function Logo({ onClick }: { onClick?: () => void }) {
         <Link href="/" className={styles.logo} onClick={onClick} aria-label="Carmen Sergiou — home">
             <Image
                 className={styles.glyphImg}
-                src="/assets/brain/brain-logo-horizontal-pink-transparent.webp"
+                src={logo}
                 alt="Carmen Sergiou"
                 // Displayed at 45x40 (see .glyphImg) — sized here at 2x for
                 // retina rather than the source asset's native 1200x871, so
@@ -26,7 +27,7 @@ function Logo({ onClick }: { onClick?: () => void }) {
                 // every single page load.
                 width={90}
                 height={80}
-                priority
+                loading="eager"
             />
             <span className={styles.lockup}>
                 <span className={styles.name}>DR.&nbsp;SERGIOU</span>

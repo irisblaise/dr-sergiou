@@ -1,22 +1,31 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Image from 'next/image'
+import Image, { type StaticImageData } from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DESKTOP_QUERY } from '../../styles/breakpoints'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import { useMatchMedia } from '../../lib/useMatchMedia'
 import styles from './LayersOfExploration.module.scss'
+import headBrain from '../../../public/assets/homepage/head-brain-transparent.webp'
+import forensicNeuroscience from '../../../public/assets/homepage/highlight-forensic-neuroscience-v2.webp'
+import criminalDecisionMaking from '../../../public/assets/homepage/highlight-criminal-decision-making-v2.webp'
+import innovativeTechnologies from '../../../public/assets/homepage/highlight-innovative-technologies-v2.webp'
+import decentralizedScience from '../../../public/assets/homepage/highlight-decentralized-science-v2.webp'
+import psychedelics from '../../../public/assets/homepage/highlight-psychedelics-v2.webp'
+import music from '../../../public/assets/homepage/highlight-music-v2.webp'
 
-const BASE_IMAGE = '/assets/homepage/head-brain-transparent.webp'
+// Static imports, not /assets/... strings: the content-hashed URL lets the
+// optimized variants be cached as immutable instead of expiring every few hours.
+const BASE_IMAGE = headBrain
 
 type Layer = {
     number: string
     nav: string
     heading: string
     description: string
-    overlaySrc: string
+    overlaySrc: StaticImageData
 }
 
 type Passion = { number?: string; title: string; description: string }
@@ -33,7 +42,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: '(Forensic) Neuroscience',
         description:
             "Oh the brain, what a majestic piece of art. It all started when I was very young and saw \"One flew over the cuckoo's nest\", to see the neurodiversity for the first time. Later on my fascination guided me towards the criminal brain. To examine how the neural correlates can shape decision-making into making criminal decisions. The crossroads of Neuroscience and the Forensic Field is where it all came together during my PhD. To unravel the neural underpinnings of aggression, emotion regulation and empathy are my main regions of fascination.",
-        overlaySrc: '/assets/homepage/highlight-forensic-neuroscience-v2.webp',
+        overlaySrc: forensicNeuroscience,
     },
     {
         number: '02',
@@ -41,7 +50,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Criminal Decision-making',
         description:
             'Since I started this journey as a young puppet, I have studied the brain of forensic samples, using different tools, in different age groups and severity, but all with one aim: understanding criminal decision-making. Previously I worked as a post-doctoral researcher within the Virtual Burglary Project at the Max Planck Institute for Crime, Security, and Law (MPI) and Leiden University, where we used Virtual Reality (VR) to study criminal decision-making in incarcerated burglars. Currently, I work within the Growing up Together in Society (GUTS) team where we investigate the biopsychosocial development of high-risk youth using functional Magnetic Resonance Imaging (fMRI).',
-        overlaySrc: '/assets/homepage/highlight-criminal-decision-making-v2.webp',
+        overlaySrc: criminalDecisionMaking,
     },
     {
         number: '03',
@@ -49,7 +58,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Innovative Technologies',
         description:
             'My fascination with innovative technologies that can improve therapy in forensic care is the common thread throughout my research trajectory. Technologies like virtual reality (VR), neuromodulation, functional Near-Infrared Spectroscopy (fNIRS), Electroencephalography (EEG), Hyperscanning, fMRI and the power of multi-modal approaches fuel my passion. Being able to study brain responses in real-time in virtual environments is the future avenue to unraveling the neural underpinnings of behavior. Recently I initiated the FORNEUROTECH network to bring these fields together.',
-        overlaySrc: '/assets/homepage/highlight-innovative-technologies-v2.webp',
+        overlaySrc: innovativeTechnologies,
     },
     {
         number: '04',
@@ -57,7 +66,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'The Future of Decentralized Science',
         description:
             "I'm on a mission to help revolutionize open science, to decentralize science (DeSci). Science should be available to everyone, regardless of a university affiliation. To this end, I've launched the Neuroscience NFT project, a collaboration with 3D artist Sytske Nijp and computer scientist Emanuel Boderash. Together, we're merging the digital world with the realms of science — using the brain scans of my own research studies, Sytske created 3D art.",
-        overlaySrc: '/assets/homepage/highlight-decentralized-science-v2.webp',
+        overlaySrc: decentralizedScience,
     },
     {
         number: '05',
@@ -65,7 +74,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Psychedelics in Mental Health Care',
         description:
             'I believe in the potential of using psychedelics in treatment, with a big emphasis on safe implementation in Dutch Mental Healthcare. When responsibly implemented, these treatments can be game-changers and keys to a better future. I co-created a report on using ketamine therapy in treatment-resistant depression (TRD) in collaboration with the Open Foundation.',
-        overlaySrc: '/assets/homepage/highlight-psychedelics-v2.webp',
+        overlaySrc: psychedelics,
     },
     {
         number: '06',
@@ -73,7 +82,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Musical Synergy',
         description:
             'Next to all my scientific passions, music is a crucial factor in fueling my motivation and excitement. I combine this by DJ-ing (Ventromedial) and supporting the open-minded event organisation in Amsterdam, Kraft und Licht, with a homebase at Der Hintergarten. I believe dancing is a powerful tool to feel empowered and charged to continue as a devoted researcher.',
-        overlaySrc: '/assets/homepage/highlight-music-v2.webp',
+        overlaySrc: music,
     },
 ]
 
@@ -278,11 +287,11 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                         className={styles.base}
                                         fill
                                         sizes="500px"
-                                        priority
+                                        preload
                                     />
                                     {LAYERS.map((l, i) => (
                                         <Image
-                                            key={l.overlaySrc}
+                                            key={l.overlaySrc.src}
                                             src={l.overlaySrc}
                                             alt=""
                                             aria-hidden="true"
