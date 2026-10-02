@@ -71,6 +71,10 @@
     position: sticky;
     top: var(--nav-height);
     height: calc(100vh - var(--nav-height));
+    // Breathing room between the nav and the header band; the grid below is
+    // flex: 1 + centered, so this is taken out of the slack under the image.
+    padding-top: clamp(24px, 5vh, 56px);
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -201,40 +205,6 @@
     opacity: 1;
 }
 
-// pink-layer-0N's artwork isn't registered to the base image the way the
-// rest are — nudge each into alignment instead of re-exporting the assets.
-.overlayRegistration01 {
-    inset: auto;
-    bottom: -25px;
-    left: -8px;
-}
-
-.overlayRegistration02 {
-    inset: auto 76px 115px auto;
-    width: 62%;
-    height: 73%;
-}
-
-.overlayRegistration04 {
-    inset: auto;
-    left: -27px;
-    top: 8px;
-}
-
-.overlayRegistration05 {
-    inset: auto;
-    left: -6px;
-    bottom: 5px;
-}
-
-.overlayRegistration06 {
-    inset: 0;
-    left: -25px;
-    top: 20px;
-    width: 99%;
-    height: 99%;
-}
-
 .marker {
     position: absolute;
     max-width: 30%;
@@ -323,9 +293,6 @@
 .stateActive > *:nth-child(3) {
     transition-delay: 140ms;
 }
-.stateActive > *:nth-child(4) {
-    transition-delay: 200ms;
-}
 
 .label {
     font-family: var(--font-mono);
@@ -352,28 +319,6 @@
     color: var(--body);
     max-width: 460px;
     text-wrap: pretty;
-}
-
-.cta {
-    margin-top: 30px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.2em;
-    color: var(--accent-mid);
-    transition: color 200ms ease;
-
-    &:hover {
-        color: var(--accent-label);
-    }
-
-    &:focus-visible {
-        outline: 2px solid var(--accent-mid);
-        outline-offset: 4px;
-        border-radius: 2px;
-    }
 }
 
 /* ---------- Column 3: vertical rail ---------- */

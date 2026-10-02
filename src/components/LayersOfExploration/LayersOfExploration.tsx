@@ -7,7 +7,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { DESKTOP_QUERY } from '../../styles/breakpoints'
 import { prefersReducedMotion } from '../../lib/prefersReducedMotion'
 import { useMatchMedia } from '../../lib/useMatchMedia'
-import ArrowLink from '../ui/ArrowLink/ArrowLink'
 import styles from './LayersOfExploration.module.scss'
 
 const BASE_IMAGE = '/assets/homepage/head-brain-transparent.webp'
@@ -34,7 +33,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: '(Forensic) Neuroscience',
         description:
             "Oh the brain, what a majestic piece of art. It all started when I was very young and saw \"One flew over the cuckoo's nest\", to see the neurodiversity for the first time. Later on my fascination guided me towards the criminal brain. To examine how the neural correlates can shape decision-making into making criminal decisions. The crossroads of Neuroscience and the Forensic Field is where it all came together during my PhD. To unravel the neural underpinnings of aggression, emotion regulation and empathy are my main regions of fascination.",
-        overlaySrc: '/assets/homepage/pink-layer-01-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-forensic-neuroscience-v2.webp',
     },
     {
         number: '02',
@@ -42,7 +41,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Criminal Decision-making',
         description:
             'Since I started this journey as a young puppet, I have studied the brain of forensic samples, using different tools, in different age groups and severity, but all with one aim: understanding criminal decision-making. Previously I worked as a post-doctoral researcher within the Virtual Burglary Project at the Max Planck Institute for Crime, Security, and Law (MPI) and Leiden University, where we used Virtual Reality (VR) to study criminal decision-making in incarcerated burglars. Currently, I work within the Growing up Together in Society (GUTS) team where we investigate the biopsychosocial development of high-risk youth using functional Magnetic Resonance Imaging (fMRI).',
-        overlaySrc: '/assets/homepage/pink-layer-02-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-criminal-decision-making-v2.webp',
     },
     {
         number: '03',
@@ -50,7 +49,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Innovative Technologies',
         description:
             'My fascination with innovative technologies that can improve therapy in forensic care is the common thread throughout my research trajectory. Technologies like virtual reality (VR), neuromodulation, functional Near-Infrared Spectroscopy (fNIRS), Electroencephalography (EEG), Hyperscanning, fMRI and the power of multi-modal approaches fuel my passion. Being able to study brain responses in real-time in virtual environments is the future avenue to unraveling the neural underpinnings of behavior. Recently I initiated the FORNEUROTECH network to bring these fields together.',
-        overlaySrc: '/assets/homepage/pink-layer-03-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-innovative-technologies-v2.webp',
     },
     {
         number: '04',
@@ -58,7 +57,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'The Future of Decentralized Science',
         description:
             "I'm on a mission to help revolutionize open science, to decentralize science (DeSci). Science should be available to everyone, regardless of a university affiliation. To this end, I've launched the Neuroscience NFT project, a collaboration with 3D artist Sytske Nijp and computer scientist Emanuel Boderash. Together, we're merging the digital world with the realms of science — using the brain scans of my own research studies, Sytske created 3D art.",
-        overlaySrc: '/assets/homepage/pink-layer-04-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-decentralized-science-v2.webp',
     },
     {
         number: '05',
@@ -66,7 +65,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Psychedelics in Mental Health Care',
         description:
             'I believe in the potential of using psychedelics in treatment, with a big emphasis on safe implementation in Dutch Mental Healthcare. When responsibly implemented, these treatments can be game-changers and keys to a better future. I co-created a report on using ketamine therapy in treatment-resistant depression (TRD) in collaboration with the Open Foundation.',
-        overlaySrc: '/assets/homepage/pink-layer-05-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-psychedelics-v2.webp',
     },
     {
         number: '06',
@@ -74,7 +73,7 @@ const DEFAULT_LAYERS: Layer[] = [
         heading: 'Musical Synergy',
         description:
             'Next to all my scientific passions, music is a crucial factor in fueling my motivation and excitement. I combine this by DJ-ing (Ventromedial) and supporting the open-minded event organisation in Amsterdam, Kraft und Licht, with a homebase at Der Hintergarten. I believe dancing is a powerful tool to feel empowered and charged to continue as a devoted researcher.',
-        overlaySrc: '/assets/homepage/pink-layer-06-transparent.webp',
+        overlaySrc: '/assets/homepage/highlight-music-v2.webp',
     },
 ]
 
@@ -90,10 +89,22 @@ const MARKERS: Array<{
     { top: '0%', left: '44%', markerKey: 'ACC', sub: 'CONFLICT MONITORING', lineHeight: 118 },
     { top: '8%', left: '72%', markerKey: 'DLPFC', sub: 'STRATEGIC DECISION-MAKING', lineHeight: 110, lineX: '54%' },
     { top: '56%', left: '4%', markerKey: 'VS', sub: 'REWARD VALUATION' },
-    { top: '72%', left: '69%', markerKey: 'AMY', sub: 'EMOTIONAL SIGNALING' },
+    // Hangs just below the end-dot of the jaw's leader line in the base art
+    // (~80% down the image) — see imageTop.
+    { top: imageTop(0.8, 8), left: '69%', markerKey: 'AMY', sub: 'EMOTIONAL SIGNALING' },
 ]
 
+// A marker `top` pinned to a point on the base image rather than to .visual:
+// .visual's height is its 40px padding-top plus the stack, and the stack
+// scales with the viewport, so a plain percentage drifts against the artwork
+// as the window resizes. `fraction` is the point's height on the image,
+// `offsetPx` an extra gap below it. Keep 40px in sync with .visual's padding.
+function imageTop(fraction: number, offsetPx = 0): string {
+    return `calc(40px + ${fraction} * (100% - 40px) + ${offsetPx}px)`
+}
+
 const COUNT = DEFAULT_LAYERS.length
+const SNAP_POINTS = [0, ...DEFAULT_LAYERS.map((_, i) => (i + 0.5) / COUNT), 1]
 
 // Overrides each slot's heading/description with the matching Sanity
 // passion (by position) when the CMS document has one, falling back to the
@@ -106,19 +117,6 @@ function buildLayers(passions?: Passion[]): Layer[] {
         return { ...defaults, heading: passion.title, description: passion.description }
     })
 }
-
-// Per-overlay registration nudges — a few of the pink-layer PNGs aren't
-// aligned to the base image out of the box, so each misaligned one gets its
-// own small positional correction (see the .overlayRegistration0N rules).
-// Indexed by layer position; undefined entries use the default inset: 0.
-const OVERLAY_REGISTRATION_CLASS: (string | undefined)[] = [
-    styles.overlayRegistration01,
-    styles.overlayRegistration02,
-    undefined,
-    styles.overlayRegistration04,
-    styles.overlayRegistration05,
-    styles.overlayRegistration06,
-]
 
 export default function LayersOfExploration({ passions }: { passions?: Passion[] }) {
     const LAYERS = useMemo(() => buildLayers(passions), [passions])
@@ -152,9 +150,17 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                 // Settles a scroll gesture onto one subject at a time instead of
                 // free-scrubbing through all six — without it, a fast flick can
                 // fire several index changes a second, restarting the text
-                // crossfade before it ever finishes.
+                // crossfade before it ever finishes. Snaps to the *middle* of
+                // each subject's slice (the same point goTo scrolls to), plus
+                // the section's two ends so it can still be entered/left freely
+                // — snapping to the slice boundaries instead lands exactly on a
+                // hand-off between two subjects. Non-directional and without
+                // inertia, so stopping on a subject settles on that subject
+                // rather than being carried on to the next one.
                 snap: {
-                    snapTo: 1 / COUNT,
+                    snapTo: SNAP_POINTS,
+                    directional: false,
+                    inertia: false,
                     duration: 0.4,
                     ease: 'power1.inOut',
                 },
@@ -282,9 +288,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                             aria-hidden="true"
                                             fill
                                             sizes="500px"
-                                            className={`${styles.overlay} ${i === active ? styles.overlayActive : ''} ${
-                                                OVERLAY_REGISTRATION_CLASS[i] || ''
-                                            }`}
+                                            className={`${styles.overlay} ${i === active ? styles.overlayActive : ''}`}
                                         />
                                     ))}
                                 </div>
@@ -323,9 +327,6 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                     <div className={styles.label}>{l.nav}</div>
                                     <h2 className={styles.heading}>{l.heading}</h2>
                                     <p className={styles.description}>{l.description}</p>
-                                    <ArrowLink className={styles.cta} href="/projects">
-                                        EXPLORE&nbsp;THIS&nbsp;FIELD
-                                    </ArrowLink>
                                 </div>
                             ))}
                         </div>

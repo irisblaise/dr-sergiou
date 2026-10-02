@@ -304,9 +304,17 @@
 }
 
 /* ---------- Center: featured detail text ---------- */
+/* Centred in its column both ways — vertically against the hero (which is
+   also align-self: center) and horizontally between the rail and the hero,
+   rather than top-left-pinned with a wide empty gap before the image. The
+   copy itself stays left-aligned; only the block is centred. */
 .center {
-    padding: clamp(40px, 11vw, 70px) clamp(16px, 2.4vw, 46px) clamp(40px, 11vw, 70px) clamp(32px, 4.4vw, 78px);
-    height: 100%;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    max-width: 560px;
+    /* wider on the left so narrow desktops keep clearance from the rail's spine */
+    padding: 0 clamp(16px, 2.4vw, 46px) 0 clamp(32px, 4.4vw, 78px);
 }
 
 .featureEyebrow {
@@ -742,6 +750,7 @@
         order: 3;
         border-left: none;
         padding: 4px 0 0;
+        max-width: none;
     }
 
     .hero,
