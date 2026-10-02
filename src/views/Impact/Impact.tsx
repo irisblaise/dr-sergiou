@@ -40,10 +40,18 @@ function fmtDate(d: string): string {
 const HEADER_H = 42
 const RULE = 'rgba(94,89,77,.28)'
 
+function ytId(url: string): string | undefined {
+    return url.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{6,})/)?.[1]
+}
 // Convert a YouTube watch/short URL into an autoplay embed URL.
 function ytEmbed(url: string): string {
-    const m = url.match(/(?:youtu\.be\/|[?&]v=|embed\/)([\w-]{6,})/)
-    return m ? `https://www.youtube.com/embed/${m[1]}?autoplay=1` : url
+    const id = ytId(url)
+    return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : url
+}
+// Poster frame for a YouTube video, used as its thumbnail.
+function ytThumb(url: string): string | undefined {
+    const id = ytId(url)
+    return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : undefined
 }
 // ---- Gutter spine geometry: a static trace stepping sideways at three bends ----
 const SPINE_W = 56
@@ -481,6 +489,42 @@ export default function Impact({
                         </button>
                     )}
                 </div>
+
+                {assets.length > 1 && (
+                    <div className={styles.thumbs} role="tablist" aria-label="Media assets">
+                        {assets.map((a, i) => {
+                            const thumbSrc = a.type === 'video' ? ytThumb(a.src) : a.src
+                            return (
+                                <button
+                                    key={`${a.src}-${i}`}
+                                    role="tab"
+                                    aria-selected={i === activeAsset}
+                                    aria-label={`${a.type === 'video' ? 'Video' : 'Image'} ${i + 1} of ${assets.length}`}
+                                    className={`${styles.thumb} ${i === activeAsset ? styles.thumbActive : ''}`}
+                                    onClick={() => setActiveAsset(i)}
+                                >
+                                    {thumbSrc ? (
+                                        <Image
+                                            className={styles.thumbImg}
+                                            src={thumbSrc}
+                                            alt=""
+                                            fill
+                                            sizes="72px"
+                                            style={{ objectFit: 'cover' }}
+                                        />
+                                    ) : (
+                                        <span className={styles.thumbPlaceholder} />
+                                    )}
+                                    {a.type === 'video' && (
+                                        <span className={styles.thumbPlay} aria-hidden>
+                                            <span className={styles.thumbPlayTri} />
+                                        </span>
+                                    )}
+                                </button>
+                            )
+                        })}
+                    </div>
+                )}
             </div>
         </div>
     )

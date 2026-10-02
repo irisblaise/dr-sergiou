@@ -13,18 +13,18 @@ import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import styles from './ProjectsPage.module.scss'
 
 // Circuit-timeline geometry — see ProjectsTimeline.dc.html (design handoff).
-// Desktop rows sit two content columns either side of a centred gutter, each
-// a fixed grid track, so the node for that row lines up with the SVG
-// conductor purely through arithmetic (no DOM measuring needed). Mobile
-// stacks image+text into a single column right of a narrow left-hand
-// gutter instead — that stack's height varies a lot per project (a longer
+// Desktop rows sit two content columns either side of a centred gutter;
+// mobile stacks image+text into a single column right of a narrow left-hand
+// gutter. Either way a row's height varies a lot per project (a longer
 // abstract, an optional image), so guessing one fixed row height either
-// wastes space for short entries or clips long ones. Mobile measures each
-// row's real rendered position instead and draws the conductor from that.
-const ROW_H_DESKTOP = 400
+// wastes space for short entries or lets long ones overflow into their
+// neighbours. Rows size to their own content instead (desktop with a
+// minimum track height), and the conductor is drawn from each row's real
+// measured position.
+const ROW_MIN_H_DESKTOP = 400
 const NODE_TRAIL = 80 // how far below a node its straight run continues before jogging
 const TAIL = 200 // headroom below the last node for the tail terminal
-const MOBILE_LEAD_IN = 40 // headroom above the first row's measured top, standing in for desktop's proportional NODE_LEAD
+const LEAD_IN = 40 // headroom above the first row's measured top
 
 const GUTTER_W_DESKTOP = 190 // viewBox width — matches the 190px CSS gutter column exactly
 const AXIS_DESKTOP = 95 // centre of the gutter, in viewBox units
@@ -45,9 +45,6 @@ const BR_VJOG_MOBILE = 8
 const BR_SIMPLE_MOBILE = 13
 
 const DOT_GAP = 5
-
-const nodeY = (index: number, rowH: number) => rowH / 2 + index * rowH
-const gridHeight = (count: number, rowH: number) => Math.max(1, count) * rowH
 
 type Point = { x: number; y: number }
 
@@ -79,7 +76,7 @@ function clipPolyline(points: Point[], yMin: number, yMax: number): Point[] {
     return out
 }
 
-type MobileMetrics = { tops: number[]; bottoms: number[] }
+type RowMetrics = { tops: number[]; bottoms: number[]; gridH: number }
 
 export default function ProjectsPage({
     projects,
@@ -92,7 +89,7 @@ export default function ProjectsPage({
     const gridRef = useRef<HTMLDivElement>(null)
     const rowRefs = useRef<(HTMLDivElement | null)[]>([])
     const isMobile = useMatchMedia(MOBILE_QUERY)
-    const [mobileMetrics, setMobileMetrics] = useState<MobileMetrics | null>(null)
+    const [rowMetrics, setRowMetrics] = useState<RowMetrics | null>(null)
     const { heading, eyebrow, paragraphs: introParagraphs } = resolvePageIntro(pageContent, {
         heading: 'Projects',
         eyebrow: 'TRACE THE JOURNEY',
@@ -106,24 +103,32 @@ export default function ProjectsPage({
     // reflowing because its text wrapped differently) and once more after
     // web fonts swap in, since that can shift line counts after first paint.
     useLayoutEffect(() => {
-        // Stale metrics from a previous mobile pass are harmless once
-        // desktop — every read of mobileMetrics elsewhere is gated on
-        // isMobile too, so there's nothing to reset here.
-        if (!isMobile) return
         const grid = gridRef.current
         if (!grid) return
 
         const measure = () => {
-            const gridTop = grid.getBoundingClientRect().top
+            const gridRect = grid.getBoundingClientRect()
             const tops: number[] = []
             const bottoms: number[] = []
             for (const el of rowRefs.current.slice(0, projects.length)) {
                 if (!el) return
-                const r = el.getBoundingClientRect()
-                tops.push(r.top - gridTop)
-                bottoms.push(r.bottom - gridTop)
+                // Desktop rows are `display: contents` (their figure and
+                // article are the grid items), so they have no box of their
+                // own — measure the union of their children instead. Both
+                // are vertically centred in the track, so that union's
+                // midpoint is the track's centre.
+                const boxes = isMobile ? [el] : Array.from(el.children)
+                let top = Infinity
+                let bottom = -Infinity
+                for (const b of boxes) {
+                    const r = b.getBoundingClientRect()
+                    top = Math.min(top, r.top)
+                    bottom = Math.max(bottom, r.bottom)
+                }
+                tops.push(top - gridRect.top)
+                bottoms.push(bottom - gridRect.top)
             }
-            setMobileMetrics({ tops, bottoms })
+            setRowMetrics({ tops, bottoms, gridH: gridRect.height })
         }
 
         measure()
@@ -139,15 +144,19 @@ export default function ProjectsPage({
         }
     }, [isMobile, projects])
 
-    const desktopH = gridHeight(projects.length, ROW_H_DESKTOP)
-    const mobileH = mobileMetrics ? mobileMetrics.bottoms[mobileMetrics.bottoms.length - 1] + TAIL : 0
-    const H = isMobile ? mobileH : desktopH
+    // Desktop's rail is an overlay exactly the grid's height, so the viewBox
+    // matches it 1:1; mobile's extends past the last row for the tail.
+    const H = !rowMetrics
+        ? 0
+        : isMobile
+          ? rowMetrics.bottoms[rowMetrics.bottoms.length - 1] + TAIL
+          : rowMetrics.gridH
 
     useEffect(() => {
         const svg = railRef.current
         const n = projects.length
         if (!svg || !n) return
-        if (isMobile && !mobileMetrics) return
+        if (!rowMetrics) return
 
         const GUTTER_W = isMobile ? GUTTER_W_MOBILE : GUTTER_W_DESKTOP
         const AXIS = isMobile ? AXIS_MOBILE : AXIS_DESKTOP
@@ -243,14 +252,8 @@ export default function ProjectsPage({
             return c
         }
 
-        const ys =
-            isMobile && mobileMetrics
-                ? mobileMetrics.tops.map((t, i) => (t + mobileMetrics.bottoms[i]) / 2)
-                : projects.map((_, i) => nodeY(i, ROW_H_DESKTOP))
-        const top =
-            isMobile && mobileMetrics
-                ? Math.max(20, mobileMetrics.tops[0] - MOBILE_LEAD_IN)
-                : Math.max(20, ys[0] - ROW_H_DESKTOP * 0.76)
+        const ys = rowMetrics.tops.map((t, i) => (t + rowMetrics.bottoms[i]) / 2)
+        const top = Math.max(20, rowMetrics.tops[0] - LEAD_IN)
         const bottom = ys[n - 1] + TAIL
 
         // Main conductor: a straight run through every node, jogging out to
@@ -405,7 +408,7 @@ export default function ProjectsPage({
         }
 
         return cleanupScrollDot
-    }, [H, projects, isMobile, mobileMetrics])
+    }, [H, projects, isMobile, rowMetrics])
 
     return (
         <div className={styles.page}>
@@ -427,8 +430,7 @@ export default function ProjectsPage({
                     isMobile
                         ? undefined
                         : {
-                              height: H,
-                              gridTemplateRows: `repeat(${Math.max(1, projects.length)}, ${ROW_H_DESKTOP}px)`,
+                              gridTemplateRows: `repeat(${Math.max(1, projects.length)}, minmax(${ROW_MIN_H_DESKTOP}px, auto))`,
                           }
                 }
             >

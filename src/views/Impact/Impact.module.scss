@@ -581,6 +581,101 @@
     }
 }
 
+/* ---------- Thumbnail strip (below the hero, multi-asset items only) ---------- */
+.thumbs {
+    /* hangs below the hero out of flow, so items with and without a strip
+       keep the hero in exactly the same (centred) position */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 3px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.thumb {
+    position: relative;
+    flex: none;
+    width: 72px;
+    height: 54px;
+    padding: 0;
+    border: 1px solid rgba(142, 33, 78, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--canvas);
+    cursor: pointer;
+    opacity: 0.55;
+    filter: saturate(0.7);
+    transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s var(--ease);
+
+    &:hover {
+        opacity: 0.9;
+        filter: none;
+        transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+}
+
+.thumbActive {
+    opacity: 1;
+    filter: none;
+    box-shadow:
+        0 0 0 2px var(--canvas),
+        0 0 0 3.5px var(--accent);
+
+    &:hover {
+        transform: none;
+    }
+}
+
+.thumbPlaceholder {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(var(--accent-glow), 0.07) 0 6px,
+        transparent 6px 12px
+    );
+}
+
+.thumbPlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(142, 33, 78, 0.42);
+}
+
+.thumbPlayTri {
+    margin-left: 2px;
+    border-style: solid;
+    border-width: 4.5px 0 4.5px 7px;
+    border-color: transparent transparent transparent var(--on-accent);
+}
+
 /* ---------- Mobile switcher (tabs + chip strip), hidden on desktop ---------- */
 .switcher {
     display: none;
@@ -744,6 +839,18 @@
     .media {
         order: 2;
         margin-top: 14px;
+    }
+
+    /* back in flow on mobile — nothing sits beside the hero to shift */
+    .thumbs {
+        position: static;
+        margin-top: 12px;
+        gap: 8px;
+    }
+
+    .thumb {
+        width: 60px;
+        height: 45px;
     }
 
     .center {

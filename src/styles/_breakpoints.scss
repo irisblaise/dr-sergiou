@@ -10,7 +10,7 @@ $bp-narrow-desktop-max: 1245px; // HomePage: upper bound of its narrow-desktop t
 $bp-narrow-desktop-min: 1046px; // HomePage: lower bound of its narrow-desktop tier
 $bp-tablet: 1045px; // HomePage: tablet tier
 $bp-wide-list: 1080px; // Publications: shelf → vertical list layout
-$bp-card: 860px; // Contact: card layout switch
+$bp-card: 1024px; // Contact: card layout switch — below this the side-by-side conductor no longer has room for both columns
 $bp-compact: 760px; // Publications & Skills (classic): compact mobile tier
 $bp-narrow: 620px; // Footer: stacked layout
 $bp-small: 560px; // Publications: smallest tier

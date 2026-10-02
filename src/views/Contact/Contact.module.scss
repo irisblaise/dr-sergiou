@@ -9,14 +9,25 @@
     padding: calc(var(--nav-height) + 40px) var(--gutter) 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
-    gap: 0 clamp(48px, 9vw, 130px);
+    --col-gap: clamp(48px, 9vw, 130px);
+    gap: 0 var(--col-gap);
     align-items: stretch;
-    min-height: 880px;
+    // Fill <main> (min-height: 100svh) so the portrait, anchored to this
+    // block's bottom, always sits on the footer rule instead of floating
+    // above it on tall windows.
+    min-height: max(880px, 100svh);
 }
 
 .left {
     position: relative;
     z-index: 1;
+    // The portrait is sized off this column (+ the gutter it overhangs into),
+    // not the viewport, so the conductor's geometry holds at every width:
+    // her exit hand (HAND_RIGHT.fx = 0.688 in Contact.tsx) must leave room
+    // for the junction's clearances (48px + 104px + the 16px label inset,
+    // less the portrait's -5px offset = 163px) before the right column.
+    // `100%` resolves against .left at each use site (no padding here).
+    --portrait-w: min(906px, calc((100% + var(--col-gap) - 163px) / 0.688));
     display: flex;
     flex-direction: column;
 }
@@ -41,15 +52,18 @@
 .blurb {
     @include ty.intro-body;
     margin-top: var(--intro-eyebrow-gap);
-    max-width: 320px;
+    // Keeps the conductor's descent (24px right of this block) left of her
+    // entry hand (HAND_LEFT.fx = 0.478) as the portrait shrinks: 24px descent
+    // offset + 24px of run before the hand, plus the portrait's -5px offset.
+    max-width: min(320px, calc(var(--portrait-w) * 0.478 - 53px));
 }
 
 .portrait {
     position: absolute;
     z-index: 3;
     left: -5px;
-    bottom: -33px;
-    width: min(906px, 74vw);
+    bottom: 0;
+    width: var(--portrait-w);
     height: auto;
     max-width: none;
     pointer-events: none;

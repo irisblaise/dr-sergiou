@@ -190,42 +190,46 @@ export default function Publications({
                     paragraphClassName={styles.blurb}
                 />
 
-                <div className={styles.stats}>
-                    {stats.map((s) => (
-                        <div key={s.label} className={styles.stat}>
-                            <div className={styles.statValue}>{s.value}</div>
-                            <div className={styles.statLabel}>{s.label}</div>
-                        </div>
-                    ))}
-                </div>
+                {/* Pinned to the bottom of the intro column so the chips line up
+                    with the bottom of the books on desktop. */}
+                <div className={styles.introFoot}>
+                    <div className={styles.stats}>
+                        {stats.map((s) => (
+                            <div key={s.label} className={styles.stat}>
+                                <div className={styles.statValue}>{s.value}</div>
+                                <div className={styles.statLabel}>{s.label}</div>
+                            </div>
+                        ))}
+                    </div>
 
-                <div className={styles.filterMeta}>
-                    <span>FILTER&nbsp;BY&nbsp;TOPIC</span>
-                </div>
+                    <div className={styles.filterMeta}>
+                        <span>FILTER&nbsp;BY&nbsp;TOPIC</span>
+                    </div>
 
-                <div className={styles.chips}>
-                    <Chip
-                        className={styles.chip}
-                        activeClassName={styles.chipActive}
-                        active={filters.size === 0}
-                        onClick={() => {
-                            setFilters(new Set())
-                            setSelected(-1)
-                        }}
-                    >
-                        All
-                    </Chip>
-                    {ALL_TOPICS.map((t) => (
+                    <div className={styles.chips}>
                         <Chip
-                            key={t}
                             className={styles.chip}
                             activeClassName={styles.chipActive}
-                            active={filters.has(t)}
-                            onClick={() => toggleTopic(t)}
+                            active={filters.size === 0}
+                            onClick={() => {
+                                setFilters(new Set())
+                                setSelected(-1)
+                            }}
                         >
-                            {t}
+                            All
                         </Chip>
-                    ))}
+                        {ALL_TOPICS.map((t) => (
+                            <Chip
+                                key={t}
+                                className={styles.chip}
+                                activeClassName={styles.chipActive}
+                                active={filters.has(t)}
+                                onClick={() => toggleTopic(t)}
+                            >
+                                {t}
+                            </Chip>
+                        ))}
+                    </div>
                 </div>
             </aside>
 

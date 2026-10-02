@@ -5,33 +5,55 @@
 
 .page {
     @include ly.content-container;
-    padding: calc(var(--nav-height) + 40px) var(--gutter) 70px;
+    /* Desktop fits in one viewport: the spines take whatever height is left
+       after the nav, the paddings and the scroll rail (~330px of chrome). */
+    --spine-height: clamp(340px, calc(100svh - 330px), 566px);
+    --page-gap: clamp(24px, 4vw, 64px);
+    padding: calc(var(--nav-height) + clamp(16px, 4svh, 40px)) var(--gutter) clamp(24px, 5svh, 70px);
     display: grid;
-    grid-template-columns: 540px minmax(0, 1fr);
-    gap: clamp(24px, 4vw, 64px);
-    align-items: start;
+    grid-template-columns: clamp(400px, 36vw, 540px) minmax(0, 1fr);
+    column-gap: var(--page-gap);
+    align-content: center;
     min-height: 100svh;
 }
 
 /* ---------- Intro ---------- */
+/* Desktop: intro and books share row 1 so the intro stretches to the
+   shelf's height; the rail sits alone in row 2 underneath the books. */
+.intro {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    /* Matches the shelf's bottom padding (.shelf 26px + .shelfTrack 2px) so
+       the chips' bottom edge lands on the books' bottom edge. */
+    padding-bottom: 28px;
+}
+
+.introFoot {
+    margin-top: auto;
+}
+
 .heading {
     @include ty.intro-heading;
+    /* Also cap by height so the intro fits beside shorter spines. */
+    font-size: min(var(--intro-title-size), 10svh);
 }
 
 .eyebrow {
     @include ty.intro-eyebrow;
-    margin-top: var(--intro-title-gap);
+    margin-top: min(var(--intro-title-gap), 2.5svh);
     max-width: 280px;
 }
 
 .blurb {
     @include ty.intro-body;
-    margin-top: var(--intro-eyebrow-gap);
+    margin-top: min(var(--intro-eyebrow-gap), 2svh);
     max-width: 320px;
 }
 
 .stats {
-    margin-top: 34px;
+    margin-top: clamp(16px, 3.5svh, 34px);
     display: grid;
     grid-template-columns: repeat(3, auto);
     gap: 26px;
@@ -66,7 +88,7 @@
 }
 
 .chips {
-    margin-top: 36px;
+    margin-top: clamp(16px, 3.5svh, 36px);
     display: flex;
     flex-wrap: wrap;
     gap: 9px;
@@ -83,11 +105,14 @@
 
 /* ---------- Shelf ---------- */
 .shelfCol {
-    min-width: 0;
-    align-self: center;
+    display: contents;
 }
 
 .shelfArea {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    min-width: 0;
     position: relative;
 }
 
@@ -131,6 +156,9 @@
 
 /* ---------- Scroll rail (read-only indicator) ---------- */
 .railWrap {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
     margin-top: 22px;
     display: flex;
     flex-direction: column;
@@ -433,14 +461,27 @@
 @media (max-width: bp.$bp-wide-list) {
     .page {
         grid-template-columns: minmax(0, 1fr);
+        gap: var(--page-gap);
+        align-content: start;
         min-height: 0;
+    }
+    .intro,
+    .shelfArea,
+    .railWrap {
+        grid-column: auto;
+        grid-row: auto;
+    }
+    .intro {
+        display: block;
+        padding-bottom: 0;
+    }
+    /* Cancel the row gap so the rail keeps its 22px offset from the shelf. */
+    .railWrap {
+        margin-top: calc(22px - var(--page-gap));
     }
     .intro,
     .mobileList {
         min-width: 0;
-    }
-    .shelfCol {
-        align-self: auto;
     }
     .eyebrow,
     .blurb {
@@ -451,7 +492,8 @@
 
 /* Switch from the horizontal shelf to the vertical card list */
 @media (max-width: bp.$bp-compact) {
-    .shelfCol {
+    .shelfArea,
+    .railWrap {
         display: none;
     }
     .mobileList {

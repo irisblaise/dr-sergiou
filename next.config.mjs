@@ -22,6 +22,11 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'cdn.sanity.io',
             },
+            // Poster frames for YouTube assets in the Impact thumbnail strip.
+            {
+                protocol: 'https',
+                hostname: 'img.youtube.com',
+            },
         ],
         // Next only serves WebP by default; add AVIF (usually smaller for photos).
         formats: ['image/avif', 'image/webp'],

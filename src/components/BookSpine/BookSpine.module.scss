@@ -2,7 +2,8 @@
     position: relative;
     flex: 0 0 114px;
     width: 114px;
-    height: 566px;
+    /* Set by the page so the shelf can shrink with the viewport height. */
+    height: var(--spine-height, 566px);
     border: none;
     padding: 22px 10px 18px;
     border-radius: 5px 5px 2px 2px;
@@ -84,7 +85,8 @@
     writing-mode: vertical-rl;
     font-family: var(--font-serif);
     font-weight: 400;
-    font-size: 15.5px;
+    /* Scales down with shorter spines so long titles still fit. */
+    font-size: clamp(12.5px, calc(var(--spine-height, 566px) * 0.0274), 15.5px);
     line-height: 1.42;
     letter-spacing: 0.015em;
     text-align: center;

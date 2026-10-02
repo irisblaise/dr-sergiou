@@ -5,9 +5,10 @@
 /* ============ Projects (redesign) — circuit timeline ============
    Matches ProjectsTimeline.dc.html (design handoff): a real 3-column grid
    (content | 190px timeline gutter | content) with projects alternating
-   image-left/text-right and text-left/image-right, each row a fixed 400px
-   track. The conductor SVG is generated in ProjectsRedesign.tsx purely from
-   arithmetic on the row height, so it always lines up with the grid. */
+   image-left/text-right and text-left/image-right. Each row is at least
+   400px but grows with a long abstract; the conductor SVG is drawn in
+   ProjectsPage.tsx from each row's measured position, so it always lines
+   up with the grid. */
 
 .page {
     @include ly.content-container;
@@ -42,14 +43,22 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr);
     align-items: center;
-    // grid-template-rows and height are set inline (ROW_H × project count)
-    // so they always match the SVG conductor's own geometry.
+    // Keeps a long row's text from butting up against the next row's
+    // content once tracks grow past their minimum height.
+    row-gap: 72px;
+    // grid-template-rows is set inline (one minmax track per project) so
+    // the rail below can span them all.
 }
 
+// An absolute overlay rather than a grid item, so the SVG's own viewBox
+// aspect ratio never feeds back into the row track sizes it's drawn from.
+// Positioned by arithmetic instead of grid lines — the 190px gutter is
+// always dead centre between the two equal 1fr columns.
 .rail {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 95px);
+    width: 190px;
     height: 100%;
     overflow: visible;
     pointer-events: none;

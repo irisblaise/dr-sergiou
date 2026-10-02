@@ -25,8 +25,8 @@ const SVG_NS = 'http://www.w3.org/2000/svg'
 // Hand positions as fractions of the portrait's rendered box. Carmen's
 // hands sit close to the fractions the handoff tuned for its own cutout
 // (~.49/.36 and ~.69/.37) since this sketch shares the same gesture — if
-// the portrait is ever re-cropped, these two points are the only thing that
-// needs retuning.
+// the portrait is ever re-cropped, these two points need retuning — along
+// with their copies in Contact.module.scss's --portrait-w / .blurb sizing.
 const HAND_LEFT = { fx: 0.478, fy: 0.342 }
 const HAND_RIGHT = { fx: 0.688, fy: 0.406 }
 
@@ -38,6 +38,8 @@ const STUB_LEN = 21
 const STUB_DOT = 26
 const JUNCTION_CLEAR_NEAR = 48 // junction's minimum clearance from the exit hand
 const JUNCTION_CLEAR_FAR = 104 // junction's minimum clearance from the nearest row label
+const HAND_CORNER_CLEAR = 40 // entry hand's minimum distance past the descent's last corner
+const JUNCTION_CLEAR_MIN = 40 // hard floor: the junction never gets closer to a label than this
 const ENDPOINT_INSET = 4.4 // branch stops short by the endpoint ring's radius
 const SAGE_SPEED = 0.146 // px/ms, ambient drift
 const PINK_SPEED = 0.107 // px/ms, primary-contact charge
@@ -109,6 +111,9 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
         if (!svg || !page || !left || !portraitEl) return
 
         while (svg.firstChild) svg.removeChild(svg.firstChild)
+        // Clear last run's centring shift so the measurements below start
+        // from the CSS-placed portrait.
+        portraitEl.style.translate = ''
         // Mobile stacks into one column and drops the conductor entirely
         // (see Contact.module.scss's card-layout query) — the anchors below
         // don't correspond to anything meaningful once the grid collapses.
@@ -277,36 +282,65 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
             return { x: b.x - 16, y: b.y + b.h / 2, el: row! }
         })
 
-        const hl = { x: P.x + P.w * HAND_LEFT.fx, y: P.y + P.h * HAND_LEFT.fy }
-        const hr = { x: P.x + P.w * HAND_RIGHT.fx, y: P.y + P.h * HAND_RIGHT.fy }
-        const HY = (hl.y + hr.y) / 2
-
-        const jx = Math.max(hr.x + JUNCTION_CLEAR_NEAR, Math.min(...A.map((a) => a.x)) - JUNCTION_CLEAR_FAR)
-        const jy = (A[1].y + A[2].y) / 2
-
-        // ---------- 1. descent: eyebrow -> entry hand ----------
         const sx = E.x + E.w + 18
         const sy = E.y + E.h / 2
         const dc = DESCENT_CORNER
         const vx1 = Math.max(sx + dc + 70, IN.x + IN.w + 24)
+        const minAx = Math.min(...A.map((a) => a.x))
+        const jxFar = minAx - JUNCTION_CLEAR_FAR
+
+        // Centre her hands on the flat hand run, which spans from the
+        // descent's last corner (vx1) to the ascent's first (jx - 32). Both
+        // ends come from measured text, so this can't be done in CSS — the
+        // portrait is nudged here instead. Clamped so the entry hand doesn't
+        // hug the descent corner and the exit hand doesn't crowd the junction.
+        const handsMid = P.x + (P.w * (HAND_LEFT.fx + HAND_RIGHT.fx)) / 2
+        const minShift = vx1 + HAND_CORNER_CLEAR - (P.x + P.w * HAND_LEFT.fx)
+        const maxShift = jxFar - JUNCTION_CLEAR_NEAR - (P.x + P.w * HAND_RIGHT.fx)
+        const shift = Math.min(Math.max((vx1 + jxFar - 32) / 2 - handsMid, minShift), Math.max(minShift, maxShift))
+        portraitEl.style.translate = `${shift.toFixed(1)}px 0`
+        P.x += shift
+
+        const hl = { x: P.x + P.w * HAND_LEFT.fx, y: P.y + P.h * HAND_LEFT.fy }
+        const hr = { x: P.x + P.w * HAND_RIGHT.fx, y: P.y + P.h * HAND_RIGHT.fy }
+        const HY = (hl.y + hr.y) / 2
+
+        // Never let the junction reach the labels — if the exit hand crowds
+        // the right column, the near-hand clearance gives way first.
+        const jx = Math.min(Math.max(hr.x + JUNCTION_CLEAR_NEAR, jxFar), minAx - JUNCTION_CLEAR_MIN)
+        const jy = (A[1].y + A[2].y) / 2
+
+        // ---------- 1. descent: eyebrow -> entry hand ----------
         const yA = Math.max(sy + dc + 60, IN.y + IN.h + 16)
         const JW = Math.max(44, Math.min(104, (HY - yA - 100) / 2))
         const vx2 = vx1 - JW
-        const descentPts: Point[] = [
-            { x: sx, y: sy },
-            { x: vx1 - dc, y: sy },
-            { x: vx1, y: sy + dc },
-            { x: vx1, y: yA },
-            { x: vx2, y: yA + JW },
-            { x: vx2, y: HY - JW },
-            { x: vx2 + JW, y: HY },
-            { x: hl.x, y: HY },
-        ]
+        // The double jog needs room between the intro's bottom and the hands;
+        // when the window is short on it, drop straight down instead of
+        // letting the jog fold back on itself.
+        const useDescentJog = HY - yA >= JW * 2 + 20
+        const descentPts: Point[] = useDescentJog
+            ? [
+                  { x: sx, y: sy },
+                  { x: vx1 - dc, y: sy },
+                  { x: vx1, y: sy + dc },
+                  { x: vx1, y: yA },
+                  { x: vx2, y: yA + JW },
+                  { x: vx2, y: HY - JW },
+                  { x: vx2 + JW, y: HY },
+                  { x: hl.x, y: HY },
+              ]
+            : [
+                  { x: sx, y: sy },
+                  { x: vx1 - dc, y: sy },
+                  { x: vx1, y: sy + dc },
+                  { x: vx1, y: HY },
+                  { x: hl.x, y: HY },
+              ]
         const d1 = pointsToPath(descentPts)
         path(d1, 1.6, G1, 0.8)
-        ghost(descentPts.slice(0, 6), -GHOST_OFFSET, 0)
-        stub(vx1, (sy + dc + yA) / 2, 1)
-        stub(vx2, (yA + JW + (HY - JW)) / 2, -1)
+        ghost(descentPts.slice(0, useDescentJog ? 6 : 4), -GHOST_OFFSET, 0)
+        stub(vx1, (sy + dc + (useDescentJog ? yA : HY)) / 2, 1)
+        if (useDescentJog) stub(vx2, (yA + JW + (HY - JW)) / 2, -1)
         terminal(sx, sy)
 
         // ---------- 2. hand run ----------
@@ -474,13 +508,14 @@ export default function Contact({ pageContent }: { pageContent?: PageContent | n
                     className={styles.portrait}
                     src={portrait}
                     alt="Illustrated portrait of Carmen Sergiou"
-                    width={1537}
-                    height={1023}
+                    width={1536}
+                    height={1024}
                     // .portrait's displayed width tops out well under the source
-                    // asset (min(906px, 74vw) desktop, clamp(220px, 66vw, 340px)
-                    // below bp-card/860px) — without `sizes` Next assumes the
-                    // full 1537px width on every viewport, including mobile.
-                    sizes="(max-width: 860px) 340px, min(906px, 74vw)"
+                    // asset (column-derived, ≤ min(906px, ~62vw) desktop;
+                    // clamp(220px, 66vw, 340px) below bp-card/1024px) — without
+                    // `sizes` Next assumes the full 1536px width on every
+                    // viewport, including mobile.
+                    sizes="(max-width: 1024px) 340px, min(906px, 62vw)"
                     priority
                 />
             </div>
