@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -146,7 +146,14 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
     // ScrollTrigger only reads progress here, it never touches opacity or
     // transform directly, so it can't fight the CSS transitions that handle
     // the actual crossfade.
-    useEffect(() => {
+    //
+    // A layout effect, not a passive one: on a route change React removes this
+    // section's DOM before passive cleanups run, so the browser clamps the
+    // scroll position to the (shorter) next page in between, the still-alive
+    // trigger reads that as a scroll and snaps back toward its own section —
+    // landing the next page mid-way down instead of at the top. A layout
+    // cleanup kills the trigger synchronously, before the DOM swap.
+    useLayoutEffect(() => {
         gsap.registerPlugin(ScrollTrigger)
         const mm = gsap.matchMedia()
 
