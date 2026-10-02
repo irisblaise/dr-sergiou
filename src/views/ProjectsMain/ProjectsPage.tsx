@@ -454,6 +454,8 @@ export default function ProjectsPage({
                                         alt={p.imageAlt || p.title}
                                         fill
                                         sizes="(max-width: 900px) 100vw, clamp(320px, 30vw, 520px)"
+                                        // First row sits right under the intro, in view on load.
+                                        loading={i === 0 ? 'eager' : undefined}
                                         style={{ objectFit: 'cover' }}
                                     />
                                 ) : (

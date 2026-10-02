@@ -426,6 +426,9 @@ export default function Impact({
                             fill
                             sizes="(max-width: 900px) 100vw, 40vw"
                             style={{ objectFit: 'cover' }}
+                            // Above the fold and the page's LCP — lazy made the
+                            // browser wait for layout before even requesting it.
+                            preload
                         />
                     ) : (
                         <div className={styles.heroPlaceholder}>
