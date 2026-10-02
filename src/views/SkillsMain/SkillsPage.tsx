@@ -103,6 +103,7 @@ export default function SkillsPage({
     const [solved, setSolved] = useState<ReadonlySet<SkillKey>>(() => new Set())
     const [pulses, setPulses] = useState<Partial<Record<SkillKey, number>>>({})
     const [fireCount, setFireCount] = useState(0)
+    const [beat, setBeat] = useState(0)
     const returnFocusRef = useRef<HTMLElement | null>(null)
     const mFigureRef = useRef<HTMLDivElement>(null)
     const medRefs = useRef(new Map<SkillKey, HTMLButtonElement>())
@@ -150,6 +151,9 @@ export default function SkillsPage({
         if (teaserKeys.every((k) => next.has(k))) setFireCount((n) => n + 1)
     }
 
+    // Wait for the drop: the cell body pulses on the beat.
+    const pulseOnBeat = useCallback(() => setBeat((n) => n + 1), [])
+
     const armTriggerProps = (key: SkillKey) =>
         teaserFor(key)
             ? {
@@ -160,8 +164,15 @@ export default function SkillsPage({
               }
             : {}
 
-    const firing = solved.size > 0 && (
-        <NeuronFiring solved={solved} pulses={pulses} fireCount={fireCount} allSolved={allSolved} reduced={reduced} />
+    const firing = (solved.size > 0 || beat > 0) && (
+        <NeuronFiring
+            solved={solved}
+            pulses={pulses}
+            fireCount={fireCount}
+            allSolved={allSolved}
+            beat={beat}
+            reduced={reduced}
+        />
     )
 
     const closingLine = (
@@ -426,6 +437,7 @@ export default function SkillsPage({
                         mobile={isMobile}
                         onClose={closeTeaser}
                         onSolved={markSolved}
+                        onPulse={pulseOnBeat}
                     />
                 </div>
             </div>

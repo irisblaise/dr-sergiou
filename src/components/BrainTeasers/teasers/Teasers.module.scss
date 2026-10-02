@@ -462,3 +462,325 @@
 .cellSlipped > * {
     opacity: 0.4;
 }
+
+/* ---------- Find the signal ---------- */
+.trace {
+    display: block;
+    width: 100%;
+    height: 96px;
+    overflow: visible;
+
+    path {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+}
+
+.traceBaseline {
+    stroke: var(--list-rule);
+    stroke-width: 0.6;
+}
+
+/* the drawing the clean wave resolves into — pink once found */
+.traceContour {
+    stroke: var(--accent);
+    stroke-width: 1;
+    opacity: 0;
+}
+
+.traceLine {
+    stroke: var(--ink);
+    stroke-width: 0.9;
+}
+
+.traceLineFired {
+    stroke: var(--accent-mid);
+}
+
+.dialRow {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dial {
+    flex: none;
+    width: 112px;
+    height: 112px;
+    overflow: visible;
+    touch-action: none;
+    cursor: grab;
+    border-radius: 50%;
+
+    &:active {
+        cursor: grabbing;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 4px;
+    }
+
+    path,
+    circle {
+        fill: none;
+        stroke: var(--ink);
+        stroke-linecap: round;
+    }
+}
+
+.dialRing {
+    stroke-width: 0.6;
+    opacity: 0.7;
+}
+
+.dialTick {
+    stroke-width: 0.5;
+    opacity: 0.6;
+}
+
+.dialTickMajor {
+    stroke-width: 1.1;
+}
+
+.dial .dialHold {
+    stroke: var(--accent);
+    stroke-width: 2.4;
+}
+
+.dial .dialKnob {
+    stroke-width: 1.4;
+    fill: var(--canvas);
+}
+
+.dialKnurl {
+    stroke-width: 0.6;
+    opacity: 0.75;
+}
+
+.dialCap {
+    stroke-width: 0.6;
+    opacity: 0.7;
+}
+
+.dialPointer {
+    stroke-width: 2;
+}
+
+.dialReadout {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.16em;
+}
+
+.dialHz,
+.dialHzOn {
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+}
+
+.dialHzOn {
+    color: var(--accent-mid);
+}
+
+.dialHint,
+.dialScale {
+    font-size: 9px;
+    color: var(--muted);
+}
+
+/* ---------- Case the joint ---------- */
+.street {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 320 / 104; /* StreetArt's STREET_VIEWBOX */
+}
+
+.streetLayer {
+    position: absolute;
+    inset: 0;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.houseButtons {
+    position: absolute;
+    inset: 0;
+}
+
+.houseButton {
+    position: absolute;
+    top: 15%;
+    bottom: 17%;
+    padding: 0;
+    background: transparent;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+
+    &:hover {
+        border-color: var(--accent-mid);
+        color: var(--accent-mid);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+}
+
+/* the visitor's pick — a pink callout dot above the roof */
+.houseMark {
+    position: absolute;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--accent);
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 9px;
+        width: 1px;
+        height: 14px;
+        background: var(--accent);
+    }
+}
+
+/* ---------- Wait for the drop ---------- */
+.wave {
+    position: relative;
+    flex: none;
+    width: 100%;
+    height: 96px;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+
+    svg {
+        position: absolute;
+        inset: 8px 0;
+        width: 100%;
+        height: calc(100% - 16px);
+        overflow: visible;
+    }
+}
+
+.waveLine {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.8;
+    vector-effect: non-scaling-stroke;
+}
+
+.waveDrop {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+}
+
+.waveDropLabel {
+    position: absolute;
+    top: 3px;
+    margin-left: 6px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+}
+
+/* veil over the part of the track that hasn't played — its left edge is
+   the playhead (a thin ink rule) */
+.waveVeil,
+.waveVeilStatic {
+    position: absolute;
+    inset: 0;
+    background: var(--canvas);
+    opacity: 0.86;
+    border-left: 1px solid var(--ink);
+}
+
+.waveVeilStatic {
+    opacity: 0.6;
+}
+
+.waveCount {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4px 10px;
+    background: var(--canvas);
+    border: 1px solid var(--rule-strong);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--ink);
+}
+
+.waveTap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--muted);
+    opacity: 0.7;
+}
+
+.waveTapHit {
+    background: var(--accent);
+    opacity: 1;
+}
+
+.toggle {
+    flex: none;
+    padding: 6px 0;
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+
+    &[aria-pressed='true'] {
+        color: var(--ink);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}

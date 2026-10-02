@@ -33,6 +33,18 @@
     &[data-kind='gonogo'] {
         --teaser-body-h: 410px;
     }
+
+    &[data-kind='signal'] {
+        --teaser-body-h: 420px;
+    }
+
+    &[data-kind='glimpse'] {
+        --teaser-body-h: 390px;
+    }
+
+    &[data-kind='beat'] {
+        --teaser-body-h: 410px;
+    }
 }
 
 .head {
