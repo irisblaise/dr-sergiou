@@ -1,0 +1,131 @@
+@use 'styles/breakpoints' as bp;
+
+/* Panel — part of the same anatomical plate as the site's art, not a game
+   widget: the page's own paper (--canvas) with a hairline ink border,
+   square corners, no shadow or gradient. (The spec's "black panel /
+   off-white ink" assumed a dark site; on this parchment site the same
+   intent maps to --canvas + --ink.) */
+.panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    max-width: 100%;
+    padding: 18px 22px 22px;
+    background: var(--canvas);
+    border: 1px solid var(--rule-strong);
+    border-radius: 0;
+    color: var(--ink);
+    outline: none;
+
+    /* Fixed height per game, so the question, play and reveal states never
+       resize the panel. */
+    --teaser-body-h: 420px;
+
+    &[data-kind='bug'] {
+        --teaser-body-h: 420px;
+    }
+
+    &[data-kind='swipe'] {
+        --teaser-body-h: 400px;
+    }
+
+    &[data-kind='gonogo'] {
+        --teaser-body-h: 410px;
+    }
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
+}
+
+/* Same readout pattern as the homepage carousel (LayersOfExploration). */
+.readout {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.readoutSubject {
+    color: var(--accent-mid);
+}
+
+.close {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    margin-right: -8px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--ink);
+
+    svg path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.3;
+        stroke-linecap: round;
+    }
+
+    &:hover {
+        border-color: var(--rule-strong);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+}
+
+.title {
+    margin: 10px 0 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+}
+
+.body {
+    position: relative;
+    margin-top: 12px;
+    height: var(--teaser-body-h);
+}
+
+@media (max-width: bp.$bp-standard) {
+    .panel {
+        width: 100%;
+        border-width: 1px 0 0;
+        padding: 14px 20px 20px;
+    }
+
+    /* The sheet scrolls; the X button must never scroll out of reach. */
+    .head {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        margin: -14px -20px 0;
+        padding: 10px 20px 6px;
+        background: var(--canvas);
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    /* The sheet itself has a fixed height and scrolls instead — the neuron
+       needs the top half of the screen. */
+    .body {
+        height: auto;
+    }
+}

@@ -1,0 +1,81 @@
+/* Pink = fired. Same --accent as the homepage brain layers; no new colours. */
+
+.root {
+    pointer-events: none;
+}
+
+.glowStop {
+    stop-color: var(--accent);
+}
+
+.halo {
+    fill: none;
+    stroke: rgba(var(--accent-glow), 0.2);
+    stroke-width: 11;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.trunk {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3.4;
+    stroke-linecap: round;
+    opacity: 0.85;
+}
+
+.main {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.contour {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+}
+
+.ticks {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 0.7;
+    stroke-linecap: round;
+    opacity: 0.75;
+}
+
+.via {
+    fill: var(--accent);
+    stroke: var(--canvas);
+    stroke-width: 1.2;
+}
+
+.ringOuter {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.2;
+    opacity: 0.8;
+}
+
+.ringMid {
+    fill: none;
+    stroke: var(--accent-mid);
+    stroke-width: 2;
+}
+
+.ringCore {
+    fill: var(--accent);
+}
+
+.pulseHalo {
+    fill: rgba(var(--accent-glow), 0.28);
+}
+
+.pulseCore {
+    fill: var(--accent);
+}

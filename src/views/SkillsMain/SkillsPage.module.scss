@@ -61,6 +61,10 @@
     left: 0;
 }
 
+.stagePanning {
+    transition: transform 0.6s var(--ease);
+}
+
 .hint {
     position: absolute;
     left: 52px;
@@ -338,6 +342,47 @@
     }
 }
 
+/* Brain teaser solved — the medallion keeps a pink rim after the branch fires. */
+.medSolved {
+    border-color: var(--accent);
+}
+
+/* ---------- "All six" closing line (brain teasers) ---------- */
+.stageMapped {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    z-index: 7;
+    pointer-events: none;
+}
+
+.mapped {
+    text-align: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--ink);
+}
+
+/* Fades in after the "all six" pulses reach the arm tips. */
+.mappedIn {
+    animation: mapped-in 0.9s ease 1.6s both;
+}
+
+@keyframes mapped-in {
+    from {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mappedIn {
+        animation: none;
+    }
+}
+
 /* ---------- Captions ---------- */
 .cap {
     position: absolute;
@@ -421,6 +466,102 @@
         font-size: 13.5px;
         line-height: 1.62;
         color: var(--body);
+    }
+
+    /* Compact neuron for the brain teasers — sized to fit above the
+       half-height teaser sheet, and scrolled to just under the nav when a
+       teaser opens. */
+    .mFigure {
+        position: relative;
+        width: min(100% - 44px, 50svh - var(--nav-height) - 24px);
+        aspect-ratio: 1;
+        margin: 28px auto 0;
+        scroll-margin-top: calc(var(--nav-height) + 8px);
+    }
+
+    .mFigureImg,
+    .mFigureNet {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .mFigureImg {
+        mix-blend-mode: multiply;
+        opacity: 0.92;
+    }
+
+    .mFigureNet {
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    /* 44px tap target over each arm's terminal node. */
+    .mTip {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        transform: translate(-50%, -50%);
+        padding: 0;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        -webkit-tap-highlight-color: transparent;
+
+        &[aria-expanded='true'] {
+            border-color: var(--accent-mid);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 2px;
+        }
+    }
+
+    .mHint {
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--sage-mid);
+    }
+
+    .mMapped {
+        position: absolute;
+        left: -22px;
+        right: -22px;
+        bottom: -34px;
+        pointer-events: none;
+
+        .mapped {
+            font-size: 18px;
+        }
+    }
+
+    .mPlay {
+        align-self: flex-start;
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 4px 0;
+        background: none;
+        border: none;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--accent-mid);
+
+        &:focus-visible {
+            outline: 2px solid var(--accent-mid);
+            outline-offset: 3px;
+        }
+    }
+
+    .mPlaySolved {
+        color: var(--accent);
     }
 
     .timeline {
