@@ -28,11 +28,12 @@ const nextConfig = {
                 hostname: 'img.youtube.com',
             },
         ],
-        // WebP only: AVIF encodes ~50% slower, and that cost lands on whoever
-        // first requests each size — the "images take a while on first visit"
-        // delay. Sources are already WebP, so AVIF's size win here was small.
+        // Keep AVIF first: for the transparent homepage/skills illustrations it's
+        // ~3x smaller than WebP (homepage total: ~640KB vs ~1955KB). WebP-only
+        // was tried and made every visit slower; AVIF's slower encode is paid
+        // once per variant thanks to the long TTL below.
         // (Sanity images bypass this optimizer — see lib/sanityImageLoader.ts.)
-        formats: ['image/webp'],
+        formats: ['image/avif', 'image/webp'],
         // Local images are static imports with content-hashed URLs, so a long
         // TTL can't serve a stale file; it just stops variants going cold
         // every 4 hours (the default).
