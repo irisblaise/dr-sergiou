@@ -2,161 +2,32 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import type { Skill, SkillKey } from '../../data/types'
 import type { PageContent } from '../../sanity/lib/queries'
 import { resolvePageIntro } from '../../lib/pageIntro'
+import { useMatchMedia } from '../../lib/useMatchMedia'
+import { MOBILE_QUERY } from '../../styles/breakpoints'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
+import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
+import TeaserPopover, { TEASER_PANEL_ID } from '../../components/BrainTeasers/TeaserPopover'
+import { hasTeaserComponent } from '../../components/BrainTeasers/teasers/registry'
+import { TEASER_ORDER, networkMappedLine, teasers, type Teaser } from '../../content/teasers'
+import { ARM_LAYOUT, STAGE_H, STAGE_W, OX, OY, SC } from './neuronGeometry'
+import { REDUCED_MOTION_QUERY } from '../../lib/prefersReducedMotion'
+
+// The firing layer (and Framer Motion with it) only loads once a branch has
+// been solved — nothing teaser-related weighs on the page's first load.
+const NeuronFiring = dynamic(() => import('./NeuronFiring'), { ssr: false })
 import styles from './SkillsPage.module.scss'
 
-// Design-space stage — matches Skills · Map the Network.dc.html (design handoff).
-const STAGE_W = 1600
-const STAGE_H = 1040
-
-// Placement of the artwork's own 1000×1000 space within the stage. The traced
-// arm paths below are authored in that 1000×1000 space, so this transform is
-// what makes them land exactly on top of the artwork's own tracks.
-const OX = 525
-const OY = 165
-const SC = 0.75
-
-type ArmDef = {
-    key: SkillKey
-    captionSide: 'l' | 'r' | 'c'
-    vias: number[]
-    d: string
+// A skill gets a teaser by its stable key (Skill.key ↔ Teaser.branch), never
+// its display title — renaming a skill in Sanity can't break the mapping.
+// An arm whose teaser isn't built yet renders exactly as before.
+function teaserFor(key: SkillKey): Teaser | null {
+    const t = teasers[key]
+    return hasTeaserComponent(t) ? t : null
 }
-
-// Traced pixel-by-pixel from neuron-six-arms-transparent-highres.webp (1000×1000
-// artwork space), soma-first so the live track always grows outward from the
-// cell body. Re-trace from the artwork if it's ever replaced — see arms.json
-// in the design handoff.
-const ARMS: ArmDef[] = [
-    {
-        key: 'neuro',
-        captionSide: 'c',
-        vias: [0.3, 0.56, 0.8],
-        d: 'M343.7 333.3 L339.3 297 L318.2 281.9 L314.2 272.3 L289.1 252.8 L272.3 250.8 L264.8 242.4 L250.4 238.4 L221.7 236.8 L204.9 222.5 L194.2 203.7 L176.2 196.2 L108.5 196.6',
-    },
-    {
-        key: 'coding',
-        captionSide: 'r',
-        vias: [0.3, 0.56, 0.8],
-        d: 'M653.5 333.7 L661.9 296.7 L715.7 254 L734.1 252.4 L749.6 246 L778.3 244.4 L795.1 229.3 L807.4 205.3 L820.6 199 L875.6 196.6 L899.9 193.4',
-    },
-    {
-        key: 'vr',
-        captionSide: 'r',
-        vias: [0.3, 0.8],
-        d: 'M795.1 480.5 L801.8 476.5 L812.6 484.4 L858.1 482.1 L876 469.3 L897.5 469.3 L911.9 476.5 L959.5 476.6',
-    },
-    {
-        key: 'music',
-        captionSide: 'r',
-        vias: [0.3, 0.56, 0.8],
-        d: 'M773.5 662.7 L777.9 707.7 L796.3 731.3 L818.2 744.4 L826.6 756.4 L848.5 758.8 L870 775.1 L876.4 790.7 L877.6 823.4 L888 840.1 L895.9 863.6',
-    },
-    {
-        key: 'behavior',
-        captionSide: 'l',
-        vias: [0.3, 0.56, 0.8],
-        d: 'M240.4 670.3 L240.4 686.2 L234.4 703.3 L218.5 725.7 L171.9 756.4 L151.9 757.6 L127.6 773.9 L118 793.5 L116.8 824.6 L102.5 863.2',
-    },
-    {
-        key: 'forensic',
-        captionSide: 'l',
-        vias: [0.3, 0.56, 0.8],
-        d: 'M195.4 464.1 L186.6 460.5 L172.2 474.9 L146.3 476.5 L138.4 471.7 L124 471.3 L118.4 477.7 L44.7 474.5',
-    },
-]
-
-type Pt = [number, number]
-
-function parsePolyline(d: string): Pt[] {
-    return d
-        .split(/[ML]/)
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .map((s) => s.split(/\s+/).map(Number) as Pt)
-}
-
-function polylineLength(pts: Pt[]): number {
-    let len = 0
-    for (let i = 1; i < pts.length; i++) {
-        len += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1])
-    }
-    return len
-}
-
-// SVG geometry only needs sub-pixel precision, and rounding here makes the
-// server- and client-rendered markup byte-identical — Math.hypot's last bit
-// isn't guaranteed to match across JS engines, so an unrounded value can
-// differ between SSR and the browser and trip a hydration mismatch.
-function round(n: number): number {
-    return Math.round(n * 10000) / 10000
-}
-
-// Reproduces SVGPathElement.getPointAtLength for a plain polyline, without
-// needing a real DOM node — the traced arms are all M/L segments, so this is
-// exact, not an approximation.
-function pointAtFraction(pts: Pt[], f: number): Pt {
-    const target = polylineLength(pts) * f
-    let acc = 0
-    for (let i = 1; i < pts.length; i++) {
-        const [x0, y0] = pts[i - 1]
-        const [x1, y1] = pts[i]
-        const segLen = Math.hypot(x1 - x0, y1 - y0)
-        if (acc + segLen >= target) {
-            const t = segLen === 0 ? 0 : (target - acc) / segLen
-            return [x0 + (x1 - x0) * t, y0 + (y1 - y0) * t]
-        }
-        acc += segLen
-    }
-    return pts[pts.length - 1]
-}
-
-type ArmLayout = ArmDef & {
-    viaPoints: Pt[]
-    end: Pt
-    length: number
-    medallion: { left: number; top: number }
-    caption: { left: number; top: number; align: 'left' | 'right' }
-}
-
-// Node image slot (medallion) sits 50px along the arm's outgoing direction
-// from its terminal node; the caption anchor is 76px along the same line —
-// both in stage px, so the terminal node always sits on the medallion's rim.
-function layoutArm(arm: ArmDef): ArmLayout {
-    const pts = parsePolyline(arm.d)
-    const end = pts[pts.length - 1]
-    const prev = pts[pts.length - 2]
-    const dx = end[0] - prev[0]
-    const dy = end[1] - prev[1]
-    const dl = Math.hypot(dx, dy) || 1
-    const ux = dx / dl
-    const uy = dy / dl
-    const ex = OX + end[0] * SC
-    const ey = OY + end[1] * SC
-    const cx0 = ex + ux * 76
-    const cy0 = ey + uy * 76
-
-    const caption: ArmLayout['caption'] =
-        arm.captionSide === 'r'
-            ? { left: round(cx0 + 76), top: round(cy0 - 40), align: 'left' }
-            : arm.captionSide === 'l'
-              ? { left: round(cx0 - 76 - 200), top: round(cy0 - 40), align: 'right' }
-              : { left: round(ex + 28), top: round(ey - 92), align: 'left' }
-
-    return {
-        ...arm,
-        viaPoints: arm.vias.map((f) => pointAtFraction(pts, f).map(round) as Pt),
-        end: [round(end[0]), round(end[1])],
-        length: round(polylineLength(pts)),
-        medallion: { left: round(ex + ux * 50), top: round(ey + uy * 50) },
-        caption,
-    }
-}
-
-const ARM_LAYOUT: ArmLayout[] = ARMS.map(layoutArm)
 
 // Introduces its own behaviour on load, per the handoff.
 const DEFAULT_ACTIVE: SkillKey = 'vr'
@@ -176,6 +47,11 @@ const MEDALLION_FRAME: Record<SkillKey, { size: number; x: number; y: number }> 
 }
 
 const DESKTOP_MEDALLION_SLOT = 108
+
+// Teaser popover width + leader line + edge padding, and the most the stage
+// may pan to fit it before the popover is left to flip instead.
+const POPOVER_ROOM = 400 + 36 + 20
+const MAX_PAN = 280
 const MOBILE_NODE_SLOT = 56
 
 // The mobile timeline node is the same 56px circle for every skill, so the
@@ -218,8 +94,83 @@ export default function SkillsPage({
         return () => clearTimeout(t)
     }, [activate])
 
+    // ---------- Brain teasers ----------
+    const reduced = useMatchMedia(REDUCED_MOTION_QUERY)
+    const isMobile = useMatchMedia(MOBILE_QUERY)
+    const [openKey, setOpenKey] = useState<SkillKey | null>(null)
+    const [solved, setSolved] = useState<ReadonlySet<SkillKey>>(() => new Set())
+    const [pulses, setPulses] = useState<Partial<Record<SkillKey, number>>>({})
+    const [fireCount, setFireCount] = useState(0)
+    const returnFocusRef = useRef<HTMLElement | null>(null)
+    const mFigureRef = useRef<HTMLDivElement>(null)
+    const medRefs = useRef(new Map<SkillKey, HTMLButtonElement>())
+    // Sideways pan (screen px) that makes room for the popover on the arm's
+    // outward side when the viewport is too narrow for it — otherwise it
+    // would flip inward and cover the very branch that's about to fire.
+    const panRef = useRef(0)
+
+    // Arms that can fire: the skill exists in Sanity and its teaser is built.
+    // "All six" means all of these — so the full-network state is reachable
+    // (and reviewable) before the last teasers land in build steps 4–5.
+    const teaserKeys = ARM_LAYOUT.map((a) => a.key).filter((k) => byKey.has(k) && teaserFor(k))
+    const allSolved = teaserKeys.length > 0 && teaserKeys.every((k) => solved.has(k))
+    const openTeaser = openKey ? teaserFor(openKey) : null
+    const openArm = ARM_LAYOUT.find((a) => a.key === openKey)
+
+    // Opening another arm while the panel is open swaps the teaser in place
+    // (TeaserPanel keys the game by branch, so the unsolved one resets).
+    const openArmTeaser = (key: SkillKey, trigger: HTMLElement) => {
+        if (!teaserFor(key)) return
+        returnFocusRef.current = trigger
+        activate(key)
+        setOpenKey(key)
+        if (!isMobile) panToFit(key)
+        // Mobile: bring the neuron into the top half, above the sheet, so
+        // the firing animation is actually seen.
+        if (isMobile) {
+            mFigureRef.current?.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' })
+        }
+    }
+
+    const closeTeaser = () => {
+        setOpenKey(null)
+        setPan(0)
+        const el = returnFocusRef.current
+        requestAnimationFrame(() => el?.focus({ preventScroll: true }))
+    }
+
+    const markSolved = () => {
+        const key = openKey
+        if (!key || solved.has(key)) return
+        const next = new Set(solved).add(key)
+        setSolved(next)
+        setPulses((p) => ({ ...p, [key]: (p[key] ?? 0) + 1 }))
+        if (teaserKeys.every((k) => next.has(k))) setFireCount((n) => n + 1)
+    }
+
+    const armTriggerProps = (key: SkillKey) =>
+        teaserFor(key)
+            ? {
+                  'aria-haspopup': 'dialog' as const,
+                  'aria-expanded': openKey === key,
+                  'aria-controls': openKey === key ? TEASER_PANEL_ID : undefined,
+                  onClick: (e: React.MouseEvent<HTMLElement>) => openArmTeaser(key, e.currentTarget),
+              }
+            : {}
+
+    const firing = solved.size > 0 && (
+        <NeuronFiring solved={solved} pulses={pulses} fireCount={fireCount} allSolved={allSolved} reduced={reduced} />
+    )
+
+    const closingLine = (
+        <p className={styles.mapped} role="status">
+            {allSolved && <span className={styles.mappedIn}>{networkMappedLine}</span>}
+        </p>
+    )
+
     // Contain-fit the design-space stage within whatever area is available,
-    // centred both ways — matches the live Skills page's radial map.
+    // centred both ways — matches the live Skills page's radial map. A teaser
+    // popover can add a sideways pan on top (see panToFit).
     const fit = useCallback(() => {
         const wrap = wrapRef.current
         const stage = stageRef.current
@@ -231,8 +182,33 @@ export default function SkillsPage({
         const tx = Math.max(0, (vw - STAGE_W * s) / 2)
         const ty = Math.max(0, (vh - STAGE_H * s) / 2)
         stage.style.transformOrigin = 'top left'
-        stage.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`
+        stage.style.transform = `translate(${tx + panRef.current}px, ${ty}px) scale(${s})`
     }, [])
+
+    const setPan = (px: number) => {
+        if (px === panRef.current) return
+        const stage = stageRef.current
+        panRef.current = px
+        // Only the pan eases — resizes and the initial fit stay instant.
+        if (stage && !reduced) {
+            stage.classList.add(styles.stagePanning)
+            window.setTimeout(() => stage.classList.remove(styles.stagePanning), 700)
+        }
+        fit()
+    }
+
+    const panToFit = (key: SkillKey) => {
+        const med = medRefs.current.get(key)
+        const arm = ARM_LAYOUT.find((a) => a.key === key)
+        if (!med || !arm) return
+        const r = med.getBoundingClientRect()
+        const unpanned = panRef.current
+        const need = POPOVER_ROOM
+        let px = 0
+        if (arm.side === 'right') px = Math.min(0, window.innerWidth - (r.right - unpanned) - need)
+        else px = Math.max(0, need - (r.left - unpanned))
+        setPan(Math.max(-MAX_PAN, Math.min(MAX_PAN, px)))
+    }
 
     useEffect(() => {
         fit()
@@ -271,7 +247,9 @@ export default function SkillsPage({
                     ref={stageRef}
                     style={{ width: STAGE_W, height: STAGE_H }}
                 >
-                    <div className={styles.hint}>HOVER A BRANCH</div>
+                    {/* Hover still lights a branch on desktop; "tap" reads right for mouse and touch alike. */}
+                    <div className={styles.hint}>TAP A BRANCH</div>
+                    <div className={styles.stageMapped}>{closingLine}</div>
                     <div className={styles.aura} aria-hidden />
 
                     <div className={styles.cell} aria-hidden>
@@ -342,11 +320,19 @@ export default function SkillsPage({
                                             className={cls(styles.spark)}
                                             style={{ '--len': arm.length } as React.CSSProperties}
                                         />
-                                        <path d={arm.d} className={styles.hit} />
+                                        <path
+                                            d={arm.d}
+                                            className={styles.hit}
+                                            onClick={() => {
+                                                const med = medRefs.current.get(arm.key)
+                                                if (med) openArmTeaser(arm.key, med)
+                                            }}
+                                        />
                                         <circle cx={ex} cy={ey} r={26} className={styles.dot} />
                                     </g>
                                 )
                             })}
+                            {firing}
                         </g>
                     </svg>
 
@@ -359,11 +345,20 @@ export default function SkillsPage({
                             <button
                                 key={arm.key}
                                 type="button"
-                                className={`${styles.med} ${on ? styles.medOn : ''}`}
+                                ref={(el) => {
+                                    if (el) medRefs.current.set(arm.key, el)
+                                    else medRefs.current.delete(arm.key)
+                                }}
+                                className={`${styles.med} ${on ? styles.medOn : ''} ${
+                                    solved.has(arm.key) ? styles.medSolved : ''
+                                }`}
                                 style={{ left: arm.medallion.left, top: arm.medallion.top }}
                                 onMouseEnter={() => activate(arm.key)}
                                 onFocus={() => activate(arm.key)}
-                                aria-label={`${skill.label} — ${skill.detail}`}
+                                aria-label={`${skill.label} — ${skill.detail}${
+                                    teaserFor(arm.key) ? `. Brain teaser${solved.has(arm.key) ? ', solved' : ''}` : ''
+                                }`}
+                                {...armTriggerProps(arm.key)}
                             >
                                 <Image
                                     src={skill.image}
@@ -393,12 +388,40 @@ export default function SkillsPage({
                                 style={{ left: arm.caption.left, top: arm.caption.top, textAlign: arm.caption.align }}
                                 onMouseEnter={() => activate(arm.key)}
                                 onFocus={() => activate(arm.key)}
+                                onClick={() => {
+                                    const med = medRefs.current.get(arm.key)
+                                    if (med) openArmTeaser(arm.key, med)
+                                }}
+                                // The medallion is the arm's one keyboard stop and
+                                // carries the same label + detail.
+                                tabIndex={-1}
+                                aria-hidden
                             >
                                 <b>{skill.label}</b>
                                 <span>{skill.detail}</span>
                             </button>
                         )
                     })}
+
+                    <TeaserPopover
+                        teaser={openTeaser}
+                        index={openKey ? TEASER_ORDER.indexOf(openKey) + 1 : 0}
+                        total={TEASER_ORDER.length}
+                        label={(openKey && byKey.get(openKey)?.label) || ''}
+                        anchor={
+                            openArm && !isMobile
+                                ? {
+                                      left: openArm.medallion.left,
+                                      top: openArm.medallion.top,
+                                      size: DESKTOP_MEDALLION_SLOT,
+                                      side: openArm.side,
+                                  }
+                                : null
+                        }
+                        mobile={isMobile}
+                        onClose={closeTeaser}
+                        onSolved={markSolved}
+                    />
                 </div>
             </div>
 
@@ -416,6 +439,40 @@ export default function SkillsPage({
                         paragraphClassName={styles.mParagraph}
                     />
                 </header>
+
+                {/* Compact neuron — the teasers' sheet takes the bottom half of
+                    the screen, and this keeps the firing visible above it. */}
+                {teaserKeys.length > 0 && (
+                    <div className={styles.mFigure} ref={mFigureRef}>
+                        <Image
+                            src="/assets/skills/neuron-six-arms-transparent-highres.webp"
+                            alt=""
+                            width={1000}
+                            height={1000}
+                            sizes="(max-width: 900px) 90vw, 1px"
+                            className={styles.mFigureImg}
+                        />
+                        <svg className={styles.mFigureNet} viewBox="0 0 1000 1000" aria-hidden>
+                            {firing}
+                        </svg>
+                        {ARM_LAYOUT.map((arm) => {
+                            const skill = byKey.get(arm.key)
+                            if (!skill || !teaserFor(arm.key)) return null
+                            return (
+                                <button
+                                    key={arm.key}
+                                    type="button"
+                                    className={`${styles.mTip} ${solved.has(arm.key) ? styles.mTipSolved : ''}`}
+                                    style={{ left: `${arm.end[0] / 10}%`, top: `${arm.end[1] / 10}%` }}
+                                    aria-label={`${skill.label} brain teaser${solved.has(arm.key) ? ', solved' : ''}`}
+                                    {...armTriggerProps(arm.key)}
+                                />
+                            )
+                        })}
+                        <span className={styles.mHint}>TAP A BRANCH</span>
+                        <div className={styles.mMapped}>{closingLine}</div>
+                    </div>
+                )}
 
                 <div className={styles.timeline}>
                     <span className={styles.timelineLine} aria-hidden />
@@ -445,6 +502,14 @@ export default function SkillsPage({
                                 <span className={styles.mText}>
                                     <span className={styles.mLabel}>{skill.label}</span>
                                     <span className={styles.mDetail}>{skill.detail}</span>
+                                    {teaserFor(arm.key) && (
+                                        <ArrowLink
+                                            className={`${styles.mPlay} ${solved.has(arm.key) ? styles.mPlaySolved : ''}`}
+                                            onClick={(e) => openArmTeaser(arm.key, e.currentTarget)}
+                                        >
+                                            {solved.has(arm.key) ? 'FIRED · PLAY AGAIN' : 'BRAIN TEASER'}
+                                        </ArrowLink>
+                                    )}
                                 </span>
                             </div>
                         )
