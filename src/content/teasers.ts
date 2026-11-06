@@ -2,13 +2,10 @@
 // spec. Hardcoded on purpose (not Sanity): copy changes go through a code
 // change and deploy.
 //
-// [CARMEN] Every `prompt`, `reveal`, statement and region below is draft copy
+// [CARMEN] Every `prompt`, `reveal`, and statement below is draft copy
 // that Carmen must write or approve before launch.
 
 import type { SkillKey } from '../data/types'
-
-/** Homepage region-callout format, e.g. { code: 'VS', label: 'REWARD VALUATION' }. */
-export type Region = { code: string; label: string }
 
 type TeaserBase = {
     /** Stable key that maps the teaser to its Sanity skill (`Skill.key`) — never the display title. */
@@ -17,7 +14,6 @@ type TeaserBase = {
     prompt: string
     /** Carmen's copy, first person. */
     reveal: string
-    region: Region
 }
 
 export type Teaser =
@@ -54,8 +50,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         targetBand: [8, 12],
         // [CARMEN] placeholder — what alpha is and why filtering matters in her EEG work
         reveal: 'That clean rhythm is alpha, 8–12 Hz: the brain idling with its eyes closed. Most of my EEG work starts exactly here, filtering away the noise until the signal shows.',
-        // [CARMEN] alpha is strongest over the occipital cortex
-        region: { code: 'OCC', label: 'VISUAL CORTEX' },
     },
     vr: {
         branch: 'vr',
@@ -68,8 +62,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         glimpseMs: 3000,
         // [CARMEN] must add one or two real cues the Virtual Burglary study examined — do not invent findings
         reveal: 'You just did what participants in the Virtual Burglary study did. [CARMEN: one or two real cues the study examined.]',
-        // [CARMEN] region not given in the spec
-        region: { code: 'DLPFC', label: 'STRATEGIC DECISION-MAKING' },
     },
     music: {
         branch: 'music',
@@ -82,7 +74,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         dropAtMs: 6000,
         // [CARMEN] draft from the spec (+ optionally the Ventromedial story)
         reveal: 'That itch right before the drop? Your reward circuit anticipating.',
-        region: { code: 'VS', label: 'REWARD VALUATION' },
     },
     coding: {
         branch: 'coding',
@@ -102,8 +93,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         bugNote: 'CHANNELS ARE NUMBERS, NOT NAMES',
         // [CARMEN] draft — check the wording and that it matches how she works in EEGLAB
         reveal: 'EEGLAB keeps channels as numbered rows, so first you look up which number Oz has in EEG.chanlocs. I’ve typed this exact line more times than I’d like to admit.',
-        // [CARMEN] region not given in the spec — error detection is the classic ACC example
-        region: { code: 'ACC', label: 'CONFLICT MONITORING' },
     },
     behavior: {
         branch: 'behavior',
@@ -113,7 +102,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         durationMs: 20000,
         // [CARMEN] placeholder — link to self-regulation in youth at risk
         reveal: 'Stopping yourself is harder than starting. That brake is what I study in young people at risk: how self-regulation develops, and what happens when it lags behind.',
-        region: { code: 'PFC', label: 'EVALUATION & CONTROL' },
     },
     forensic: {
         branch: 'forensic',
@@ -143,8 +131,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         ],
         // [CARMEN] placeholder
         reveal: 'Most of my forensic work is exactly this: separating what the brain can tell a court from what people hope it can.',
-        // [CARMEN] region not given in the spec
-        region: { code: 'DLPFC', label: 'STRATEGIC DECISION-MAKING' },
     },
 }
 

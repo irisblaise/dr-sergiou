@@ -102,7 +102,6 @@ export default function GoNoGoTeaser({ teaser, onSolved }: TeaserProps<'gonogo'>
                         />
                     }
                     text={teaser.reveal}
-                    region={teaser.region}
                     onPlayAgain={start}
                 />
             ) : (

@@ -92,7 +92,6 @@ export default function SwipeTeaser({ teaser, onSolved }: TeaserProps<'swipe'>) 
                             />
                         }
                         text={teaser.reveal}
-                        region={teaser.region}
                     />
                 </div>
             </div>

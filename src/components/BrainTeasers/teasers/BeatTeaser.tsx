@@ -273,7 +273,6 @@ export default function BeatTeaser({ teaser, onSolved, onPulse }: TeaserProps<'b
                         />
                     }
                     text={teaser.reveal}
-                    region={teaser.region}
                     onPlayAgain={start}
                 />
             ) : (

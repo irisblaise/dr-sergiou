@@ -2,23 +2,19 @@
 
 import type { ReactNode } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import type { Region } from '../../../content/teasers'
 import ArrowLink from '../../ui/ArrowLink/ArrowLink'
-import Callout from './Callout'
 import styles from './Teasers.module.scss'
 
 type Props = {
     /** The game's own result line (score, the right answer…). */
     result?: ReactNode
     text: string
-    region: Region
     onPlayAgain?: () => void
 }
 
-// Every reveal: Carmen's first-person line, then the brain region that did
-// the work, in the homepage label format (`VS — REWARD VALUATION`). Stays on
+// Every reveal: the game's result, then Carmen's first-person line. Stays on
 // screen until the visitor presses X.
-export default function Reveal({ result, text, region, onPlayAgain }: Props) {
+export default function Reveal({ result, text, onPlayAgain }: Props) {
     const reduced = useReducedMotion()
     return (
         <motion.div
@@ -30,7 +26,6 @@ export default function Reveal({ result, text, region, onPlayAgain }: Props) {
         >
             {result && <div className={styles.result}>{result}</div>}
             <p className={styles.revealText}>{text}</p>
-            <Callout label={region.code} sub={region.label} tone="fired" className={styles.revealRegion} />
             {onPlayAgain && (
                 <ArrowLink className={styles.action} onClick={onPlayAgain}>
                     PLAY AGAIN

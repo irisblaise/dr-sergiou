@@ -75,7 +75,7 @@
     color: var(--muted);
 }
 
-/* ---------- Region / answer callouts (homepage marker language) ---------- */
+/* ---------- Answer / result callouts (homepage marker language) ---------- */
 .callout {
     display: flex;
     align-items: flex-start;
@@ -151,10 +151,6 @@
     line-height: 1.55;
     color: var(--ink);
     text-wrap: pretty;
-}
-
-.revealRegion {
-    margin-top: 2px;
 }
 
 .reveal .action {

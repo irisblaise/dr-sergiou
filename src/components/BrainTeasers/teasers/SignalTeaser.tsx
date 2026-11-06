@@ -192,7 +192,6 @@ export default function SignalTeaser({ teaser, onSolved }: TeaserProps<'signal'>
                 <Reveal
                     result={<Callout label="ALPHA" sub={`${lo}–${hi} HZ · FOUND AT ${hz.toFixed(1)} HZ`} tone="fired" />}
                     text={teaser.reveal}
-                    region={teaser.region}
                 />
             ) : (
                 <div className={styles.dialRow}>

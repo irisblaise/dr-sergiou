@@ -70,7 +70,6 @@ export default function BugTeaser({ teaser, onSolved }: TeaserProps<'bug'>) {
                         <Callout label={`LINE ${teaser.bugLine}`} sub={teaser.bugNote} tone="fired" />
                     }
                     text={teaser.reveal}
-                    region={teaser.region}
                 />
             ) : (
                 <div className={styles.actions}>

@@ -115,7 +115,6 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
                 <Reveal
                     result={<Callout label={`HOUSE ${pick + 1}`} sub={teaser.options[pick]} tone="fired" />}
                     text={teaser.reveal}
-                    region={teaser.region}
                     onPlayAgain={() => {
                         setPick(null)
                         setPhase('intro')

@@ -13,7 +13,7 @@ type Props = {
 
 // The homepage region-callout language (LayersOfExploration's markers):
 // small dot, thin leader line, uppercase mono label plus a subline. Used for
-// targets, answers and results, and to close every reveal with its region.
+// targets, answers and results.
 export default function Callout({ label, sub, tone = 'ink', className }: Props) {
     const reduced = useReducedMotion()
     return (
