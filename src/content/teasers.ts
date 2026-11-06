@@ -117,8 +117,8 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         // then, the sound (on by default) is a short build-up synthesised in the
         // browser (Web Audio), so no third-party audio ships.
         dropAtMs: 6000,
-        // [CARMEN] draft from the spec (+ optionally the Ventromedial story)
-        reveal: 'That itch right before the drop? Your reward circuit anticipating.',
+        // [CARMEN] draft — check the vmPFC wording
+        reveal: 'That itch right before the drop? Your reward circuit anticipating. It’s also where my DJ name comes from: VentroMedial, after the ventromedial prefrontal cortex, the part of the brain that weighs how good what’s coming will feel. Building that tension is my job behind the decks.',
     },
     coding: {
         branch: 'coding',
