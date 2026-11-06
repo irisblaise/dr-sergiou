@@ -81,7 +81,7 @@ These are code-drawn first passes. Each one still needs the side-by-side review 
 |---|---|---|
 | Arm overlays + soma glow | `views/SkillsMain/NeuronFiring.tsx` | Close. They retrace the real tracks. The trunk from each track into the soma is a straight segment, not a traced dendrite. |
 | Specimen jar | `art/SpecimenJarArt.tsx` | Reads correctly at header size, but is much simpler than the engraving. |
-| Evidence tag + axial slice | `art/EvidenceTagArt.tsx`, `art/AxialSliceArt.tsx` | Fits the plate. Uses a card frame, not anatomy. |
+| Evidence tag | `art/EvidenceTagArt.tsx` | Fits the plate. Uses a card frame, not anatomy. (The axial-slice drawing on the brain-scan card was removed; the statement reads better on its own.) |
 | Hovering hand | `art/HoverHandArt.tsx` | **Flag.** Weakest piece. Hands are hard to draw convincingly as code; likely candidate for an illustrator. |
 | EEG cap head | `art/EegHeadArt.tsx` | Reads clearly at header size; simpler than the homepage head. |
 | Filter dial + EEG trace | `teasers/SignalTeaser.tsx` | The dial fits the plate. The clean wave's outline is meant to read as a brain in profile; at this size it reads more as a spindle. Review. |

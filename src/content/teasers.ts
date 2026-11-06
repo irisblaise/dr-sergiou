@@ -34,8 +34,6 @@ export type Teaser =
               text: string
               isFact: boolean
               explanation: string
-              /** Optional drawing on the card, e.g. the "brain scan" statement's axial slice. */
-              illustration?: 'axial-slice'
           }[]
       })
 
@@ -121,7 +119,6 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
                 // [CARMEN]
                 text: 'A brain scan can tell whether someone is lying.',
                 isFact: false,
-                illustration: 'axial-slice',
                 explanation: 'Myth. No scan reliably detects lies in an individual — courts don’t accept it as evidence.',
             },
             {

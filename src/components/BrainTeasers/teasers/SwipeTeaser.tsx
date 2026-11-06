@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion, type PanInfo } from 'framer-motion'
 import ArrowLink from '../../ui/ArrowLink/ArrowLink'
-import AxialSliceArt from '../art/AxialSliceArt'
 import EvidenceTagArt from '../art/EvidenceTagArt'
 import Callout from './Callout'
 import Reveal from './Reveal'
@@ -140,15 +139,8 @@ export default function SwipeTeaser({ teaser, onSolved }: TeaserProps<'swipe'>) 
                                 <span className={styles.cardLabel}>
                                     EXHIBIT {pad2(index + 1)} / {pad2(total)}
                                 </span>
-                                <p className={`${styles.cardText} ${card.illustration ? styles.cardTextBeside : ''}`}>
-                                    {card.text}
-                                </p>
+                                <p className={styles.cardText}>{card.text}</p>
                             </div>
-                            {card.illustration === 'axial-slice' && (
-                                <div className={styles.cardIllustration}>
-                                    <AxialSliceArt />
-                                </div>
-                            )}
                         </div>
                         <div className={`${styles.cardFace} ${styles.cardBack}`} aria-hidden={!flipped}>
                             <EvidenceTagArt />
