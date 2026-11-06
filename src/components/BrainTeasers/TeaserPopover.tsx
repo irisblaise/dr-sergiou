@@ -8,6 +8,9 @@ import styles from './TeaserPopover.module.scss'
 
 export const TEASER_PANEL_ID = 'brain-teaser-panel'
 
+/** Put on every element that opens a teaser (the arms, their captions). */
+export const TEASER_TRIGGER_ATTR = 'data-teaser-trigger'
+
 // Leader line from the arm's medallion to the popover edge, in screen px.
 const LEADER = 36
 
@@ -27,11 +30,17 @@ type Props = {
     onPulse?: () => void
 }
 
-// The popover never dismisses itself: no outside click, focus-out, scroll-away
-// or swipe. Only the X button — and Esc, as its keyboard equivalent — close it.
-// Clicking another arm while it's open swaps the teaser instead (the parent
-// owns which arm is open).
+// Closes on the X button, Esc, or a click/tap outside it. Clicking another
+// arm while it's open swaps the teaser instead of closing (the parent owns
+// which arm is open), so those clicks don't count as outside. Focus moving
+// out (e.g. Tab) or scrolling never closes it. Radix waits for a touch to
+// become a tap before calling it outside, so scrolling the page on mobile
+// doesn't close the sheet either.
 const stay = (e: Event) => e.preventDefault()
+const stayForTrigger = (e: CustomEvent<{ originalEvent: PointerEvent }>) => {
+    const target = e.detail.originalEvent.target
+    if (target instanceof Element && target.closest(`[${TEASER_TRIGGER_ATTR}]`)) e.preventDefault()
+}
 
 export default function TeaserPopover({
     teaser,
@@ -68,8 +77,7 @@ export default function TeaserPopover({
                         id={TEASER_PANEL_ID}
                         className={styles.sheet}
                         aria-describedby={undefined}
-                        onInteractOutside={stay}
-                        onPointerDownOutside={stay}
+                        onPointerDownOutside={stayForTrigger}
                         onFocusOutside={stay}
                         onOpenAutoFocus={stay}
                         onCloseAutoFocus={stay}
@@ -99,8 +107,7 @@ export default function TeaserPopover({
                     collisionPadding={COLLISION_PADDING}
                     // Track the anchor every frame — the stage pans (a transform) to make room.
                     updatePositionStrategy="always"
-                    onInteractOutside={stay}
-                    onPointerDownOutside={stay}
+                    onPointerDownOutside={stayForTrigger}
                     onFocusOutside={stay}
                     onOpenAutoFocus={stay}
                     onCloseAutoFocus={stay}

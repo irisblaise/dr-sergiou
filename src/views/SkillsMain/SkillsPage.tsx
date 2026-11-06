@@ -12,7 +12,7 @@ import { useMatchMedia } from '../../lib/useMatchMedia'
 import { MOBILE_QUERY } from '../../styles/breakpoints'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
-import TeaserPopover, { TEASER_PANEL_ID } from '../../components/BrainTeasers/TeaserPopover'
+import TeaserPopover, { TEASER_PANEL_ID, TEASER_TRIGGER_ATTR } from '../../components/BrainTeasers/TeaserPopover'
 import { hasTeaserComponent } from '../../components/BrainTeasers/teasers/registry'
 import { TEASER_ORDER, networkMappedLine, teasers, type Teaser } from '../../content/teasers'
 import { ARM_LAYOUT, STAGE_H, STAGE_W, OX, OY, SC, SOMA } from './neuronGeometry'
@@ -158,6 +158,9 @@ export default function SkillsPage({
         teaserFor(key)
             ? {
                   'aria-haspopup': 'dialog' as const,
+                  // Marks the arm as a teaser trigger, so a click on it while
+                  // a teaser is open swaps teasers instead of dismissing.
+                  [TEASER_TRIGGER_ATTR]: '',
                   'aria-expanded': openKey === key,
                   'aria-controls': openKey === key ? TEASER_PANEL_ID : undefined,
                   onClick: (e: React.MouseEvent<HTMLElement>) => openArmTeaser(key, e.currentTarget),
@@ -411,6 +414,7 @@ export default function SkillsPage({
                                     const med = medRefs.current.get(arm.key)
                                     if (med) openArmTeaser(arm.key, med)
                                 }}
+                                {...(teaserFor(arm.key) ? { [TEASER_TRIGGER_ATTR]: '' } : {})}
                                 // The medallion is the arm's one keyboard stop and
                                 // carries the same label + detail.
                                 tabIndex={-1}
