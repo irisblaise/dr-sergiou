@@ -573,8 +573,18 @@
     stroke: var(--accent-mid);
 }
 
-.dialRow {
+.signalControls {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .actions {
+        margin-top: 0;
+    }
+}
+
+.dialRow {
     display: flex;
     align-items: center;
     gap: 20px;

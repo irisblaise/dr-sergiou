@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import EegHeadArt from '../art/EegHeadArt'
+import ArrowLink from '../../ui/ArrowLink/ArrowLink'
 import Callout from './Callout'
 import Reveal from './Reveal'
 import type { TeaserProps } from './registry'
@@ -10,14 +11,13 @@ import styles from './Teasers.module.scss'
 
 // 01 NEURO — "Find the signal". A noisy EEG trace and a rotary filter dial.
 // As the dial nears the alpha band the noise falls away; inside it, the clean
-// alpha wave's envelope traces a small drawing — the brain, in profile. Hold
-// the dial in the band for ~1 s to solve. Reduced motion: no hold timer, the
-// band solves on arrival.
+// alpha wave's envelope traces a small drawing — the brain, in profile.
+// LOCK IN commits the dial: inside the band is the answer, below or above it
+// gets its own explanation and a TRY AGAIN back to the dial.
 
 const MIN_HZ = 1
 const MAX_HZ = 40
 const START_HZ = 30
-const HOLD_MS = 1000
 const SWEEP = 135 // dial travel either side of 12 o'clock, degrees
 
 // ---------- the trace ----------
@@ -92,6 +92,10 @@ const UPPER_D = contourPath(UPPER)
 const LOWER_D = contourPath(LOWER)
 
 // ---------- the dial ----------
+// The classic EEG bands, for naming a wrong answer.
+const bandName = (hz: number) =>
+    hz < 4 ? 'DELTA' : hz < 8 ? 'THETA' : hz <= 13 ? 'ALPHA' : hz < 30 ? 'BETA' : 'GAMMA'
+
 const hzToDeg = (hz: number) => -SWEEP + ((hz - MIN_HZ) / (MAX_HZ - MIN_HZ)) * SWEEP * 2
 const clampHz = (hz: number) => Math.round(Math.min(MAX_HZ, Math.max(MIN_HZ, hz)) * 2) / 2
 
@@ -112,7 +116,8 @@ const KNURLS = Array.from({ length: 28 }, (_, i) => {
 export default function SignalTeaser({ teaser, onSolved }: TeaserProps<'signal'>) {
     const reduced = useReducedMotion()
     const [hz, setHz] = useState(START_HZ)
-    const [solved, setSolved] = useState(false)
+    const [result, setResult] = useState<'found' | 'low' | 'high' | null>(null)
+    const solved = result === 'found'
     const dialRef = useRef<SVGSVGElement>(null)
     const [lo, hi] = teaser.targetBand
     const inBand = hz >= lo && hz <= hi
@@ -125,27 +130,16 @@ export default function SignalTeaser({ teaser, onSolved }: TeaserProps<'signal'>
         onSolvedRef.current = onSolved
     })
 
-    const solve = () => {
-        setSolved(true)
-        onSolvedRef.current()
-    }
-
-    // Reduced motion: no hold timer — arriving in the band solves it.
-    const tune = (next: number) => {
-        const v = clampHz(next)
-        setHz(v)
-        if (reduced && !solved && v >= lo && v <= hi) solve()
-    }
-
-    // Otherwise: hold the dial in the band for ~1 s.
-    useEffect(() => {
-        if (solved || !inBand || reduced) return
-        const t = setTimeout(() => {
-            setSolved(true)
+    const lockIn = () => {
+        if (inBand) {
+            setResult('found')
             onSolvedRef.current()
-        }, HOLD_MS)
-        return () => clearTimeout(t)
-    }, [inBand, solved, reduced])
+        } else {
+            setResult(hz < lo ? 'low' : 'high')
+        }
+    }
+
+    const tune = (next: number) => setHz(clampHz(next))
 
     const setFromPointer = (e: PointerEvent<SVGSVGElement>) => {
         const r = dialRef.current?.getBoundingClientRect()
@@ -193,57 +187,72 @@ export default function SignalTeaser({ teaser, onSolved }: TeaserProps<'signal'>
                     result={<Callout label="ALPHA" sub={`${lo}–${hi} HZ · FOUND AT ${hz.toFixed(1)} HZ`} tone="fired" />}
                     text={teaser.reveal}
                 />
+            ) : result ? (
+                <Reveal
+                    result={<Callout label="NOT ALPHA" sub={`${hz.toFixed(1)} HZ · ${bandName(hz)}`} tone="dim" />}
+                    text={result === 'low' ? teaser.missLow : teaser.missHigh}
+                    onPlayAgain={() => setResult(null)}
+                    againLabel="TRY AGAIN"
+                />
             ) : (
-                <div className={styles.dialRow}>
-                    <svg
-                        ref={dialRef}
-                        className={styles.dial}
-                        viewBox="-50 -50 100 100"
-                        role="slider"
-                        tabIndex={0}
-                        aria-label="Filter frequency"
-                        aria-valuemin={MIN_HZ}
-                        aria-valuemax={MAX_HZ}
-                        aria-valuenow={hz}
-                        aria-valuetext={`${hz.toFixed(1)} hertz`}
-                        onKeyDown={onKey}
-                        onPointerDown={(e) => {
-                            e.currentTarget.setPointerCapture(e.pointerId)
-                            setFromPointer(e)
-                        }}
-                        onPointerMove={(e) => {
-                            if (e.currentTarget.hasPointerCapture(e.pointerId)) setFromPointer(e)
-                        }}
-                    >
-                        <circle className={styles.dialRing} r={44.5} />
-                        {DIAL_TICKS.map((t) => (
-                            <path key={t.hz} className={t.major ? styles.dialTickMajor : styles.dialTick} d={t.d} />
-                        ))}
-                        {/* the band lights pink only once you're in it */}
-                        {inBand && (
-                            <motion.path
-                                className={styles.dialHold}
-                                d={(() => {
-                                    const a0 = (hzToDeg(lo) * Math.PI) / 180
-                                    const a1 = (hzToDeg(hi) * Math.PI) / 180
-                                    return `M${(Math.sin(a0) * 46.5).toFixed(2)} ${(-Math.cos(a0) * 46.5).toFixed(2)} A46.5 46.5 0 0 1 ${(Math.sin(a1) * 46.5).toFixed(2)} ${(-Math.cos(a1) * 46.5).toFixed(2)}`
-                                })()}
-                                initial={{ pathLength: reduced ? 1 : 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={reduced ? { duration: 0 } : { duration: HOLD_MS / 1000, ease: 'linear' }}
-                            />
-                        )}
-                        <circle className={styles.dialKnob} r={27} />
-                        <path className={styles.dialKnurl} d={KNURLS} />
-                        <circle className={styles.dialCap} r={19} />
-                        <g style={{ transform: `rotate(${hzToDeg(hz)}deg)` }}>
-                            <path className={styles.dialPointer} d="M0 -5 L0 -17.5" />
-                        </g>
-                    </svg>
-                    <div className={styles.dialReadout}>
-                        <span className={inBand ? styles.dialHzOn : styles.dialHz}>{hz.toFixed(1)} HZ</span>
-                        <span className={styles.dialHint}>DRAG OR USE ← / →</span>
-                        <span className={styles.dialScale}>1 · 10 · 20 · 30 · 40</span>
+                <div className={styles.signalControls}>
+                    <div className={styles.dialRow}>
+                        <svg
+                            ref={dialRef}
+                            className={styles.dial}
+                            viewBox="-50 -50 100 100"
+                            role="slider"
+                            tabIndex={0}
+                            aria-label="Filter frequency"
+                            aria-valuemin={MIN_HZ}
+                            aria-valuemax={MAX_HZ}
+                            aria-valuenow={hz}
+                            aria-valuetext={`${hz.toFixed(1)} hertz`}
+                            onKeyDown={onKey}
+                            onPointerDown={(e) => {
+                                e.currentTarget.setPointerCapture(e.pointerId)
+                                setFromPointer(e)
+                            }}
+                            onPointerMove={(e) => {
+                                if (e.currentTarget.hasPointerCapture(e.pointerId)) setFromPointer(e)
+                            }}
+                        >
+                            <circle className={styles.dialRing} r={44.5} />
+                            {DIAL_TICKS.map((t) => (
+                                <path key={t.hz} className={t.major ? styles.dialTickMajor : styles.dialTick} d={t.d} />
+                            ))}
+                            {/* the band lights pink only once you're in it */}
+                            {inBand && (
+                                <motion.path
+                                    className={styles.dialHold}
+                                    d={(() => {
+                                        const a0 = (hzToDeg(lo) * Math.PI) / 180
+                                        const a1 = (hzToDeg(hi) * Math.PI) / 180
+                                        return `M${(Math.sin(a0) * 46.5).toFixed(2)} ${(-Math.cos(a0) * 46.5).toFixed(2)} A46.5 46.5 0 0 1 ${(Math.sin(a1) * 46.5).toFixed(2)} ${(-Math.cos(a1) * 46.5).toFixed(2)}`
+                                    })()}
+                                    initial={{ pathLength: reduced ? 1 : 0 }}
+                                    animate={{ pathLength: 1 }}
+                                    transition={reduced ? { duration: 0 } : { duration: 0.4, ease: 'easeOut' }}
+                                />
+                            )}
+                            <circle className={styles.dialKnob} r={27} />
+                            <path className={styles.dialKnurl} d={KNURLS} />
+                            <circle className={styles.dialCap} r={19} />
+                            <g style={{ transform: `rotate(${hzToDeg(hz)}deg)` }}>
+                                <path className={styles.dialPointer} d="M0 -5 L0 -17.5" />
+                            </g>
+                        </svg>
+                        <div className={styles.dialReadout}>
+                            <span className={inBand ? styles.dialHzOn : styles.dialHz}>{hz.toFixed(1)} HZ</span>
+                            <span className={styles.dialHint}>DRAG OR USE ← / →</span>
+                            <span className={styles.dialScale}>1 · 10 · 20 · 30 · 40</span>
+                        </div>
+                    </div>
+                    <div className={styles.actions}>
+                        <p className={styles.feedback}>Found it? Lock it in.</p>
+                        <ArrowLink className={styles.action} onClick={lockIn}>
+                            LOCK IN
+                        </ArrowLink>
                     </div>
                 </div>
             )}

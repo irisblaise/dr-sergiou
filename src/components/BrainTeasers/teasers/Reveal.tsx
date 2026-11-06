@@ -10,11 +10,13 @@ type Props = {
     result?: ReactNode
     text: string
     onPlayAgain?: () => void
+    /** Label for the onPlayAgain action; defaults to PLAY AGAIN. */
+    againLabel?: string
 }
 
 // Every reveal: the game's result, then Carmen's first-person line. Stays on
 // screen until the visitor presses X.
-export default function Reveal({ result, text, onPlayAgain }: Props) {
+export default function Reveal({ result, text, onPlayAgain, againLabel = 'PLAY AGAIN' }: Props) {
     const reduced = useReducedMotion()
     return (
         <motion.div
@@ -28,7 +30,7 @@ export default function Reveal({ result, text, onPlayAgain }: Props) {
             <p className={styles.revealText}>{text}</p>
             {onPlayAgain && (
                 <ArrowLink className={styles.action} onClick={onPlayAgain}>
-                    PLAY AGAIN
+                    {againLabel}
                 </ArrowLink>
             )}
         </motion.div>

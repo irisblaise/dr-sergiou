@@ -17,7 +17,13 @@ type TeaserBase = {
 }
 
 export type Teaser =
-    | (TeaserBase & { kind: 'signal'; targetBand: [number, number] })
+    | (TeaserBase & {
+          kind: 'signal'
+          targetBand: [number, number]
+          /** Locked in below / above the band: the wrong answer's explanation. */
+          missLow: string
+          missHigh: string
+      })
     | (TeaserBase & { kind: 'bug'; codeLines: string[]; bugLine: number; bugNote: string }) // bugLine is 1-based; bugNote is the answer callout's subline
     | (TeaserBase & { kind: 'glimpse'; options: string[]; glimpseMs: number })
     | (TeaserBase & { kind: 'beat'; audioSrc?: string; dropAtMs: number })
@@ -45,11 +51,13 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         branch: 'neuro',
         kind: 'signal',
         title: 'Find the signal',
-        prompt: 'My EEG is drowning in noise. Turn the filter until the signal shows.',
+        prompt: 'Eyes closed. Brain still buzzing. Tune in to find my resting rhythm.',
         // Hz — the alpha band
-        targetBand: [8, 12],
-        // [CARMEN] placeholder — what alpha is and why filtering matters in her EEG work
-        reveal: 'That clean rhythm is alpha, 8–12 Hz: the brain idling with its eyes closed. Most of my EEG work starts exactly here, filtering away the noise until the signal shows.',
+        targetBand: [8, 13],
+        reveal: 'You found my alpha rhythm! These brainwaves pulse around 8–13 times per second and are often strongest at the back of the head when we’re awake, relaxed, and resting with our eyes closed. Open your eyes, and alpha activity usually decreases as the brain processes visual information. Resting doesn’t mean switching off.',
+        // [CARMEN] draft — the wrong answers
+        missLow: 'Too slow. Below 8 Hz you’re in theta and delta: the rhythms that take over as we drift off to sleep. My resting rhythm is a little faster than that.',
+        missHigh: 'Too fast. Above 13 Hz you’re in beta and gamma: the quick rhythms of a brain that’s alert and busy. My resting rhythm is calmer than that.',
     },
     vr: {
         branch: 'vr',
@@ -129,8 +137,7 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
                 explanation: 'Fact. The prefrontal cortex is among the last regions to mature.',
             },
         ],
-        // [CARMEN] placeholder
-        reveal: 'Most of my forensic work is exactly this: separating what the brain can tell a court from what people hope it can.',
+        reveal: 'Brains are complex. People even more so. My work explores how brain, behaviour, and environment interact, and challenges the myths that stand in the way of understanding people in forensic care.',
     },
 }
 
