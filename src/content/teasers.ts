@@ -158,7 +158,7 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
                 // [CARMEN]
                 text: 'A brain scan can tell whether someone is lying.',
                 isFact: false,
-                explanation: 'Myth. No scan reliably detects lies in an individual — courts don’t accept it as evidence.',
+                explanation: 'Myth. No scan reliably detects lies in an individual - courts don’t accept it as evidence.',
             },
             {
                 // [CARMEN]
