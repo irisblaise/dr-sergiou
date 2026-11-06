@@ -11,7 +11,8 @@ import styles from './Teasers.module.scss'
 
 // 04 MUSIC — "Wait for the drop". A build-up runs toward the drop; tap
 // exactly when it hits. The neuron pulses on every beat (onPulse). Sound is
-// opt-in: without it you follow the ink waveform building toward the drop
+// on by default (it only starts on the visitor's own click, so autoplay rules
+// allow it); with it off you follow the ink waveform building toward the drop
 // marker. Reduced motion: no sweeping playhead — a beat countdown instead.
 
 const BPM = 120
@@ -43,7 +44,7 @@ const WAVE = (() => {
     return pts.join(' ')
 })()
 
-// ---------- opt-in sound: a short build-up synthesised with Web Audio ----------
+// ---------- sound: a short build-up synthesised with Web Audio ----------
 // Placeholder until a licensed (or Carmen's own) loop exists — pass it as
 // `audioSrc` and that file plays instead. Nothing third-party ships.
 function playSynthBuild(ctx: AudioContext, dropAtMs: number, totalMs: number) {
@@ -126,7 +127,7 @@ export default function BeatTeaser({ teaser, onSolved, onPulse }: TeaserProps<'b
     const totalMs = teaser.dropAtMs / DROP_AT
     const totalBeats = Math.round(teaser.dropAtMs / BEAT_MS)
     const [phase, setPhase] = useState<Phase>('intro')
-    const [sound, setSound] = useState(false)
+    const [sound, setSound] = useState(true)
     const [beat, setBeat] = useState(0)
     const [offset, setOffset] = useState<number | null>(null)
     const [run, setRun] = useState(0)
