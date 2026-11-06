@@ -24,11 +24,16 @@ export type ArmDef = {
     captionSide: 'l' | 'r' | 'c'
     vias: number[]
     d: string
+    /** The dendrite from the cell body's rim out to the start of `d`, traced
+     *  along the artwork's own dendrite (not a straight chord through the
+     *  cell) — the solved branch's line runs rim → trunk → track. */
+    trunk: string
 }
 
 // Traced pixel-by-pixel from neuron-six-arms-transparent-highres.webp (1000×1000
 // artwork space), soma-first so the live track always grows outward from the
-// cell body. Re-trace from the artwork if it's ever replaced — see arms.json
+// cell body. Each trunk was traced through the middle of its dendrite (the
+// tube between the drawing's two contour lines), ending on the soma's rim. Re-trace from the artwork if it's ever replaced — see arms.json
 // in the design handoff.
 export const ARMS: ArmDef[] = [
     {
@@ -36,36 +41,42 @@ export const ARMS: ArmDef[] = [
         captionSide: 'c',
         vias: [0.3, 0.56, 0.8],
         d: 'M343.7 333.3 L339.3 297 L318.2 281.9 L314.2 272.3 L289.1 252.8 L272.3 250.8 L264.8 242.4 L250.4 238.4 L221.7 236.8 L204.9 222.5 L194.2 203.7 L176.2 196.2 L108.5 196.6',
+        trunk: 'M394.1 369.1 L355 336.6 L343.7 333.3',
     },
     {
         key: 'coding',
         captionSide: 'r',
         vias: [0.3, 0.56, 0.8],
         d: 'M653.5 333.7 L661.9 296.7 L715.7 254 L734.1 252.4 L749.6 246 L778.3 244.4 L795.1 229.3 L807.4 205.3 L820.6 199 L875.6 196.6 L899.9 193.4',
+        trunk: 'M582.9 391.1 L628 351 L643 334.1 L648 332 L653.5 333.7',
     },
     {
         key: 'vr',
         captionSide: 'r',
         vias: [0.3, 0.8],
         d: 'M795.1 480.5 L801.8 476.5 L812.6 484.4 L858.1 482.1 L876 469.3 L897.5 469.3 L911.9 476.5 L959.5 476.6',
+        trunk: 'M598.9 454 L695 445 L715 452.1 L741 472.3 L776 473 L795.1 480.5',
     },
     {
         key: 'music',
         captionSide: 'r',
         vias: [0.3, 0.56, 0.8],
         d: 'M773.5 662.7 L777.9 707.7 L796.3 731.3 L818.2 744.4 L826.6 756.4 L848.5 758.8 L870 775.1 L876.4 790.7 L877.6 823.4 L888 840.1 L895.9 863.6',
+        trunk: 'M584.9 509.4 L620 531.3 L645 550.1 L704 586.4 L712.7 595 L751 651 L767 661.7 L773.5 662.7',
     },
     {
         key: 'behavior',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
         d: 'M240.4 670.3 L240.4 686.2 L234.4 703.3 L218.5 725.7 L171.9 756.4 L151.9 757.6 L127.6 773.9 L118 793.5 L116.8 824.6 L102.5 863.2',
+        trunk: 'M414.1 551.9 L353 602.3 L336 609.6 L295 618 L277 628.1 L262.1 642 L248 666 L240.4 670.3',
     },
     {
         key: 'forensic',
         captionSide: 'l',
         vias: [0.3, 0.56, 0.8],
         d: 'M195.4 464.1 L186.6 460.5 L172.2 474.9 L146.3 476.5 L138.4 471.7 L124 471.3 L118.4 477.7 L44.7 474.5',
+        trunk: 'M361.1 463.6 L325 466 L305 471 L290 478 L272 485 L255 489 L238 490 L222 486 L212 478 L203 470 L195.4 464.1',
     },
 ]
 

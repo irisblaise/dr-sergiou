@@ -26,7 +26,6 @@ import styles from './NeuronFiring.module.scss'
 // is a main stroke plus an offset hairline contour and short hatch ticks —
 // the hand-drawn feel lives in the paths, no runtime filters.
 
-const SOMA_RIM = 118 // stop the trunk at the edge of the cell body, not its nucleus
 const TICK_EVERY = 15
 const TICK_HALF = 2.6
 const CONTOUR_OFFSET = 3.4
@@ -78,20 +77,18 @@ function hatchTicks(pts: Pt[]): string {
     return out.join(' ')
 }
 
-function buildArm(key: SkillKey, d: string, vias: number[]): ArmArt {
+function buildArm(key: SkillKey, d: string, trunkD: string, vias: number[]): ArmArt {
     const track = parsePolyline(d)
-    const start = track[0]
-    // Trunk: from the track's root, along the dendrite, to the soma's rim.
-    const [ux, uy] = unit(SOMA[0] - start[0], SOMA[1] - start[1])
-    const rim: Pt = [SOMA[0] - ux * SOMA_RIM, SOMA[1] - uy * SOMA_RIM]
-    const full: Pt[] = [rim, ...track]
+    // Trunk: from the soma's rim, along the traced dendrite, to the track's root.
+    const trunk = parsePolyline(trunkD)
+    const full: Pt[] = [...trunk.slice(0, -1), ...track]
     const inwardPts: Pt[] = [...full].reverse().concat([SOMA])
     const samples = Array.from({ length: PULSE_SAMPLES }, (_, i) =>
         pointAtFraction(inwardPts, i / (PULSE_SAMPLES - 1)),
     )
     return {
         key,
-        trunk: toPathD([rim, start]),
+        trunk: toPathD(trunk),
         main: toPathD(track),
         contour: toPathD(offsetPolyline(track, CONTOUR_OFFSET)),
         ticks: hatchTicks(full),
@@ -101,7 +98,7 @@ function buildArm(key: SkillKey, d: string, vias: number[]): ArmArt {
     }
 }
 
-const ARM_ART: ArmArt[] = ARMS.map((a) => buildArm(a.key, a.d, a.vias))
+const ARM_ART: ArmArt[] = ARMS.map((a) => buildArm(a.key, a.d, a.trunk, a.vias))
 
 type Props = {
     solved: ReadonlySet<SkillKey>
