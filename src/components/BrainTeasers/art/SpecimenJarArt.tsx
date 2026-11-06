@@ -1,6 +1,6 @@
 import styles from './Art.module.scss'
 
-// 02 CODING header: a brain in a specimen jar, labelled carmen_brain.mat.
+// 02 CODING header: a brain in a specimen jar, labelled carmen_brain.set (an EEGLAB dataset).
 // Engraving treatment per docs/brain-teasers-art-notes.md — doubled glass
 // contour, vertical hatching for the jar's shaded side, gyri as contour
 // lines, a stippled fluid line. Ink is currentColor (--ink via CSS).
@@ -27,7 +27,7 @@ export default function SpecimenJarArt() {
             className={styles.art}
             viewBox="0 0 120 132"
             role="img"
-            aria-label="Engraving of a brain floating in a specimen jar labelled carmen_brain.mat"
+            aria-label="Engraving of a brain floating in a specimen jar labelled carmen_brain.set"
         >
             {/* lid */}
             <path className={styles.heavy} d="M27 9 C45 7.4 75 7.6 93 9.2 L94 21.2 C75 22.6 45 22.4 26 21 Z" />
@@ -64,7 +64,7 @@ export default function SpecimenJarArt() {
             {/* label */}
             <path className={styles.mid} d="M33.6 103.4 L86.4 103 L86.8 115.6 L33.4 116 Z" />
             <text className={styles.label} x={60} y={111.6} textAnchor="middle">
-                carmen_brain.mat
+                carmen_brain.set
             </text>
         </svg>
     )

@@ -67,7 +67,7 @@ export default function BugTeaser({ teaser, onSolved }: TeaserProps<'bug'>) {
             {solved ? (
                 <Reveal
                     result={
-                        <Callout label={`LINE ${teaser.bugLine}`} sub="MATLAB INDEXES FROM 1" tone="fired" />
+                        <Callout label={`LINE ${teaser.bugLine}`} sub={teaser.bugNote} tone="fired" />
                     }
                     text={teaser.reveal}
                     region={teaser.region}

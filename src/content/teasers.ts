@@ -22,7 +22,7 @@ type TeaserBase = {
 
 export type Teaser =
     | (TeaserBase & { kind: 'signal'; targetBand: [number, number] })
-    | (TeaserBase & { kind: 'bug'; codeLines: string[]; bugLine: number }) // bugLine is 1-based
+    | (TeaserBase & { kind: 'bug'; codeLines: string[]; bugLine: number; bugNote: string }) // bugLine is 1-based; bugNote is the answer callout's subline
     | (TeaserBase & { kind: 'glimpse'; options: string[]; glimpseMs: number })
     | (TeaserBase & { kind: 'beat'; audioSrc?: string; dropAtMs: number })
     | (TeaserBase & { kind: 'gonogo'; durationMs: number })
@@ -77,7 +77,7 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         title: 'Wait for the drop',
         prompt: 'The build-up is coming. Tap exactly when the drop hits.',
         // No audioSrc yet: the loop must be licensed or Carmen's own. Until
-        // then, opting into sound plays a short build-up synthesised in the
+        // then, the sound (on by default) is a short build-up synthesised in the
         // browser (Web Audio), so no third-party audio ships.
         dropAtMs: 6000,
         // [CARMEN] draft from the spec (+ optionally the Ventromedial story)
@@ -88,16 +88,20 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         branch: 'coding',
         kind: 'bug',
         title: 'Spot the bug',
-        prompt: 'Four lines that load my brain. Which line crashes?',
+        prompt: 'Four lines of EEGLAB that load my brain. Which line crashes?',
+        // EEGLAB in MATLAB: load a dataset, band-pass it, then grab one channel.
+        // EEG.data is channels × samples, indexed by number — 'Oz' is a char
+        // array, so MATLAB reads it as rows 79 and 122 and runs off the end.
         codeLines: [
-            "brain   = load('carmen_brain.mat');",
-            'regions = brain.regions;',
-            'first   = regions(0);',
-            'disp(first.name)',
+            "EEG = pop_loadset('carmen_brain.set');",
+            'EEG = pop_eegfiltnew(EEG, 1, 40);',
+            "oz  = EEG.data('Oz', :);",
+            'plot(oz)',
         ],
         bugLine: 3,
-        // [CARMEN] draft from the spec
-        reveal: "Python starts counting at 0, MATLAB at 1. I'm bilingual and permanently confused.",
+        bugNote: 'CHANNELS ARE NUMBERS, NOT NAMES',
+        // [CARMEN] draft — check the wording and that it matches how she works in EEGLAB
+        reveal: 'EEGLAB keeps channels as numbered rows, so first you look up which number Oz has in EEG.chanlocs. I’ve typed this exact line more times than I’d like to admit.',
         // [CARMEN] region not given in the spec — error detection is the classic ACC example
         region: { code: 'ACC', label: 'CONFLICT MONITORING' },
     },
