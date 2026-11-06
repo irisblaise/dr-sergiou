@@ -28,14 +28,16 @@
 }
 
 /* Mobile bottom sheet — same panel, same X button. No backdrop, no
-   swipe-to-dismiss; fixed height so the neuron keeps the top half. */
+   swipe-to-dismiss. As tall as the teaser, so the whole game shows without
+   scrolling; the neuron keeps the space above it. Scrolling is only a
+   fallback for screens too short to fit the panel at all. */
 .sheet {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 40;
-    height: 50svh;
+    max-height: 100svh;
     overflow-y: auto;
     overscroll-behavior: contain;
     background: var(--canvas);

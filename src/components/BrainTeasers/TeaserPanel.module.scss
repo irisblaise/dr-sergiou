@@ -19,31 +19,34 @@
     outline: none;
 
     /* Fixed height per game, so the question, play and reveal states never
-       resize the panel. */
-    --teaser-body-h: 420px;
-
-    &[data-kind='bug'] {
-        --teaser-body-h: 420px;
-    }
-
-    &[data-kind='swipe'] {
-        --teaser-body-h: 400px;
-    }
-
-    &[data-kind='gonogo'] {
-        --teaser-body-h: 410px;
-    }
+       resize the panel — each set to its tallest state's measured content
+       height (+4px), so none carries empty space. Re-measure if a game's
+       copy or layout changes: render each state with .body at height:auto
+       and take the largest. Same on mobile, where the sheet fits the panel. */
+    --teaser-body-h: 412px;
 
     &[data-kind='signal'] {
-        --teaser-body-h: 420px;
+        --teaser-body-h: 412px; /* tallest: the alpha reveal (408) */
+    }
+
+    &[data-kind='bug'] {
+        --teaser-body-h: 380px; /* the reveal (376) */
     }
 
     &[data-kind='glimpse'] {
-        --teaser-body-h: 390px;
+        --teaser-body-h: 368px; /* a house's reveal (364) */
+    }
+
+    &[data-kind='swipe'] {
+        --teaser-body-h: 376px; /* the case recap (371) */
     }
 
     &[data-kind='beat'] {
-        --teaser-body-h: 410px;
+        --teaser-body-h: 342px; /* the hit reveal (337) */
+    }
+
+    &[data-kind='gonogo'] {
+        --teaser-body-h: 372px; /* the intro (368) */
     }
 }
 
@@ -121,7 +124,8 @@
         padding: 14px 20px 20px;
     }
 
-    /* The sheet scrolls; the X button must never scroll out of reach. */
+    /* If the sheet ever has to scroll (a screen too short for the panel),
+       the X button must never scroll out of reach. */
     .head {
         position: sticky;
         top: 0;
@@ -135,9 +139,4 @@
         font-size: 26px;
     }
 
-    /* The sheet itself has a fixed height and scrolls instead — the neuron
-       needs the top half of the screen. */
-    .body {
-        height: auto;
-    }
 }
