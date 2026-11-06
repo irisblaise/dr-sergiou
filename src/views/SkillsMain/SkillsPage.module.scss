@@ -348,11 +348,12 @@
 }
 
 /* ---------- "All six" closing line (brain teasers) ---------- */
+/* left is set inline to the cell body's x (stage px); centred on it */
 .stageMapped {
     position: absolute;
-    left: 0;
-    right: 0;
     bottom: 40px;
+    transform: translateX(-50%);
+    white-space: nowrap;
     z-index: 7;
     pointer-events: none;
 }
@@ -529,11 +530,12 @@
         color: var(--sage-mid);
     }
 
+    /* left is set inline to the cell body's x; centred on it */
     .mMapped {
         position: absolute;
-        left: -22px;
-        right: -22px;
         bottom: -34px;
+        transform: translateX(-50%);
+        white-space: nowrap;
         pointer-events: none;
 
         .mapped {

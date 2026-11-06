@@ -15,7 +15,7 @@ import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import TeaserPopover, { TEASER_PANEL_ID } from '../../components/BrainTeasers/TeaserPopover'
 import { hasTeaserComponent } from '../../components/BrainTeasers/teasers/registry'
 import { TEASER_ORDER, networkMappedLine, teasers, type Teaser } from '../../content/teasers'
-import { ARM_LAYOUT, STAGE_H, STAGE_W, OX, OY, SC } from './neuronGeometry'
+import { ARM_LAYOUT, STAGE_H, STAGE_W, OX, OY, SC, SOMA } from './neuronGeometry'
 import { REDUCED_MOTION_QUERY } from '../../lib/prefersReducedMotion'
 
 // The firing layer (and Framer Motion with it) only loads once a branch has
@@ -262,7 +262,10 @@ export default function SkillsPage({
                 >
                     {/* Hover still lights a branch on desktop; "tap" reads right for mouse and touch alike. */}
                     <div className={styles.hint}>TAP A BRANCH</div>
-                    <div className={styles.stageMapped}>{closingLine}</div>
+                    {/* centred under the cell body, not the stage — the neuron sits right of centre */}
+                    <div className={styles.stageMapped} style={{ left: OX + SOMA[0] * SC }}>
+                        {closingLine}
+                    </div>
                     <div className={styles.aura} aria-hidden />
 
                     <div className={styles.cell} aria-hidden>
@@ -487,7 +490,9 @@ export default function SkillsPage({
                             )
                         })}
                         <span className={styles.mHint}>TAP A BRANCH</span>
-                        <div className={styles.mMapped}>{closingLine}</div>
+                        <div className={styles.mMapped} style={{ left: `${SOMA[0] / 10}%` }}>
+                            {closingLine}
+                        </div>
                     </div>
                 )}
 
