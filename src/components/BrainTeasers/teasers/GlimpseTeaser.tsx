@@ -44,51 +44,72 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
     }
 
     const showStreet = phase === 'glimpse' || phase === 'done'
+    const seconds = Math.round(teaser.glimpseMs / 1000)
 
     return (
         <div className={styles.game}>
             <p className={styles.prompt}>{teaser.prompt}</p>
 
-            <div className={styles.street}>
-                {/* bare street underneath; the houses fade over it */}
-                <div className={styles.streetLayer}>
-                    <StreetArt bare />
-                </div>
-                <motion.div
-                    className={styles.streetLayer}
-                    initial={false}
-                    animate={{ opacity: showStreet ? 1 : 0 }}
-                    transition={reduced ? { duration: 0 } : { duration: phase === 'glimpse' ? 0.25 : FADE_S }}
-                    aria-hidden={!showStreet}
-                >
-                    <StreetArt />
-                </motion.div>
-
-                {phase === 'choose' && (
-                    <div className={styles.houseButtons}>
-                        {HOUSE_X.map((x, i) => (
-                            <button
-                                key={i}
-                                ref={i === 0 ? firstHouseRef : undefined}
-                                type="button"
-                                className={styles.houseButton}
-                                style={{ left: `${(x / STREET_W) * 100}%`, width: `${(HOUSE_W / STREET_W) * 100}%` }}
-                                onClick={() => choose(i)}
-                            >
-                                HOUSE {i + 1}
-                            </button>
-                        ))}
+            {phase === 'intro' ? (
+                // Nothing of the street before LOOK — the one glimpse is the game.
+                <ol className={styles.glimpseSteps}>
+                    <li>
+                        <span>
+                            Press <strong>LOOK</strong>.{' '}
+                            {reduced
+                                ? 'A street of four houses appears and stays until you hide it.'
+                                : `A street of four houses appears for ${seconds} seconds.`}
+                        </span>
+                    </li>
+                    <li>
+                        <span>Take in every house: what’s around it, what’s open, who might be home.</span>
+                    </li>
+                    <li>
+                        <span>The houses disappear. Pick the one you’d break into. There’s no wrong answer.</span>
+                    </li>
+                </ol>
+            ) : (
+                <div className={styles.street}>
+                    {/* bare street underneath; the houses fade over it */}
+                    <div className={styles.streetLayer}>
+                        <StreetArt bare />
                     </div>
-                )}
+                    <motion.div
+                        className={styles.streetLayer}
+                        initial={false}
+                        animate={{ opacity: showStreet ? 1 : 0 }}
+                        transition={reduced ? { duration: 0 } : { duration: phase === 'glimpse' ? 0.25 : FADE_S }}
+                        aria-hidden={!showStreet}
+                    >
+                        <StreetArt />
+                    </motion.div>
 
-                {phase === 'done' && pick != null && (
-                    <span
-                        className={styles.houseMark}
-                        style={{ left: `${((HOUSE_X[pick] + HOUSE_W / 2) / STREET_W) * 100}%` }}
-                        aria-hidden
-                    />
-                )}
-            </div>
+                    {phase === 'choose' && (
+                        <div className={styles.houseButtons}>
+                            {HOUSE_X.map((x, i) => (
+                                <button
+                                    key={i}
+                                    ref={i === 0 ? firstHouseRef : undefined}
+                                    type="button"
+                                    className={styles.houseButton}
+                                    style={{ left: `${(x / STREET_W) * 100}%`, width: `${(HOUSE_W / STREET_W) * 100}%` }}
+                                    onClick={() => choose(i)}
+                                >
+                                    HOUSE {i + 1}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+
+                    {phase === 'done' && pick != null && (
+                        <span
+                            className={styles.houseMark}
+                            style={{ left: `${((HOUSE_X[pick] + HOUSE_W / 2) / STREET_W) * 100}%` }}
+                            aria-hidden
+                        />
+                    )}
+                </div>
+            )}
 
             {phase === 'done' && pick != null ? (
                 <Reveal
@@ -109,7 +130,9 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
                                 : 'Look closely…'
                             : phase === 'choose'
                               ? 'Which one?'
-                              : `You get ${Math.round(teaser.glimpseMs / 1000)} seconds.`}
+                              : reduced
+                                ? 'Ready when you are.'
+                                : `You get ${seconds} seconds.`}
                     </p>
                     {phase === 'intro' && (
                         <ArrowLink className={styles.action} onClick={() => setPhase('glimpse')}>

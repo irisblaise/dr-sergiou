@@ -595,6 +595,48 @@
 }
 
 /* ---------- Case the joint ---------- */
+/* intro: the how-to sits where the street will appear, at the street's
+   proportions so nothing jumps on LOOK — and may grow taller on narrow
+   panels, where three lines don't fit the street's letterbox. */
+.glimpseSteps {
+    aspect-ratio: 320 / 104;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: glimpse-step;
+
+    li {
+        counter-increment: glimpse-step;
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        align-items: baseline;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--body);
+        text-wrap: pretty;
+
+        &::before {
+            content: counter(glimpse-step, decimal-leading-zero);
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.18em;
+            color: var(--accent-mid);
+        }
+    }
+
+    strong {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        color: var(--ink);
+    }
+}
+
 .street {
     position: relative;
     width: 100%;
