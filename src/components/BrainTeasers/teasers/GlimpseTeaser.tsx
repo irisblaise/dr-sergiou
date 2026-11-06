@@ -16,7 +16,7 @@ import styles from './Teasers.module.scss'
 // timed fade, the visitor hides the street themselves.
 
 type Phase = 'intro' | 'ready' | 'glimpse' | 'choose' | 'done'
-const READY_MS = 2000 // the "look at the details" cue before the street shows
+const READY_MS = 2500 // the "look at the details" cue before the street shows
 const FADE_S = 0.6
 const STREET_W = 320 // StreetArt's viewBox width
 const HOUSE_W = 54
