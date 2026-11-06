@@ -1,0 +1,30 @@
+// Shared type styles for the page-intro block (eyebrow / h1 / body) that
+// opens most redesign-side pages. Each consuming file still owns its own
+// `.heading`/`.eyebrow`/`.blurb` (or `.paragraph`) class — these mixins just
+// give the shared property list one home instead of five copies of it, so a
+// future change to the intro scale only has to happen here. Per-page spacing,
+// max-width, or color overrides stay in the consuming file, applied after
+// the mixin include.
+
+@mixin intro-heading {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--intro-title-size);
+    line-height: var(--intro-title-lh);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+}
+
+@mixin intro-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--intro-eyebrow-size);
+    letter-spacing: var(--intro-eyebrow-tracking);
+    line-height: var(--intro-eyebrow-lh);
+    color: var(--science-line);
+}
+
+@mixin intro-body {
+    font-size: var(--intro-body-size);
+    line-height: var(--intro-body-lh);
+    color: var(--body);
+}

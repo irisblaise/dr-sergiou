@@ -1,0 +1,270 @@
+/* global.scss — design-system foundation for the rebuilt Carmen Sergiou site.
+   Self-hosted fonts, design tokens as CSS custom properties, reset, and the
+   shared motion keyframes. All motion is gated behind prefers-reduced-motion.
+   (fonts.css is imported in index.tsx so webpack resolves the woff2 urls.) */
+
+@use 'styles/breakpoints' as bp;
+
+:root {
+    /* Foundation */
+    --canvas: #efeae1;
+    --ink: #23211c;
+    --body: #5b574c;
+    --muted: #6c6458;
+    --soft: #6f6858; /* darkened from #8a8275 — original failed WCAG AA (3.17:1) on --canvas; this hits ~4.6:1 */
+    --nav-ink: #3c382f;
+
+    /* Sage — anatomical brain green */
+    --sage: #7aab96;
+    --sage-mid: #5d8a74;
+    --sage-deep: #3f5e50;
+
+    /* Accent ramp — default theme: pink. Swapped at runtime by the palette switcher.
+       --accent is glow/pulse/animated-energy, small pink type (mono eyebrows,
+       taglines, captions — via --accent-label), and matches --energy; --accent-mid
+       is links, CTAs, active nav, selection rings; --accent-deep is the hover end
+       of the ramp. Note: --accent only hits ~2.9:1 contrast on --canvas, below
+       WCAG AA (4.5:1) for text — chosen deliberately over the darker, higher-
+       contrast shade --accent-label used to be, so small pink type reads lighter
+       at the cost of AA contrast. */
+    --accent: #ed4c92;
+    --accent-mid: #c02d69; /* darkened from #c8326f — original was just under WCAG AA (4.23:1) on --canvas; this hits ~4.6:1 */
+    --accent-label: var(--accent);
+    --accent-deep: #8e214e;
+    --accent-tint: #f8deea;
+    --accent-glow: 237, 76, 146;
+
+    /* Semantic aliases — so intent reads in the markup instead of raw ramp steps. */
+    --text-label: var(--accent-label);
+    --link: var(--accent-mid);
+    --link-hover: var(--accent-deep);
+    --science-line: var(--sage-deep);
+    --science-node: var(--sage);
+    --energy: var(--accent);
+
+    /* Fonts */
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-sans: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'Space Mono', monospace;
+
+    /* Layout — all pages share the wide Publications content width. */
+    --content-max: 1640px;
+    --gutter: clamp(20px, 4vw, 52px);
+    --nav-height: 90px;
+
+    /* Page-intro typography — the eyebrow/title/paragraph stack that opens
+       every page. Title size is driven purely by viewport width (not by the
+       column it sits in), so it computes to the same size on every page at a
+       given viewport — narrower columns just wrap onto more lines. */
+    --intro-title-size: clamp(56px, 9vw, 86px);
+    --intro-title-lh: 0.98;
+    --intro-title-gap: 20px;
+    --intro-eyebrow-size: 12px;
+    --intro-eyebrow-tracking: 0.22em;
+    --intro-eyebrow-lh: 1.7;
+    --intro-eyebrow-gap: 16px;
+    --intro-body-size: 14px;
+    --intro-body-lh: 1.65;
+
+    /* Borders */
+    --rule: rgba(43, 43, 43, 0.14);
+    --rule-strong: rgba(43, 43, 43, 0.16);
+    --list-rule: rgba(94, 89, 77, 0.22);
+
+    /* Book-spine ink — text color on the leather/paper spine backgrounds
+       (BookSpine, Publications' mobile card spine). Its own token since it's
+       tuned for contrast on --cover, not on --canvas like --body/--muted. */
+    --spine-ink: #5c4f37;
+
+    /* Text/icon color on a solid --accent-mid fill or dark photo overlay
+       (active pills, hover states on dark controls). */
+    --on-accent: #fff;
+
+    --ease: cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--canvas);
+    color: var(--ink);
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+}
+
+/* Pink accent text selection instead of the browser-default blue. */
+::selection {
+    background: rgba(var(--accent-glow), 0.32);
+    color: var(--ink);
+}
+::-moz-selection {
+    background: rgba(var(--accent-glow), 0.32);
+    color: var(--ink);
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+    margin: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+::selection {
+    background: var(--accent);
+    color: #23211c;
+}
+
+/* The nav is shorter on mobile. Keep --nav-height in sync so each page's
+   top padding clears the (fixed) nav exactly once — no double offset. */
+@media (max-width: bp.$bp-standard) {
+    :root {
+        --nav-height: 60px;
+    }
+
+    /* Body copy reads better justified once lines wrap tight on mobile. */
+    p {
+        text-align: justify;
+    }
+}
+
+/* ============ Shared keyframes ============ */
+
+@keyframes drawOn {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes breathe {
+    0%,
+    100% {
+        opacity: 0.78;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes glowpulse {
+    0%,
+    100% {
+        opacity: 0.16;
+    }
+    50% {
+        opacity: 0.42;
+    }
+}
+
+@keyframes innerglow {
+    0%,
+    70%,
+    100% {
+        opacity: 0;
+    }
+    84% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes haloThrob {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes nodepulse {
+    0%,
+    100% {
+        opacity: 0.45;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes scrolldot {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    18% {
+        opacity: 1;
+    }
+    82% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}
+
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes auraglow {
+    0%,
+    100% {
+        opacity: 0.55;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* ============ Reduced motion ============ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

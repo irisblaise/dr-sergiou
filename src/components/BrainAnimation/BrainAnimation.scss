@@ -1,0 +1,118 @@
+// Brain hero animation — ported from the old repo. Neuron strokes sketch
+// themselves in once on load (not a perpetual loop) over brain5.png; colours
+// are the shared --sage / --accent tokens so this matches the projects
+// timeline and the classic homepage spine (ProjectsRedesign.tsx / Home.tsx).
+
+.brainAnimation,
+.brainAnimation-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.brain {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.brain__svg {
+    height: 100%;
+    width: 100%;
+    // Rotate the whole animation 180° so the brain sits upright on top and the
+    // circuit traces hang below — the page spine grows out of the base (see design).
+    transform: rotate(180deg) scale(1.08);
+}
+
+#overlay {
+    z-index: 1;
+}
+
+#underlay {
+    z-index: -1;
+}
+
+// Colours: brain keeps its green (--sage) focus, the page accent only touches
+// the .st5 edge strokes — same split as the projects timeline's G1/G2/SAGE/ACC
+// palette. Dots use warm ink rgba(38,36,31,..), close to but a touch warmer
+// than --ink.
+//
+// Every class below draws in once (no infinite/alternate) with a short,
+// class-specific duration — the brain sketches itself in on load and then
+// holds still, instead of every one of its ~300 strokes looping forever. The
+// per-element stagger comes from an inline animation-delay (brainAnimation.tsx).
+.st0 {
+    animation: neuronLineDraw 900ms ease forwards;
+    fill: none;
+    stroke: var(--sage);
+    stroke-width: 0.8;
+    stroke-miterlimit: 10;
+}
+.st1 {
+    fill: rgba(38, 36, 31, 0.82);
+    stroke: none;
+    stroke-width: 0.8;
+    stroke-miterlimit: 10;
+    animation: neuronLineDraw 900ms ease forwards;
+}
+
+.st2 {
+    fill: none;
+    stroke: rgba(38, 36, 31, 0.5);
+    stroke-width: 0.8;
+    stroke-miterlimit: 10;
+    // Unlike every other class here, these small lines keep the original
+    // perpetual draw-in/draw-out loop instead of settling once and holding.
+    animation: neuronLineDraw 3s ease infinite alternate;
+}
+
+.st3 {
+    // fill: var(--sage-mid);
+        stroke: var(--accent);
+
+        fill: rgba(205, 184, 206);
+
+    // stroke: var(--sage);
+    stroke-width: 0.5;
+    stroke-miterlimit: 10;
+    animation: neuronLineDraw 1100ms ease forwards;
+}
+
+.st4 {
+    fill: rgba(38, 36, 31, 0.7);
+    stroke-width: 0.8;
+    animation: neuronLineDraw 600ms ease forwards;
+}
+
+.st5 {
+    fill: rgba(205, 184, 206);
+    stroke: var(--accent);
+    stroke-miterlimit: 10;
+    stroke-width:0.8;
+    // The trunk lines — slowest of the one-time reveal, since these are the
+    // ones a travelling light pulse rides afterwards (see brainAnimation.tsx).
+    animation: neuronLineDraw 1400ms ease forwards;
+}
+
+.st6 {
+    fill: var(--sage-deep);
+        // fill: rgba(205, 184, 206);
+
+    stroke: var(--sage);
+    stroke-width: 0.3;
+    stroke-miterlimit: 10;
+    animation: neuronLineDraw 1100ms ease forwards;
+}
+
+/* Keyframes */
+@keyframes neuronLineDraw {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes neuronLineFill {
+    100% {
+        fill: rgba(#d8c0c0, 0.8);
+    }
+}

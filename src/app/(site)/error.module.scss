@@ -1,0 +1,76 @@
+@use 'styles/layout' as ly;
+
+.wrap {
+    @include ly.content-container;
+    padding: calc(var(--nav-height) + 80px) var(--gutter) 120px;
+    text-align: center;
+}
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--intro-eyebrow-size);
+    letter-spacing: var(--intro-eyebrow-tracking);
+    text-transform: uppercase;
+    color: var(--text-label);
+    margin-bottom: var(--intro-eyebrow-gap);
+}
+
+.heading {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4.6vw, 56px);
+    color: var(--ink);
+    margin: 0 0 16px;
+}
+
+.body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--body);
+    max-width: 46ch;
+    margin: 0 auto 32px;
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--canvas);
+    background: var(--accent-mid);
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--accent-deep);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}
+
+.link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 12px 4px;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}

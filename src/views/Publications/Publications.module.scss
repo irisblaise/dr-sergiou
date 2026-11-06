@@ -1,0 +1,529 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+@use 'styles/pill';
+
+.page {
+    @include ly.content-container;
+    /* Desktop fits in one viewport: the spines take whatever height is left
+       after the nav, the paddings and the scroll rail (~330px of chrome). */
+    --spine-height: clamp(340px, calc(100svh - 330px), 566px);
+    --page-gap: clamp(24px, 4vw, 64px);
+    padding: calc(var(--nav-height) + clamp(16px, 4svh, 40px)) var(--gutter) clamp(24px, 5svh, 70px);
+    display: grid;
+    grid-template-columns: clamp(400px, 36vw, 540px) minmax(0, 1fr);
+    column-gap: var(--page-gap);
+    align-content: center;
+    min-height: 100svh;
+}
+
+/* ---------- Intro ---------- */
+/* Desktop: intro and books share row 1 so the intro stretches to the
+   shelf's height; the rail sits alone in row 2 underneath the books. */
+.intro {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    /* Matches the shelf's bottom padding (.shelf 26px + .shelfTrack 2px) so
+       the chips' bottom edge lands on the books' bottom edge. */
+    padding-bottom: 28px;
+}
+
+.introFoot {
+    margin-top: auto;
+}
+
+.heading {
+    @include ty.intro-heading;
+    /* Also cap by height so the intro fits beside shorter spines. */
+    font-size: min(var(--intro-title-size), 10svh);
+}
+
+.eyebrow {
+    @include ty.intro-eyebrow;
+    margin-top: min(var(--intro-title-gap), 2.5svh);
+    max-width: 280px;
+}
+
+.blurb {
+    @include ty.intro-body;
+    margin-top: min(var(--intro-eyebrow-gap), 2svh);
+    max-width: 320px;
+}
+
+.stats {
+    margin-top: clamp(16px, 3.5svh, 34px);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 26px;
+}
+
+.statValue {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    color: var(--accent-mid);
+    line-height: 1;
+}
+
+.statLabel {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.14em;
+    line-height: 1.5;
+    color: var(--soft);
+    max-width: 9ch;
+}
+
+/* ---------- Filter ---------- */
+.filterMeta {
+    display: none; /* mobile only */
+    align-items: baseline;
+    margin-top: 36px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--text-label);
+}
+
+.chips {
+    margin-top: clamp(16px, 3.5svh, 36px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.chip {
+    padding: 8px 15px;
+    @include pill.pill-toggle;
+}
+
+.chipActive {
+    @include pill.pill-toggle-active;
+}
+
+/* ---------- Shelf ---------- */
+.shelfCol {
+    display: contents;
+}
+
+.shelfArea {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    min-width: 0;
+    position: relative;
+}
+
+.shelf {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 35px 2px 26px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-y;
+    cursor: grab;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+/* While a detail card is open the shelf scroll is frozen. */
+.locked {
+    overflow-x: hidden;
+    cursor: default;
+    touch-action: none;
+
+    &:active {
+        cursor: default;
+    }
+}
+
+.shelfTrack {
+    display: flex;
+    gap: 0;
+    align-items: flex-end;
+    width: max-content;
+    padding-bottom: 2px;
+}
+
+/* ---------- Scroll rail (read-only indicator) ---------- */
+.railWrap {
+    grid-column: 2;
+    grid-row: 2;
+    min-width: 0;
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.railTrack {
+    position: relative;
+    width: min(560px, 90%);
+    height: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.railLine {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(94, 89, 77, 0.28);
+}
+
+.railDots {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(94, 89, 77, 0.35);
+    }
+}
+
+.railThumb {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    margin: -5.5px 0 0 -5.5px;
+    border-radius: 50%;
+    background: var(--accent-mid);
+    box-shadow: 0 0 0 4px rgba(var(--accent-glow), 0.18);
+    transition: left 0.12s ease;
+}
+
+.railCaption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--soft);
+}
+
+/* ---------- Mobile vertical card list ---------- */
+.mobileList {
+    display: none; /* shown below the breakpoint */
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mCard {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
+    transition: border-color 0.3s ease;
+}
+
+.mCardOpen {
+    border-color: var(--accent-mid);
+}
+
+.mContent {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mCardMain {
+    width: 100%;
+    min-width: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    background: none;
+    border: none;
+    padding: 18px 18px 16px 20px;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}
+
+.mSpine {
+    flex: 0 0 78px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 8px;
+    color: var(--ink-on);
+    background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 4px),
+        var(--cover);
+    box-shadow: inset -3px 0 8px rgba(0, 0, 0, 0.22);
+}
+
+.mYear {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    letter-spacing: 0.04em;
+}
+
+.mRule {
+    position: relative;
+    width: 18px;
+    height: 6px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.35;
+    }
+    &::after {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: currentColor;
+        opacity: 0.72;
+        transform: rotate(45deg);
+    }
+}
+
+.mAccolade {
+    margin-top: auto;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.72;
+
+    & + .mIndex {
+        margin-top: 10px;
+    }
+}
+
+.mIndex {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    opacity: 0.62;
+}
+
+.mBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 4px 10px;
+    border: 1px solid rgba(var(--accent-glow), 0.4);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-label);
+}
+
+.mBody {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 18px 18px 20px;
+}
+
+.mKind {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    color: var(--text-label);
+    margin-bottom: 10px;
+}
+
+.mTitle {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.18;
+    color: var(--ink);
+}
+
+.mJournal {
+    margin-top: 12px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--body);
+}
+
+.mExpandable {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s ease;
+}
+
+.mExpandableOpen {
+    grid-template-rows: 1fr;
+}
+
+.mExpandableInner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.mAuthors {
+    margin-top: 4px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+.mAbstract {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--body);
+}
+
+.mExpand {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--soft);
+    transition: color 0.32s ease;
+}
+
+.mCardOpen .mExpand {
+    color: var(--accent-mid);
+}
+
+.mReadWrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s ease;
+}
+
+.mReadWrapOpen {
+    grid-template-rows: 1fr;
+}
+
+.mReadWrapInner {
+    overflow: hidden;
+    min-height: 0;
+}
+
+.mRead {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 20px 18px 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--accent-mid);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 5px;
+    width: fit-content;
+}
+
+@media (max-width: bp.$bp-wide-list) {
+    .page {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--page-gap);
+        align-content: start;
+        min-height: 0;
+    }
+    .intro,
+    .shelfArea,
+    .railWrap {
+        grid-column: auto;
+        grid-row: auto;
+    }
+    .intro {
+        display: block;
+        padding-bottom: 0;
+    }
+    /* Cancel the row gap so the rail keeps its 22px offset from the shelf. */
+    .railWrap {
+        margin-top: calc(22px - var(--page-gap));
+    }
+    .intro,
+    .mobileList {
+        min-width: 0;
+    }
+    .eyebrow,
+    .blurb {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Switch from the horizontal shelf to the vertical card list */
+@media (max-width: bp.$bp-compact) {
+    .shelfArea,
+    .railWrap {
+        display: none;
+    }
+    .mobileList {
+        display: flex;
+    }
+    .filterMeta {
+        display: flex;
+    }
+    .chips {
+        margin-top: 14px;
+        flex-wrap: wrap;
+    }
+    .stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+    .statValue {
+        font-size: 28px;
+    }
+    .statLabel {
+        font-size: 8px;
+        max-width: none;
+    }
+}
+
+@media (max-width: bp.$bp-small) {
+    .stats {
+        gap: 10px;
+    }
+    .statValue {
+        font-size: 25px;
+    }
+}

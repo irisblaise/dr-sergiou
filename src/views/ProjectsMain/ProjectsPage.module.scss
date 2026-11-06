@@ -1,0 +1,233 @@
+@use 'styles/breakpoints' as bp;
+@use 'styles/typography' as ty;
+@use 'styles/layout' as ly;
+
+/* ============ Projects (redesign) — circuit timeline ============
+   Matches ProjectsTimeline.dc.html (design handoff): a real 3-column grid
+   (content | 190px timeline gutter | content) with projects alternating
+   image-left/text-right and text-left/image-right. Each row is at least
+   400px but grows with a long abstract; the conductor SVG is drawn in
+   ProjectsPage.tsx from each row's measured position, so it always lines
+   up with the grid. */
+
+.page {
+    @include ly.content-container;
+    padding: calc(var(--nav-height) + 40px) var(--gutter) 80px;
+}
+
+/* ---------- Header ---------- */
+.header {
+    max-width: 420px;
+    margin-bottom: 8px;
+}
+
+.heading {
+    @include ty.intro-heading;
+}
+
+.eyebrow {
+    @include ty.intro-eyebrow;
+    margin-top: var(--intro-title-gap);
+}
+
+.blurb {
+    @include ty.intro-body;
+    margin-top: var(--intro-eyebrow-gap);
+    max-width: 360px;
+}
+
+/* ---------- Timeline grid ---------- */
+.grid {
+    position: relative;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 190px minmax(0, 1fr);
+    align-items: center;
+    // Keeps a long row's text from butting up against the next row's
+    // content once tracks grow past their minimum height.
+    row-gap: 72px;
+    // grid-template-rows is set inline (one minmax track per project) so
+    // the rail below can span them all.
+}
+
+// An absolute overlay rather than a grid item, so the SVG's own viewBox
+// aspect ratio never feeds back into the row track sizes it's drawn from.
+// Positioned by arithmetic instead of grid lines — the 190px gutter is
+// always dead centre between the two equal 1fr columns.
+.rail {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 95px);
+    width: 190px;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.row {
+    display: contents;
+}
+
+/* ---------- Figure (image side) ---------- */
+.figure {
+    margin: 0;
+    width: 100%;
+    max-width: 520px;
+}
+
+.frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    background: repeating-linear-gradient(
+        135deg,
+        rgba(var(--accent-glow), 0.07) 0 11px,
+        transparent 11px 22px
+    );
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-label);
+}
+
+/* ---------- Article (text side) ---------- */
+.article {
+    max-width: 430px;
+}
+
+.year {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--science-line);
+}
+
+.title {
+    margin-top: 12px;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(28px, 2.6vw, 36px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.desc {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--body);
+    text-wrap: pretty;
+}
+
+.cta {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent-mid);
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: var(--accent-deep);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}
+
+/* ---------- Left / right placement ----------
+   Whichever of figure/article sits in the left column (col 1) hugs the
+   gutter with margin-left:auto; the right-column one (col 3) starts flush
+   at the gutter's other edge by default and just needs its own padding. */
+.sideLeft {
+    grid-column: 1;
+    margin-left: auto;
+}
+
+.sideRight {
+    grid-column: 3;
+}
+
+.article.sideLeft {
+    padding-right: 16px;
+}
+
+.article.sideRight {
+    padding-left: 16px;
+}
+
+/* ---------- Mobile: spine kept on the left, content stacked to its right ----------
+   Matches the old homepage's mobile layout: a narrow winding conductor
+   hugging the left edge, with each project's text and image stacked in a
+   single column beside it instead of alternating either side of a centred
+   gutter. Unlike desktop's fixed-height rows, row height here varies a lot
+   with content (a longer abstract, an optional image), so the grid is
+   dropped in favour of plain block flow — each row just sizes to its own
+   content — and the conductor SVG (an absolute overlay, not a grid item) is
+   drawn in the .tsx from each row's actual measured position. */
+@media (max-width: bp.$bp-standard) {
+    .blurb,
+    .desc {
+        text-align: left;
+    }
+
+    .grid {
+        display: block;
+        margin-top: 32px;
+    }
+
+    .rail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 100%;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        margin-left: 88px;
+        padding-bottom: 26px;
+    }
+
+    .article {
+        order: 1;
+        max-width: none;
+        padding: 0 !important;
+        margin: 0;
+    }
+
+    .figure {
+        order: 2;
+        max-width: none;
+        margin: 16px 0 0;
+    }
+}
