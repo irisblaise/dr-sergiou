@@ -10,7 +10,7 @@ import type { TeaserProps } from './registry'
 import styles from './Teasers.module.scss'
 
 // 04 MUSIC — "Wait for the drop". A build-up runs toward the drop; tap
-// exactly when it hits. The neuron pulses on every beat (onPulse). Sound is
+// exactly when it hits (anywhere in the teaser while it plays). The neuron pulses on every beat (onPulse). Sound is
 // on by default (it only starts on the visitor's own click, so autoplay rules
 // allow it); with it off you follow the ink waveform building toward the drop
 // marker. Reduced motion: no sweeping playhead — a beat countdown instead.
@@ -206,7 +206,18 @@ export default function BeatTeaser({ teaser, onSolved, onPulse }: TeaserProps<'b
             : `${offset < 0 ? 'Early' : 'Late'} by ${(Math.abs(offset) / 1000).toFixed(2)} s.`
 
     return (
-        <div className={styles.game}>
+        // While it plays, a tap anywhere in the teaser counts — not only on the
+        // waveform — so nobody has to move to the wave after pressing START.
+        <div
+            className={`${styles.game} ${phase === 'play' ? styles.gameTapAnywhere : ''}`}
+            onPointerDown={
+                phase === 'play'
+                    ? (e) => {
+                          if (e.pointerType !== 'mouse' || e.button === 0) tap()
+                      }
+                    : undefined
+            }
+        >
             <div className={styles.artRow}>
                 <div className={styles.artHeader}>
                     <GyriRecordArt />
@@ -219,9 +230,8 @@ export default function BeatTeaser({ teaser, onSolved, onPulse }: TeaserProps<'b
                 type="button"
                 className={styles.wave}
                 disabled={phase !== 'play'}
-                onPointerDown={(e) => {
-                    if (e.pointerType !== 'mouse' || e.button === 0) tap()
-                }}
+                // pointer taps are caught by the whole game (above); this keeps
+                // Space / Enter for keyboard players
                 onKeyDown={(e) => {
                     if (e.key === ' ' || e.key === 'Enter') {
                         e.preventDefault()
@@ -287,7 +297,7 @@ export default function BeatTeaser({ teaser, onSolved, onPulse }: TeaserProps<'b
                         SOUND {sound ? 'ON' : 'OFF'}
                     </button>
                     <p className={styles.feedback} role="status">
-                        {phase === 'miss' ? missText : phase === 'play' ? 'Wait for it…' : ' '}
+                        {phase === 'miss' ? missText : phase === 'play' ? 'Wait for it… then tap anywhere.' : ' '}
                     </p>
                     {phase !== 'play' && (
                         <ArrowLink className={styles.action} onClick={start}>

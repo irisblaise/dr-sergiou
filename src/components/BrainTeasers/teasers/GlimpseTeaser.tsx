@@ -15,7 +15,8 @@ import styles from './Teasers.module.scss'
 // teaser), signs that someone's home are not (TRY AGAIN). Reduced motion: no
 // timed fade, the visitor hides the street themselves.
 
-type Phase = 'intro' | 'glimpse' | 'choose' | 'done'
+type Phase = 'intro' | 'ready' | 'glimpse' | 'choose' | 'done'
+const READY_MS = 2500 // the "look at the details" cue before the street shows
 const FADE_S = 0.6
 const STREET_W = 320 // StreetArt's viewBox width
 const HOUSE_W = 54
@@ -25,6 +26,13 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
     const [phase, setPhase] = useState<Phase>('intro')
     const [pick, setPick] = useState<number | null>(null)
     const firstHouseRef = useRef<HTMLButtonElement>(null)
+
+    // After LOOK: a short cue, then the street.
+    useEffect(() => {
+        if (phase !== 'ready') return
+        const t = setTimeout(() => setPhase('glimpse'), READY_MS)
+        return () => clearTimeout(t)
+    }, [phase])
 
     // The glimpse: timed only with motion allowed.
     useEffect(() => {
@@ -69,6 +77,8 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
                         <span>The houses disappear. Pick the one you’d break into.</span>
                     </li>
                 </ol>
+            ) : phase === 'ready' ? (
+                <p className={styles.glimpseReady}>Look at the details of the houses and make your choice.</p>
             ) : (
                 <div className={styles.street}>
                     {/* bare street underneath; the houses fade over it */}
@@ -132,18 +142,20 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
             ) : (
                 <div className={styles.actions}>
                     <p className={styles.feedback} role="status">
-                        {phase === 'glimpse'
-                            ? reduced
-                                ? 'Take your time. Hide the street when you’re ready.'
-                                : 'Look closely…'
-                            : phase === 'choose'
-                              ? 'Which one?'
-                              : reduced
-                                ? 'Ready when you are.'
-                                : `You get ${seconds} seconds.`}
+                        {phase === 'ready'
+                            ? 'Get ready…'
+                            : phase === 'glimpse'
+                              ? reduced
+                                  ? 'Take your time. Hide the street when you’re ready.'
+                                  : 'Look closely…'
+                              : phase === 'choose'
+                                ? 'Which one?'
+                                : reduced
+                                  ? 'Ready when you are.'
+                                  : `You get ${seconds} seconds.`}
                     </p>
                     {phase === 'intro' && (
-                        <ArrowLink className={styles.action} onClick={() => setPhase('glimpse')}>
+                        <ArrowLink className={styles.action} onClick={() => setPhase('ready')}>
                             LOOK
                         </ArrowLink>
                     )}
