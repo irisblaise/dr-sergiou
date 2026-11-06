@@ -73,7 +73,12 @@ const publicationsQuery = groq`*[_type == "publication"] | order(year desc){
 const galleryProjection = `"assets": assets[]{
     "type": type,
     "src": select(type == "video" => videoUrl, image.asset->url),
-    "alt": image.alt
+    "alt": image.alt,
+    "focus": select(type == "image" => {
+      "crop": image.crop,
+      "hotspot": image.hotspot,
+      "dimensions": image.asset->metadata.dimensions{width, height}
+    })
   }`
 
 const awardsQuery = groq`*[_type == "award"] | order(order asc){
@@ -84,6 +89,11 @@ const awardsQuery = groq`*[_type == "award"] | order(order asc){
   date,
   "image": image.asset->url,
   "imageAlt": image.alt,
+  "imageFocus": {
+    "crop": image.crop,
+    "hotspot": image.hotspot,
+    "dimensions": image.asset->metadata.dimensions{width, height}
+  },
   ${galleryProjection}
 }`
 
@@ -96,6 +106,11 @@ const mediaQuery = groq`*[_type == "mediaItem"] | order(order asc){
   date,
   "image": image.asset->url,
   "imageAlt": image.alt,
+  "imageFocus": {
+    "crop": image.crop,
+    "hotspot": image.hotspot,
+    "dimensions": image.asset->metadata.dimensions{width, height}
+  },
   ${galleryProjection}
 }`
 

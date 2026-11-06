@@ -86,32 +86,6 @@ const DEFAULT_LAYERS: Layer[] = [
     },
 ]
 
-const MARKERS: Array<{
-    top: string
-    left: string
-    markerKey: string
-    sub: string
-    lineHeight?: number
-    lineX?: string
-}> = [
-    { top: '10%', left: '13%', markerKey: 'PFC', sub: 'EVALUATION & CONTROL', lineHeight: 74 },
-    { top: '0%', left: '44%', markerKey: 'ACC', sub: 'CONFLICT MONITORING', lineHeight: 118 },
-    { top: '8%', left: '72%', markerKey: 'DLPFC', sub: 'STRATEGIC DECISION-MAKING', lineHeight: 110, lineX: '54%' },
-    { top: '56%', left: '4%', markerKey: 'VS', sub: 'REWARD VALUATION' },
-    // Hangs just below the end-dot of the jaw's leader line in the base art
-    // (~80% down the image) — see imageTop.
-    { top: imageTop(0.8, 8), left: '69%', markerKey: 'AMY', sub: 'EMOTIONAL SIGNALING' },
-]
-
-// A marker `top` pinned to a point on the base image rather than to .visual:
-// .visual's height is its 40px padding-top plus the stack, and the stack
-// scales with the viewport, so a plain percentage drifts against the artwork
-// as the window resizes. `fraction` is the point's height on the image,
-// `offsetPx` an extra gap below it. Keep 40px in sync with .visual's padding.
-function imageTop(fraction: number, offsetPx = 0): string {
-    return `calc(40px + ${fraction} * (100% - 40px) + ${offsetPx}px)`
-}
-
 const COUNT = DEFAULT_LAYERS.length
 const SNAP_POINTS = [0, ...DEFAULT_LAYERS.map((_, i) => (i + 0.5) / COUNT), 1]
 
@@ -293,7 +267,7 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                         alt="Anatomical illustration of the human head and brain"
                                         className={styles.base}
                                         fill
-                                        sizes="500px"
+                                        sizes="560px"
                                         preload
                                     />
                                     {LAYERS.map((l, i) => (
@@ -303,29 +277,11 @@ export default function LayersOfExploration({ passions }: { passions?: Passion[]
                                             alt=""
                                             aria-hidden="true"
                                             fill
-                                            sizes="500px"
+                                            sizes="560px"
                                             className={`${styles.overlay} ${i === active ? styles.overlayActive : ''}`}
                                         />
                                     ))}
                                 </div>
-
-                                {MARKERS.map((m) => (
-                                    <div
-                                        key={m.markerKey}
-                                        className={styles.marker}
-                                        style={{ top: m.top, left: m.left }}
-                                    >
-                                        <div className={styles.markerKey}>{m.markerKey}</div>
-                                        <div className={styles.markerSub}>{m.sub}</div>
-                                        {m.lineHeight != null && (
-                                            <span
-                                                className={styles.markerLine}
-                                                style={{ left: m.lineX || 0, height: m.lineHeight }}
-                                            />
-                                        )}
-                                    </div>
-                                ))}
-
                             </div>
 
                             <div className={styles.closingLine}>The exploration never ends.</div>

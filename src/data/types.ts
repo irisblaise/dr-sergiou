@@ -1,6 +1,8 @@
 // types.ts — the data↔component contract for the rebuilt site.
 // Every data collection has an interface here; component props derive from these.
 
+import type { SanityImageFocus } from '../lib/sanityImageFocus'
+
 /* ---------- Projects ---------- */
 export interface Project {
     title: string
@@ -24,6 +26,7 @@ export interface ImpactAsset {
     type: 'image' | 'video'
     src: string
     alt?: string
+    focus?: SanityImageFocus | null
 }
 
 export interface Award {
@@ -34,6 +37,7 @@ export interface Award {
     date: string
     image?: string
     imageAlt?: string
+    imageFocus?: SanityImageFocus | null
     assets: ImpactAsset[]
 }
 
@@ -46,6 +50,7 @@ export interface MediaItem {
     date: string
     image?: string
     imageAlt?: string
+    imageFocus?: SanityImageFocus | null
     assets: ImpactAsset[]
 }
 

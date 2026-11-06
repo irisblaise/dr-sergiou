@@ -1,8 +1,6 @@
 'use client'
 
-import { BrainAnimationVersionProvider } from '../../components/BrainAnimationSwitcher/BrainAnimationVersionContext'
-import BrainAnimationSwitcher from '../../components/BrainAnimationSwitcher/BrainAnimationSwitcher'
-import BrainAnimationVersionToggle from '../../components/BrainAnimationSwitcher/BrainAnimationVersionToggle'
+import BrainAnimation from '../../components/BrainAnimation/BrainAnimation'
 import LayersOfExploration from '../../components/LayersOfExploration/LayersOfExploration'
 import type { HomeContent } from '../../sanity/lib/queries'
 import styles from './HomePage.module.scss'
@@ -14,9 +12,9 @@ function renderHeadline(text: string) {
     if (breakIndex === -1) return text
     return (
         <>
-            {text.slice(0, breakIndex)}
-            <br />
-            {text.slice(breakIndex)}
+        {text.slice(0, breakIndex)}
+        <br />
+        {text.slice(breakIndex)}
         </>
     )
 }
@@ -26,43 +24,39 @@ export default function HomePage({ home }: { home: HomeContent | null }) {
     const heroIntro = home?.heroIntro ?? []
 
     return (
-        <BrainAnimationVersionProvider>
-            <div className={styles.page} id="top">
-                <div className={styles.wash} aria-hidden />
+        <div className={styles.page} id="top">
+            <div className={styles.wash} aria-hidden />
 
-                {/* Brain stage — unchanged hero visual */}
-                <div className={styles.stage} aria-hidden>
-                    <div className={styles.glow} />
-                    <div className={styles.brainHost}>
-                        <BrainAnimationSwitcher />
-                    </div>
-                    <div className={styles.brainBase} />
+            {/* Brain stage — unchanged hero visual */}
+            <div className={styles.stage} aria-hidden>
+                <div className={styles.glow} />
+                <div className={styles.brainHost}>
+                    <BrainAnimation />
                 </div>
+                <div className={styles.brainBase} />
+            </div>
 
-                {/* Hero header — unchanged */}
-                <header className={styles.header}>
-                    <div className={styles.heroInner}>
-                        <h1 className={styles.headline}>{renderHeadline(heroHeadline)}</h1>
+            {/* Hero header — unchanged */}
+            <header className={styles.header}>
+                <div className={styles.heroInner}>
+                    <h1 className={styles.headline}>{renderHeadline(heroHeadline)}</h1>
 
-                        <div className={styles.intro}>
-                            {heroIntro.map((para, i) => (
-                                <p key={i}>{para}</p>
-                            ))}
-                        </div>
-
-                        <div className={styles.scrollCue}>
-                            CONTINUE&nbsp;EXPLORING
-                            <span className={styles.cueLine}>
-                                <span className={styles.cueDot} />
-                            </span>
-                        </div>
+                    <div className={styles.intro}>
+                        {heroIntro.map((para, i) => (
+                            <p key={i}>{para}</p>
+                        ))}
                     </div>
 
-                    <BrainAnimationVersionToggle />
-                </header>
+                    <div className={styles.scrollCue}>
+                        CONTINUE&nbsp;EXPLORING
+                        <span className={styles.cueLine}>
+                            <span className={styles.cueDot} />
+                        </span>
+                    </div>
+                </div>
+            </header>
 
-                <LayersOfExploration passions={home?.passions} />
-            </div>
-        </BrainAnimationVersionProvider>
+            <LayersOfExploration passions={home?.passions} />
+        </div>
     )
 }

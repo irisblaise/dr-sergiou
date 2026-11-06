@@ -9,6 +9,7 @@ import { useRecomputeOnResize } from '../../lib/useRecomputeOnResize'
 import { useMatchMedia } from '../../lib/useMatchMedia'
 import { resolvePageIntro } from '../../lib/pageIntro'
 import { sanityLoaderFor } from '../../lib/sanityImageLoader'
+import { croppedSanityUrl, hotspotObjectPosition, type SanityImageFocus } from '../../lib/sanityImageFocus'
 import PageIntro from '../../components/ui/PageIntro/PageIntro'
 import ArrowLink from '../../components/ui/ArrowLink/ArrowLink'
 import Chip from '../../components/ui/Chip/Chip'
@@ -26,6 +27,7 @@ interface ImpactItem {
     link?: string
     image?: string
     imageAlt?: string
+    imageFocus?: SanityImageFocus | null
     hasVideo: boolean
     assets: ImpactAsset[]
 }
@@ -54,6 +56,22 @@ function ytThumb(url: string): string | undefined {
     const id = ytId(url)
     return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : undefined
 }
+// Each Sanity image field stores its own crop/hotspot, so the same photo used
+// as both the main image and a gallery asset can have a focus on one copy only.
+// A gallery asset without its own focus inherits the main image's when it is
+// the same file — otherwise the focus set on the main image never shows, since
+// the hero prefers the gallery.
+function inheritMainFocus(
+    assets: ImpactAsset[],
+    mainSrc?: string,
+    mainFocus?: SanityImageFocus | null,
+): ImpactAsset[] {
+    if (!mainSrc || !mainFocus?.hotspot) return assets
+    return assets.map((a) =>
+        a.type === 'image' && a.src === mainSrc && !a.focus?.hotspot ? { ...a, focus: mainFocus } : a,
+    )
+}
+
 // ---- Gutter spine geometry: a static trace stepping sideways at three bends ----
 const SPINE_W = 56
 const SPINE_C = SPINE_W / 2
@@ -98,8 +116,9 @@ export default function Impact({
             link: m.link || undefined,
             image: m.image,
             imageAlt: m.imageAlt,
+            imageFocus: m.imageFocus,
             hasVideo: m.assets.some((a) => a.type === 'video'),
-            assets: m.assets,
+            assets: inheritMainFocus(m.assets, m.image, m.imageFocus),
         }))
         const awardItems: ImpactItem[] = awards.map((a, i) => ({
             id: `award-${i}`,
@@ -111,8 +130,9 @@ export default function Impact({
             date: a.date,
             image: a.image,
             imageAlt: a.imageAlt,
+            imageFocus: a.imageFocus,
             hasVideo: a.assets.some((as) => as.type === 'video'),
-            assets: a.assets,
+            assets: inheritMainFocus(a.assets, a.image, a.imageFocus),
         }))
         return [...mediaItems, ...awardItems]
     }, [awards, media])
@@ -155,9 +175,14 @@ export default function Impact({
     const assets = item.assets ?? []
     // The hero reflects the active asset — which may be an image OR a video.
     const heroAsset =
-        assets[activeAsset] ?? (item.image ? ({ type: 'image', src: item.image } as ImpactAsset) : undefined)
+        assets[activeAsset] ??
+        (item.image ? ({ type: 'image', src: item.image, focus: item.imageFocus } as ImpactAsset) : undefined)
     const isVideo = heroAsset?.type === 'video'
-    const heroSrc = heroAsset?.type === 'image' ? heroAsset.src : item.image
+    // Honour the crop + hotspot set in Sanity Studio, so the short mobile hero
+    // keeps the subject (e.g. a face) in frame instead of the image's center.
+    const heroFocus = heroAsset?.type === 'image' ? heroAsset.focus : item.imageFocus
+    const heroRaw = heroAsset?.type === 'image' ? heroAsset.src : item.image
+    const heroSrc = heroRaw ? croppedSanityUrl(heroRaw, heroFocus ?? undefined) : undefined
     const prevAsset = () => setActiveAsset((i) => (i - 1 + assets.length) % assets.length)
     const nextAsset = () => setActiveAsset((i) => (i + 1) % assets.length)
     const pad2 = (n: number) => String(n).padStart(2, '0')
@@ -425,7 +450,7 @@ export default function Impact({
                             alt={item.imageAlt || item.title}
                             fill
                             sizes="(max-width: 900px) 100vw, 40vw"
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: 'cover', objectPosition: hotspotObjectPosition(heroFocus ?? undefined) }}
                             // Above the fold and the page's LCP — lazy made the
                             // browser wait for layout before even requesting it.
                             preload
@@ -498,7 +523,8 @@ export default function Impact({
                 {assets.length > 1 && (
                     <div className={styles.thumbs} role="tablist" aria-label="Media assets">
                         {assets.map((a, i) => {
-                            const thumbSrc = a.type === 'video' ? ytThumb(a.src) : a.src
+                            const thumbSrc =
+                                a.type === 'video' ? ytThumb(a.src) : croppedSanityUrl(a.src, a.focus ?? undefined)
                             return (
                                 <button
                                     key={`${a.src}-${i}`}
@@ -516,7 +542,10 @@ export default function Impact({
                                             alt=""
                                             fill
                                             sizes="72px"
-                                            style={{ objectFit: 'cover' }}
+                                            style={{
+                                                objectFit: 'cover',
+                                                objectPosition: hotspotObjectPosition(a.focus ?? undefined),
+                                            }}
                                         />
                                     ) : (
                                         <span className={styles.thumbPlaceholder} />
