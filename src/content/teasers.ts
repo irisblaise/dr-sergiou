@@ -106,7 +106,7 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         ],
         goodHeading: 'Thinking like a real burglar!',
         badHeading: 'Oh no! Big chance you just got caught!',
-        glimpseMs: 3000,
+        glimpseMs: 4000,
     },
     music: {
         branch: 'music',
