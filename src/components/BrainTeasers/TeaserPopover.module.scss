@@ -1,0 +1,45 @@
+/* Invisible box over the active arm's medallion — Radix positions the
+   popover against it, so it tracks the stage's scale and the page scroll. */
+.anchor {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.popover {
+    z-index: 40;
+    outline: none;
+}
+
+/* Thin pink leader from the arm tip to the popover edge. */
+.leader {
+    display: block;
+    overflow: visible;
+
+    line {
+        stroke: var(--accent);
+        stroke-width: 1;
+        vector-effect: non-scaling-stroke;
+    }
+
+    circle {
+        fill: var(--accent);
+    }
+}
+
+/* Mobile bottom sheet — same panel, same X button. No backdrop, no
+   swipe-to-dismiss. As tall as the teaser, so the whole game shows without
+   scrolling; the neuron keeps the space above it. Scrolling is only a
+   fallback for screens too short to fit the panel at all. */
+.sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    max-height: 100svh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--canvas);
+    outline: none;
+}

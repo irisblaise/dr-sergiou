@@ -1,0 +1,918 @@
+/* Shared look for the brain-teaser games. Pink (--accent / --accent-mid)
+   means fired, active or correct — nothing else. A wrong answer is dimmed
+   ink, never red; there's no green anywhere. */
+
+.game {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 14px;
+}
+
+.loading {
+    height: 100%;
+}
+
+.artRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.artHeader {
+    flex: none;
+    height: 92px;
+}
+
+.prompt {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--body);
+    text-wrap: pretty;
+}
+
+/* ---------- Actions: the site's "LABEL →" arrow style ---------- */
+.actions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.action {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: var(--accent-mid);
+    transition: color 200ms ease;
+
+    &:hover:not(:disabled) {
+        color: var(--accent-deep);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+
+    &:disabled {
+        color: var(--muted);
+        opacity: 0.55;
+        cursor: default;
+    }
+}
+
+.feedback {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--muted);
+}
+
+/* ---------- Answer / result callouts (homepage marker language) ---------- */
+.callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    line-height: 1.5;
+}
+
+.calloutLeader {
+    flex: none;
+    width: 40px;
+    height: 10px;
+    margin-top: 2px;
+    overflow: visible;
+
+    circle {
+        fill: currentColor;
+    }
+
+    path {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1;
+        opacity: 0.55;
+    }
+}
+
+.calloutLabel {
+    letter-spacing: 0.2em;
+}
+
+.calloutSub {
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+}
+
+.callout_ink {
+    color: var(--sage-deep);
+
+    .calloutLabel {
+        color: var(--ink);
+    }
+}
+
+.callout_fired {
+    color: var(--accent);
+
+    .calloutLabel {
+        color: var(--accent-mid);
+    }
+}
+
+.callout_dim {
+    color: var(--muted);
+    opacity: 0.7;
+}
+
+/* ---------- Reveal ---------- */
+.reveal {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.result {
+    min-height: 30px;
+}
+
+.revealHeading {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.revealText {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.reveal .action {
+    align-self: flex-start;
+}
+
+/* ---------- Spot the bug ---------- */
+.code {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--list-rule);
+}
+
+.codeLine {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    width: 100%;
+    padding: 7px 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--list-rule);
+    border-radius: 0;
+    text-align: left;
+    color: var(--ink);
+    transition:
+        background 0.25s ease,
+        opacity 0.25s ease;
+
+    &:hover:not(:disabled) {
+        background: rgba(var(--accent-glow), 0.06);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: -2px;
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+.lineNo {
+    flex: none;
+    width: 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+}
+
+/* Body font with tabular numerals — the open mono-font decision defaults
+   to no (see the spec's "Code font"). */
+.codeText {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    white-space: pre;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.codeLineSelected {
+    box-shadow: inset 2px 0 0 var(--ink);
+
+    .lineNo {
+        color: var(--ink);
+    }
+}
+
+.codeLineDim {
+    opacity: 0.38;
+}
+
+.codeLineFired {
+    box-shadow: inset 2px 0 0 var(--accent);
+
+    .lineNo,
+    .codeText {
+        color: var(--accent-mid);
+    }
+}
+
+/* ---------- Myth or Fact? ---------- */
+.cardStage {
+    /* EvidenceTagArt's 320×200 viewBox scales uniformly with the card, so one
+       of its units is 100cqw / 320. The text below is laid out in those units
+       so every line sits on one of the card's ruled lines (24 units apart,
+       the first at y=60, the margin line at x=52) at any card width. */
+    container-type: inline-size;
+    --u: calc(100cqw / 320);
+    --rule: calc(var(--u) * 24);
+    position: relative;
+    width: 100%;
+    aspect-ratio: 320 / 200;
+    margin-top: 6px;
+    perspective: 900px;
+}
+
+.cardBehind,
+.cardDrag,
+.cardFace {
+    position: absolute;
+    inset: 0;
+}
+
+.cardBehind {
+    background: var(--canvas);
+    opacity: 0.7;
+}
+
+.cardDrag {
+    cursor: grab;
+    touch-action: pan-y;
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+.cardFlip {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+}
+
+.cardFace {
+    background: var(--canvas);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.cardBack {
+    transform: rotateY(180deg);
+}
+
+.cardContent {
+    /* one line box per rule: the statement's first box ends on the rule at
+       y=60; the label sits in the box above it, ending at y=36 */
+    position: absolute;
+    top: calc(var(--u) * 12);
+    right: calc(var(--u) * 18);
+    bottom: calc(var(--u) * 8);
+    left: calc(var(--u) * 60);
+}
+
+/* Each line box is one rule tall; nudging it down by --sink puts the baseline
+   just above the rule, the way handwriting sits on a lined card. */
+.cardLabel,
+.cardText {
+    position: relative;
+    top: var(--sink);
+    display: block;
+    margin: 0;
+    line-height: var(--rule);
+}
+
+.cardLabel {
+    --sink: calc(var(--rule) / 2 - 0.42em);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.cardText {
+    --sink: calc(var(--rule) / 2 - 0.29em);
+    /* the global mobile justify opens rivers on a card this narrow */
+    text-align: left;
+    font-family: var(--font-serif);
+    font-size: clamp(18px, calc(var(--u) * 13), 30px);
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+/* the two-line verdict takes the label's line box and the first rule's, so
+   it clears the card's top edge; the explanation starts on the second rule */
+.cardVerdict {
+    display: flex;
+    align-items: flex-end;
+    height: calc(var(--rule) * 2);
+    padding-bottom: calc(var(--rule) * 0.12);
+}
+
+.cardBack .cardText {
+    --sink: calc(var(--rule) / 2 - 0.35em);
+    font-family: var(--font-sans);
+    font-size: clamp(13px, calc(var(--u) * 7.5), 17px);
+}
+
+.swipeActions {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.swipeHint {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+}
+
+.swipeDone {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 22px;
+}
+
+/* the closed case file: each exhibit with its verdict */
+.swipeRecap {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--list-rule);
+}
+
+.swipeRecapItem {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--list-rule);
+}
+
+.swipeRecapNo,
+.swipeRecapVerdict {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+}
+
+.swipeRecapText {
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    line-height: 1.35;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.swipeRecapVerdict {
+    white-space: nowrap;
+}
+
+.swipeRecapRight {
+    color: var(--accent-mid);
+}
+
+/* ---------- Don't. (go / no-go) ---------- */
+.gngMeta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.gngTrack {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: var(--list-rule);
+    overflow: hidden;
+}
+
+.gngFill {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform-origin: left center;
+    transform: scaleX(0);
+}
+
+.arena {
+    position: relative;
+    flex: none;
+    height: 190px;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+.arenaIdle {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+}
+
+.cell {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    overflow: visible;
+    pointer-events: none;
+
+    path {
+        fill: none;
+        stroke-width: 1.1;
+        stroke-linecap: round;
+    }
+
+    circle {
+        stroke-width: 1.2;
+    }
+}
+
+/* go = pink (fires) */
+.cellGo {
+    path,
+    circle {
+        stroke: var(--accent);
+    }
+
+    circle {
+        fill: rgba(var(--accent-glow), 0.85);
+    }
+
+    .cellNucleus {
+        fill: var(--canvas);
+        stroke: none;
+    }
+}
+
+/* no-go = pale: an inked outline on the page's own paper */
+.cellNoGo {
+    path,
+    circle {
+        stroke: var(--ink);
+    }
+
+    circle {
+        fill: var(--canvas);
+    }
+
+    .cellNucleus {
+        fill: var(--ink);
+        stroke: none;
+        opacity: 0.5;
+    }
+}
+
+.cellSlipped > * {
+    opacity: 0.4;
+}
+
+/* ---------- Find the signal ---------- */
+.trace {
+    display: block;
+    width: 100%;
+    height: 96px;
+    overflow: visible;
+
+    path {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+}
+
+.traceBaseline {
+    stroke: var(--list-rule);
+    stroke-width: 0.6;
+}
+
+/* the drawing the clean wave resolves into — pink once found */
+.traceContour {
+    stroke: var(--accent);
+    stroke-width: 1;
+    opacity: 0;
+}
+
+.traceLine {
+    stroke: var(--ink);
+    stroke-width: 0.9;
+}
+
+.traceLineFired {
+    stroke: var(--accent-mid);
+}
+
+.signalControls {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    .actions {
+        margin-top: 0;
+    }
+}
+
+.dialRow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dial {
+    flex: none;
+    width: 112px;
+    height: 112px;
+    overflow: visible;
+    touch-action: none;
+    cursor: grab;
+    border-radius: 50%;
+
+    &:active {
+        cursor: grabbing;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 4px;
+    }
+
+    path,
+    circle {
+        fill: none;
+        stroke: var(--ink);
+        stroke-linecap: round;
+    }
+}
+
+.dialRing {
+    stroke-width: 0.6;
+    opacity: 0.7;
+}
+
+.dialTick {
+    stroke-width: 0.5;
+    opacity: 0.6;
+}
+
+.dialTickMajor {
+    stroke-width: 1.1;
+}
+
+.dial .dialHold {
+    stroke: var(--accent);
+    stroke-width: 2.4;
+}
+
+.dial .dialKnob {
+    stroke-width: 1.4;
+    fill: var(--canvas);
+}
+
+.dialKnurl {
+    stroke-width: 0.6;
+    opacity: 0.75;
+}
+
+.dialCap {
+    stroke-width: 0.6;
+    opacity: 0.7;
+}
+
+.dialPointer {
+    stroke-width: 2;
+}
+
+.dialReadout {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.16em;
+}
+
+.dialHz,
+.dialHzOn {
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+}
+
+.dialHzOn {
+    color: var(--accent-mid);
+}
+
+.dialHint,
+.dialScale {
+    font-size: 9px;
+    color: var(--muted);
+}
+
+/* ---------- Scout the target ---------- */
+/* intro: the how-to sits where the street will appear, at the street's
+   proportions so nothing jumps on LOOK — and may grow taller on narrow
+   panels, where three lines don't fit the street's letterbox. */
+.glimpseSteps {
+    aspect-ratio: 320 / 104;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: glimpse-step;
+
+    li {
+        counter-increment: glimpse-step;
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        align-items: baseline;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--body);
+        text-wrap: pretty;
+
+        &::before {
+            content: counter(glimpse-step, decimal-leading-zero);
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.18em;
+            color: var(--accent-mid);
+        }
+    }
+
+    strong {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        color: var(--ink);
+    }
+}
+
+.street {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 320 / 104; /* StreetArt's STREET_VIEWBOX */
+}
+
+.streetLayer {
+    position: absolute;
+    inset: 0;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.houseButtons {
+    position: absolute;
+    inset: 0;
+}
+
+.houseButton {
+    position: absolute;
+    top: 15%;
+    bottom: 17%;
+    padding: 0;
+    background: transparent;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+
+    &:hover {
+        border-color: var(--accent-mid);
+        color: var(--accent-mid);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+}
+
+/* the visitor's pick — a pink callout dot above the roof */
+.houseMark {
+    position: absolute;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--accent);
+
+    &::after {
+        content: '';
+        position: absolute;
+        left: 3px;
+        top: 9px;
+        width: 1px;
+        height: 14px;
+        background: var(--accent);
+    }
+}
+
+/* a pick that gets you caught: pink means correct, so this one is dimmed ink */
+.houseMarkMiss {
+    background: var(--muted);
+    opacity: 0.7;
+
+    &::after {
+        background: var(--muted);
+    }
+}
+
+/* ---------- Wait for the drop ---------- */
+.wave {
+    position: relative;
+    flex: none;
+    width: 100%;
+    height: 96px;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    border: 1px solid var(--rule-strong);
+    border-radius: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        cursor: default;
+    }
+
+    svg {
+        position: absolute;
+        inset: 8px 0;
+        width: 100%;
+        height: calc(100% - 16px);
+        overflow: visible;
+    }
+}
+
+.waveLine {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.8;
+    vector-effect: non-scaling-stroke;
+}
+
+.waveDrop {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    vector-effect: non-scaling-stroke;
+}
+
+.waveDropLabel {
+    position: absolute;
+    top: 3px;
+    margin-left: 6px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    color: var(--ink);
+}
+
+/* veil over the part of the track that hasn't played — its left edge is
+   the playhead (a thin ink rule) */
+.waveVeil,
+.waveVeilStatic {
+    position: absolute;
+    inset: 0;
+    background: var(--canvas);
+    opacity: 0.86;
+    border-left: 1px solid var(--ink);
+}
+
+.waveVeilStatic {
+    opacity: 0.6;
+}
+
+.waveCount {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4px 10px;
+    background: var(--canvas);
+    border: 1px solid var(--rule-strong);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    color: var(--ink);
+}
+
+.waveTap {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--muted);
+    opacity: 0.7;
+}
+
+.waveTapHit {
+    background: var(--accent);
+    opacity: 1;
+}
+
+.toggle {
+    flex: none;
+    padding: 6px 0;
+    background: none;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+
+    &[aria-pressed='true'] {
+        color: var(--ink);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--accent-mid);
+        outline-offset: 3px;
+    }
+}

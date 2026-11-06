@@ -405,7 +405,7 @@
 .hero {
     position: relative;
     height: clamp(380px, 46vw, 600px);
-    border-radius: 14px;
+    border-radius: 6px;
     overflow: hidden;
     border: 1px solid rgba(142, 33, 78, 0.1);
     box-shadow: 0 26px 60px -28px rgba(60, 40, 30, 0.55);
@@ -608,7 +608,7 @@
     height: 54px;
     padding: 0;
     border: 1px solid rgba(142, 33, 78, 0.1);
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     background: var(--canvas);
     cursor: pointer;
