@@ -65,6 +65,24 @@ export default function SwipeTeaser({ teaser, onSolved }: TeaserProps<'swipe'>) 
             <div className={styles.game}>
                 <p className={styles.prompt}>{teaser.prompt}</p>
                 <div className={styles.swipeDone}>
+                    {/* the case file: every exhibit with its verdict, where the card stood */}
+                    <ol className={styles.swipeRecap}>
+                        {teaser.statements.map((st, i) => {
+                            const right = answers[i] === st.isFact
+                            return (
+                                <li key={i} className={styles.swipeRecapItem}>
+                                    <span className={styles.swipeRecapNo}>{pad2(i + 1)}</span>
+                                    <span className={styles.swipeRecapText}>{st.text}</span>
+                                    <span
+                                        className={`${styles.swipeRecapVerdict} ${right ? styles.swipeRecapRight : ''}`}
+                                        aria-label={`${st.isFact ? 'Fact' : 'Myth'}, ${right ? 'you got it' : 'you missed it'}`}
+                                    >
+                                        {st.isFact ? 'FACT' : 'MYTH'} {right ? '✓' : '✕'}
+                                    </span>
+                                </li>
+                            )
+                        })}
+                    </ol>
                     <Reveal
                         result={
                             <Callout
@@ -123,7 +141,9 @@ export default function SwipeTeaser({ teaser, onSolved }: TeaserProps<'swipe'>) 
                                 <span className={styles.cardLabel}>
                                     EXHIBIT {pad2(index + 1)} / {pad2(total)}
                                 </span>
-                                <p className={styles.cardText}>{card.text}</p>
+                                <p className={`${styles.cardText} ${card.illustration ? styles.cardTextBeside : ''}`}>
+                                    {card.text}
+                                </p>
                             </div>
                             {card.illustration === 'axial-slice' && (
                                 <div className={styles.cardIllustration}>
@@ -134,11 +154,13 @@ export default function SwipeTeaser({ teaser, onSolved }: TeaserProps<'swipe'>) 
                         <div className={`${styles.cardFace} ${styles.cardBack}`} aria-hidden={!flipped}>
                             <EvidenceTagArt />
                             <div className={styles.cardContent}>
-                                <Callout
-                                    label={card.isFact ? 'FACT' : 'MYTH'}
-                                    sub={correct ? 'YOU GOT IT' : `YOU SAID ${said ? 'FACT' : 'MYTH'}`}
-                                    tone={correct ? 'fired' : 'dim'}
-                                />
+                                <div className={styles.cardVerdict}>
+                                    <Callout
+                                        label={card.isFact ? 'FACT' : 'MYTH'}
+                                        sub={correct ? 'YOU GOT IT' : `YOU SAID ${said ? 'FACT' : 'MYTH'}`}
+                                        tone={correct ? 'fired' : 'dim'}
+                                    />
+                                </div>
                                 <p className={styles.cardText}>{card.explanation}</p>
                             </div>
                         </div>

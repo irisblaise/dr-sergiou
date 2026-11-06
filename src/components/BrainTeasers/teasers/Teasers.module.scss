@@ -241,6 +241,13 @@
 
 /* ---------- Myth or Fact? ---------- */
 .cardStage {
+    /* EvidenceTagArt's 320×200 viewBox scales uniformly with the card, so one
+       of its units is 100cqw / 320. The text below is laid out in those units
+       so every line sits on one of the card's ruled lines (18 units apart,
+       the first at y=66, the margin line at x=52) at any card width. */
+    container-type: inline-size;
+    --u: calc(100cqw / 320);
+    --rule: calc(var(--u) * 18);
     position: relative;
     width: 100%;
     aspect-ratio: 320 / 200;
@@ -286,34 +293,64 @@
 }
 
 .cardContent {
+    /* one line box per rule: the label's box ends at y=48 (an unprinted rule
+       above the first one), the statement's first box ends on the rule at y=66 */
     position: absolute;
-    inset: 18% 8% 8% 18%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    top: calc(var(--u) * 30);
+    right: calc(var(--u) * 18);
+    bottom: calc(var(--u) * 8);
+    left: calc(var(--u) * 60);
+}
+
+/* Each line box is one rule tall; nudging it down by --sink puts the baseline
+   just above the rule, the way handwriting sits on a lined card. */
+.cardLabel,
+.cardText {
+    position: relative;
+    top: var(--sink);
+    display: block;
+    margin: 0;
+    line-height: var(--rule);
 }
 
 .cardLabel {
+    --sink: calc(var(--rule) / 2 - 0.42em);
     font-family: var(--font-mono);
     font-size: 9.5px;
     letter-spacing: 0.2em;
     color: var(--muted);
+    white-space: nowrap;
 }
 
 .cardText {
-    max-width: 62%;
+    --sink: calc(var(--rule) / 2 - 0.29em);
+    /* the global mobile justify opens rivers on a card this narrow */
+    text-align: left;
     font-family: var(--font-serif);
-    font-size: 19px;
-    line-height: 1.25;
+    font-size: clamp(14px, calc(var(--u) * 10), 22px);
     color: var(--ink);
     text-wrap: pretty;
 }
 
+/* leave the illustration its corner */
+.cardTextBeside {
+    max-width: 62%;
+}
+
+/* the verdict takes the two line boxes above the first rule */
+.cardVerdict {
+    display: flex;
+    align-items: flex-end;
+    height: calc(var(--rule) * 2);
+    margin-top: calc(var(--rule) * -1);
+    padding-bottom: calc(var(--rule) * 0.12);
+}
+
 .cardBack .cardText {
+    --sink: calc(var(--rule) / 2 - 0.35em);
     max-width: none;
     font-family: var(--font-sans);
-    font-size: 13.5px;
-    line-height: 1.5;
+    font-size: clamp(12px, calc(var(--u) * 6.6), 14.5px);
 }
 
 .cardIllustration {
@@ -342,6 +379,48 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: 22px;
+}
+
+/* the closed case file: each exhibit with its verdict */
+.swipeRecap {
+    margin: 6px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--list-rule);
+}
+
+.swipeRecapItem {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--list-rule);
+}
+
+.swipeRecapNo,
+.swipeRecapVerdict {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+}
+
+.swipeRecapText {
+    font-family: var(--font-serif);
+    font-size: 15.5px;
+    line-height: 1.35;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.swipeRecapVerdict {
+    white-space: nowrap;
+}
+
+.swipeRecapRight {
+    color: var(--accent-mid);
 }
 
 /* ---------- Don't. (go / no-go) ---------- */

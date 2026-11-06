@@ -125,10 +125,12 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
                 explanation: 'Myth. No scan reliably detects lies in an individual — courts don’t accept it as evidence.',
             },
             {
-                // [CARMEN]
-                text: 'TBS is a prison sentence.',
-                isFact: false,
-                explanation: 'Myth. TBS is a treatment measure, not a punishment.',
+                // [CARMEN] please verify — Dutch adolescentenstrafrecht (art. 77c
+                // Sr, since 2014) lets judges apply juvenile law up to age 23.
+                text: 'In the Netherlands, a 22-year-old can still be sentenced under juvenile law.',
+                isFact: true,
+                explanation:
+                    'Fact. Since 2014, Dutch judges can apply juvenile law to 18- to 22-year-olds, partly because their brains are still maturing.',
             },
             {
                 // [CARMEN] third statement still to be written by Carmen — placeholder
