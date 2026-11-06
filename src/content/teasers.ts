@@ -12,23 +12,41 @@ type TeaserBase = {
     branch: SkillKey
     title: string
     prompt: string
-    /** Carmen's copy, first person. */
-    reveal: string
+}
+
+/** Carmen's copy, first person: the line every reveal ends on. */
+type WithReveal = { reveal: string }
+
+/** One house in "Scout the target", in street order. */
+export type House = {
+    /** What sets it apart, e.g. "OPEN WINDOW" — names the pick in the result. */
+    label: string
+    /** Would a real burglar pick it? */
+    good: boolean
+    /** Why, from the Virtual Burglary Study. */
+    text: string
 }
 
 export type Teaser =
-    | (TeaserBase & {
+    | (TeaserBase & WithReveal & {
           kind: 'signal'
           targetBand: [number, number]
           /** Locked in below / above the band: the wrong answer's explanation. */
           missLow: string
           missHigh: string
       })
-    | (TeaserBase & { kind: 'bug'; codeLines: string[]; bugLine: number; bugNote: string }) // bugLine is 1-based; bugNote is the answer callout's subline
-    | (TeaserBase & { kind: 'glimpse'; options: string[]; glimpseMs: number })
-    | (TeaserBase & { kind: 'beat'; audioSrc?: string; dropAtMs: number })
-    | (TeaserBase & { kind: 'gonogo'; durationMs: number })
+    | (TeaserBase & WithReveal & { kind: 'bug'; codeLines: string[]; bugLine: number; bugNote: string }) // bugLine is 1-based; bugNote is the answer callout's subline
     | (TeaserBase & {
+          kind: 'glimpse'
+          houses: House[]
+          glimpseMs: number
+          /** The reveal's opening line for a good / bad pick. */
+          goodHeading: string
+          badHeading: string
+      })
+    | (TeaserBase & WithReveal & { kind: 'beat'; audioSrc?: string; dropAtMs: number })
+    | (TeaserBase & WithReveal & { kind: 'gonogo'; durationMs: number })
+    | (TeaserBase & WithReveal & {
           kind: 'swipe'
           statements: {
               text: string
@@ -62,12 +80,33 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
         kind: 'glimpse',
         title: 'Scout the target',
         prompt: 'You’re a burglar. You get one look at the street. Which house would you target?',
-        // What sets each house apart, in street order (house 1 → 4). The
-        // buttons say "HOUSE 1–4"; these name the visitor's pick in the result.
-        options: ['HEDGES', 'LIGHTS ON', 'OPEN WINDOW', 'CAR IN THE DRIVE'],
+        // In street order (house 1 → 4): the buttons say "HOUSE 1–4", the
+        // label names the visitor's pick in the result.
+        houses: [
+            {
+                label: 'HEDGES',
+                good: true,
+                text: 'The burglars in the Virtual Burglary Study found the houses with the shrub attractive, since it would block the vision from the street.',
+            },
+            {
+                label: 'LIGHTS ON',
+                good: false,
+                text: 'Lights could mean the residents are home. The burglars in the Virtual Burglary Study defined occupancy as a risk factor.',
+            },
+            {
+                label: 'OPEN WINDOW',
+                good: true,
+                text: 'The burglars in the Virtual Burglary Study found the houses with open windows attractive since this meant easier access.',
+            },
+            {
+                label: 'CAR IN THE DRIVE',
+                good: false,
+                text: 'A parked car in front of the house could mean the residents are home. The burglars in the Virtual Burglary Study defined occupancy as a risk factor.',
+            },
+        ],
+        goodHeading: 'Thinking like a real burglar!',
+        badHeading: 'Oh no! Big chance you just got caught!',
         glimpseMs: 3000,
-        // [CARMEN] must add one or two real cues the Virtual Burglary study examined — do not invent findings
-        reveal: 'You just did what participants in the Virtual Burglary study did. [CARMEN: one or two real cues the study examined.]',
     },
     music: {
         branch: 'music',

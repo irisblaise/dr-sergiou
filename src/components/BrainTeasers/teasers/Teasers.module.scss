@@ -146,6 +146,14 @@
     min-height: 30px;
 }
 
+.revealHeading {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
 .revealText {
     font-size: 14px;
     line-height: 1.55;
@@ -775,6 +783,16 @@
         width: 1px;
         height: 14px;
         background: var(--accent);
+    }
+}
+
+/* a pick that gets you caught: pink means correct, so this one is dimmed ink */
+.houseMarkMiss {
+    background: var(--muted);
+    opacity: 0.7;
+
+    &::after {
+        background: var(--muted);
     }
 }
 

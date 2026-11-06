@@ -10,9 +10,10 @@ import type { TeaserProps } from './registry'
 import styles from './Teasers.module.scss'
 
 // 03 VR — "Scout the target". One timed look at a street of four houses, then
-// it fades; pick the one you'd break into. There's no wrong answer — the
-// reveal is about which cues you were weighing. Reduced motion: no timed
-// fade, the visitor hides the street themselves.
+// it fades; pick the one you'd break into. Each house carries a cue from the
+// Virtual Burglary Study: cover and easy access are good picks (and solve the
+// teaser), signs that someone's home are not (TRY AGAIN). Reduced motion: no
+// timed fade, the visitor hides the street themselves.
 
 type Phase = 'intro' | 'glimpse' | 'choose' | 'done'
 const FADE_S = 0.6
@@ -40,7 +41,7 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
     const choose = (i: number) => {
         setPick(i)
         setPhase('done')
-        onSolved()
+        if (teaser.houses[i].good) onSolved()
     }
 
     const showStreet = phase === 'glimpse' || phase === 'done'
@@ -65,7 +66,7 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
                         <span>Take in every house: what’s around it, what’s open, who might be home.</span>
                     </li>
                     <li>
-                        <span>The houses disappear. Pick the one you’d break into. There’s no wrong answer.</span>
+                        <span>The houses disappear. Pick the one you’d break into.</span>
                     </li>
                 </ol>
             ) : (
@@ -103,7 +104,7 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
 
                     {phase === 'done' && pick != null && (
                         <span
-                            className={styles.houseMark}
+                            className={`${styles.houseMark} ${teaser.houses[pick].good ? '' : styles.houseMarkMiss}`}
                             style={{ left: `${((HOUSE_X[pick] + HOUSE_W / 2) / STREET_W) * 100}%` }}
                             aria-hidden
                         />
@@ -113,12 +114,20 @@ export default function GlimpseTeaser({ teaser, onSolved }: TeaserProps<'glimpse
 
             {phase === 'done' && pick != null ? (
                 <Reveal
-                    result={<Callout label={`HOUSE ${pick + 1}`} sub={teaser.options[pick]} tone="fired" />}
-                    text={teaser.reveal}
+                    result={
+                        <Callout
+                            label={`HOUSE ${pick + 1}`}
+                            sub={teaser.houses[pick].label}
+                            tone={teaser.houses[pick].good ? 'fired' : 'dim'}
+                        />
+                    }
+                    heading={teaser.houses[pick].good ? teaser.goodHeading : teaser.badHeading}
+                    text={teaser.houses[pick].text}
                     onPlayAgain={() => {
                         setPick(null)
                         setPhase('intro')
                     }}
+                    againLabel={teaser.houses[pick].good ? 'PLAY AGAIN' : 'TRY AGAIN'}
                 />
             ) : (
                 <div className={styles.actions}>

@@ -8,6 +8,8 @@ import styles from './Teasers.module.scss'
 type Props = {
     /** The game's own result line (score, the right answer…). */
     result?: ReactNode
+    /** Optional opening line, set apart above the text. */
+    heading?: string
     text: string
     onPlayAgain?: () => void
     /** Label for the onPlayAgain action; defaults to PLAY AGAIN. */
@@ -16,7 +18,7 @@ type Props = {
 
 // Every reveal: the game's result, then Carmen's first-person line. Stays on
 // screen until the visitor presses X.
-export default function Reveal({ result, text, onPlayAgain, againLabel = 'PLAY AGAIN' }: Props) {
+export default function Reveal({ result, heading, text, onPlayAgain, againLabel = 'PLAY AGAIN' }: Props) {
     const reduced = useReducedMotion()
     return (
         <motion.div
@@ -27,6 +29,7 @@ export default function Reveal({ result, text, onPlayAgain, againLabel = 'PLAY A
             role="status"
         >
             {result && <div className={styles.result}>{result}</div>}
+            {heading && <p className={styles.revealHeading}>{heading}</p>}
             <p className={styles.revealText}>{text}</p>
             {onPlayAgain && (
                 <ArrowLink className={styles.action} onClick={onPlayAgain}>
