@@ -60,8 +60,8 @@ export const teasers: Partial<Record<SkillKey, Teaser>> = {
     vr: {
         branch: 'vr',
         kind: 'glimpse',
-        title: 'Case the joint',
-        prompt: 'You’re a burglar. You get one look at the street. Which house?',
+        title: 'Scout the target',
+        prompt: 'You’re a burglar. You get one look at the street. Which house would you target?',
         // What sets each house apart, in street order (house 1 → 4). The
         // buttons say "HOUSE 1–4"; these name the visitor's pick in the result.
         options: ['HEDGES', 'LIGHTS ON', 'OPEN WINDOW', 'CAR IN THE DRIVE'],

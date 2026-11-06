@@ -9,7 +9,7 @@ import Reveal from './Reveal'
 import type { TeaserProps } from './registry'
 import styles from './Teasers.module.scss'
 
-// 03 VR — "Case the joint". One timed look at a street of four houses, then
+// 03 VR — "Scout the target". One timed look at a street of four houses, then
 // it fades; pick the one you'd break into. There's no wrong answer — the
 // reveal is about which cues you were weighing. Reduced motion: no timed
 // fade, the visitor hides the street themselves.
