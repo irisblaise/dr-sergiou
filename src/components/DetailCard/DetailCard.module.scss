@@ -139,9 +139,13 @@
     font-size: 12.5px;
     line-height: 1.6;
     color: var(--body);
-    max-height: 7.5em;
-    overflow: hidden;
     text-align: center;
+    /* Shown in full. Only an unusually long abstract (over ~10 lines) scrolls
+       inside the card — never silently cut off mid-line. */
+    max-height: 16em;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
 }
 
 .abstractMuted {
